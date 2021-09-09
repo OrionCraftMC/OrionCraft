@@ -26,11 +26,11 @@ import io.github.orioncraftmc.orion.api.impl.Implementor
  * Convenience methods to access different services provided by Orion.
  */
 object OrionApi {
-	fun version() = Implementor.get().version
+	val version = Implementor.get().version
 
-	fun clientBrand() = Implementor.get().clientBrand
+	val platform = Implementor.get().platform
 
-	fun platform() = Implementor.get().platform
+	val clientBrand = "orion"
 
 	fun scheduler() = Implementor.get().scheduler
 
