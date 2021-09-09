@@ -53,4 +53,12 @@ object EventBus {
 			it.forEachRemaining { (it as EventHandler<T>).handleEvent(event) }
 		}
 	}
+
+	inline fun <reified T: Event> removeAllHandlers() {
+		removeAllHandlers(T::class.java)
+	}
+
+	fun removeAllHandlers(clazz: Class<out Event>) {
+		eventHandlers[clazz].clear()
+	}
 }
