@@ -24,20 +24,17 @@
 
 package io.github.orioncraftmc.orion.api
 
-import io.github.orioncraftmc.orion.api.event.impl.EventBus
-import io.github.orioncraftmc.orion.api.impl.Implementor
-
 /**
  * Convenience methods to access different services provided by Orion.
  */
 object OrionApi {
-	val version = Implementor.get().version
+	val version: Any = TODO()
 
-	val clientBrand = "orion"
+	val clientBrand: Any = TODO()
 
-	fun scheduler() = Implementor.get().scheduler
+	fun scheduler(): Any = TODO()
 
-	fun eventBus() = EventBus
+	fun eventBus(): Any = TODO()
 
-	fun loggerFactory() = Implementor.get().loggerFactory
+	fun loggerFactory(): Any = TODO()
 }
