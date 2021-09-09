@@ -17,6 +17,11 @@ plugins {
     `java-library`
 }
 
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -36,6 +41,8 @@ dependencies {
 
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+
+	implementation("org.ow2.asm:asm:9.2")
 
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     api("org.apache.commons:commons-math3:3.6.1")
