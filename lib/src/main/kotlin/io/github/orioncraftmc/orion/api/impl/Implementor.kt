@@ -27,7 +27,6 @@ package io.github.orioncraftmc.orion.api.impl
 import io.github.orioncraftmc.orion.api.logging.FallbackLoggerFactory
 import io.github.orioncraftmc.orion.api.logging.LoggerFactory
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
-import io.github.orioncraftmc.orion.api.meta.Platform
 import io.github.orioncraftmc.orion.api.scheduler.FallbackScheduler
 import io.github.orioncraftmc.orion.api.scheduler.Scheduler
 
@@ -36,7 +35,6 @@ import io.github.orioncraftmc.orion.api.scheduler.Scheduler
  */
 class Implementor(
 	val version: ClientVersion,
-	val platform: Platform,
 	val scheduler: Scheduler,
 	val loggerFactory: LoggerFactory
 ) {
@@ -46,7 +44,6 @@ class Implementor(
 		 */
 		private val fallback = Implementor(
 			ClientVersion.INVALID,
-			Platform.INVALID,
 			FallbackScheduler,
 			FallbackLoggerFactory
 		)

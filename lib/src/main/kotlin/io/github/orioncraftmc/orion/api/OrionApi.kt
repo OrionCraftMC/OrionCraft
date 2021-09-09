@@ -33,13 +33,9 @@ import io.github.orioncraftmc.orion.api.impl.Implementor
 object OrionApi {
 	val version = Implementor.get().version
 
-	val platform = Implementor.get().platform
-
 	val clientBrand = "orion"
 
 	fun scheduler() = Implementor.get().scheduler
-
-	fun tezzellator() = Implementor.get().tezzellator
 
 	fun eventBus() = EventBus
 
