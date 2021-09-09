@@ -20,15 +20,17 @@ package io.github.orioncraftmc.orion.api.event;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
-public abstract class EventHandlerDelegate {
+public abstract class EventHandlerDelegate implements Opcodes {
 	private static final MethodHandle DEFINE_CLASS;
 
 	static {
@@ -49,35 +51,64 @@ public abstract class EventHandlerDelegate {
 
 	public abstract void call(Event event);
 
-	public static Object compile(Method method, String className) {
-		ClassWriter cw = new ClassWriter(0);
-		cw.visit(52,
-				Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER,
+	public static EventHandlerDelegate generateStaticMethodHandler(Method method, String className) {
+		ClassWriter classWriter = new ClassWriter(0);
+		FieldVisitor fieldVisitor;
+		MethodVisitor methodVisitor;
+		AnnotationVisitor annotationVisitor0;
+
+		classWriter.visit(
+				V1_8,
+				ACC_PUBLIC | ACC_SUPER,
 				className,
 				null,
-				"java/lang/Object",
+				"io/github/orioncraftmc/orion/api/event/EventHandlerDelegate",
 				null
-				);
-		cw.visitSource(className + ".java", null);
+		);
+		classWriter.visitSource(className + ".java", null);
 
-		{ // Constructor
-			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);
-			mv.visitVarInsn(Opcodes.ALOAD, 0);
-			mv.visitMethodInsn(Opcodes.INVOKESPECIAL,
-					"java/lang/Object",
-					"<init>",
-					"()V",
-					false);
-			mv.visitInsn(Opcodes.RETURN);
-			mv.visitMaxs(1, 1);
-			mv.visitEnd();
+		{
+			methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+			methodVisitor.visitCode();
+			Label label0 = new Label();
+			methodVisitor.visitLabel(label0);
+			methodVisitor.visitLineNumber(5, label0);
+			methodVisitor.visitVarInsn(ALOAD, 0);
+			methodVisitor.visitMethodInsn(INVOKESPECIAL, "io/github/orioncraftmc/orion/api/event/EventHandlerDelegate", "<init>", "()V", false);
+			methodVisitor.visitInsn(RETURN);
+			Label label1 = new Label();
+			methodVisitor.visitLabel(label1);
+			methodVisitor.visitLocalVariable("this", "Lio/github/orioncraftmc/orion/api/event/TestThing;", null, label0, label1, 0);
+			methodVisitor.visitMaxs(1, 1);
+			methodVisitor.visitEnd();
 		}
 
-		{ // Overriding method
-
+		{
+			methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "call", "(Lio/github/orioncraftmc/orion/api/event/Event;)V", null, null);
+			methodVisitor.visitCode();
+			Label label0 = new Label();
+			methodVisitor.visitVarInsn(ALOAD, 1);
+			methodVisitor.visitTypeInsn(CHECKCAST, method.getParameterTypes()[0].getName().replace('.', '/'));
+			methodVisitor.visitMethodInsn(
+					INVOKESTATIC,
+					method.getDeclaringClass().getName().replace('.', '/'),
+					method.getName(),
+					"(L" + method.getParameterTypes()[0].getName().replace('.', '/') + ";)V", false);
+			Label label1 = new Label();
+			methodVisitor.visitLabel(label1);
+			methodVisitor.visitLineNumber(9, label1);
+			methodVisitor.visitInsn(RETURN);
+			Label label2 = new Label();
+			methodVisitor.visitLabel(label2);
+			methodVisitor.visitLocalVariable("this", "L" + className + ";", null, label0, label2, 0);
+			methodVisitor.visitLocalVariable("event", "Lio/github/orioncraftmc/orion/api/event/Event;", null, label0, label2, 1);
+			methodVisitor.visitMaxs(1, 2);
+			methodVisitor.visitEnd();
 		}
 
-		byte[] arr = cw.toByteArray();
+		classWriter.visitEnd();
+
+		byte[] arr = classWriter.toByteArray();
 		ClassLoader cl = EventHandlerDelegate.class.getClassLoader();
 		try {
 			DEFINE_CLASS.invokeWithArguments(cl, className, arr, 0, arr.length);
@@ -93,7 +124,7 @@ public abstract class EventHandlerDelegate {
 		}
 
 		try {
-			return clazz.getConstructor().newInstance();
+			return (EventHandlerDelegate) clazz.getConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
