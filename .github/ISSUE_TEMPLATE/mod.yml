@@ -1,0 +1,36 @@
+name: New Mod
+description: File a mod request
+title: "Mod Request - "
+labels: [mods]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: ModName
+      description: What is the name of the mod in question?
+      placeholder: ToggleSprint
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Please describe the mod to us.
+      description: 
+      placeholder: Allows users to toggle their sprint and sneak status
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Minecraft Version
+      description: What Minecraft version will it support? (Select all if applicable)
+      multiple: true
+      options:
+        - 1.5.2
+        - 1.7.10
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Extra information you want us to know
