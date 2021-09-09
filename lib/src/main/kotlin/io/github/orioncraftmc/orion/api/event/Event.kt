@@ -26,6 +26,7 @@ interface Event {
 	val cancellable: Boolean
 
 	val type: Type
+		get() = Type.PROCESS
 
 	enum class Type {
 		/**
