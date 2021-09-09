@@ -44,7 +44,6 @@ class Implementor(
 		private val fallback = Implementor(
 			Version.INVALID,
 			Platform.INVALID,
-			"fallback",
 			FallbackScheduler,
 			FallbackTezzellator,
 			FallbackLoggerFactory
