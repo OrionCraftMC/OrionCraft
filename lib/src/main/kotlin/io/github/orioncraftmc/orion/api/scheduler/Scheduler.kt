@@ -38,7 +38,7 @@ interface Scheduler {
 	fun queueOnMainThread(task: Runnable)
 }
 
-object FallbackScheduler: Scheduler {
+object FallbackScheduler : Scheduler {
 	override fun queueOnMainThread(task: Runnable) {
 		task.run()
 	}

@@ -39,7 +39,7 @@ object EventBus {
 	@PublishedApi
 	internal val eventHandlers: Multimap<Class<out Event>, EventHandler<out Event>> = HashMultimap.create()
 
-	inline fun <reified T: Event> registerHandler(handler: EventHandler<T>) {
+	inline fun <reified T : Event> registerHandler(handler: EventHandler<T>) {
 		eventHandlers[T::class.java].add(handler)
 	}
 

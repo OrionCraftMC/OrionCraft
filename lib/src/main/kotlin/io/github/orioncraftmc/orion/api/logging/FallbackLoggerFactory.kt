@@ -24,7 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.logging
 
-object FallbackLoggerFactory: LoggerFactory {
+object FallbackLoggerFactory : LoggerFactory {
 	override fun create(name: String): Logger {
 		return FallbackLogger
 	}

@@ -30,7 +30,7 @@ interface Tezzellator {
 	fun draw()
 }
 
-object FallbackTezzellator: Tezzellator {
+object FallbackTezzellator : Tezzellator {
 	override val buffer: BufferBuilder
 		get() = TODO("Cannot be implemented")
 

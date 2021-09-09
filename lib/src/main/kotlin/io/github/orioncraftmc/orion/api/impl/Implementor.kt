@@ -26,8 +26,8 @@ package io.github.orioncraftmc.orion.api.impl
 
 import io.github.orioncraftmc.orion.api.logging.FallbackLoggerFactory
 import io.github.orioncraftmc.orion.api.logging.LoggerFactory
-import io.github.orioncraftmc.orion.api.meta.Platform
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
+import io.github.orioncraftmc.orion.api.meta.Platform
 import io.github.orioncraftmc.orion.api.render.FallbackTezzellator
 import io.github.orioncraftmc.orion.api.render.Tezzellator
 import io.github.orioncraftmc.orion.api.scheduler.FallbackScheduler

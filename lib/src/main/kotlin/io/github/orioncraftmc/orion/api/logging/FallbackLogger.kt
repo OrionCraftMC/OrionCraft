@@ -1,6 +1,6 @@
 package io.github.orioncraftmc.orion.api.logging
 
-object FallbackLogger: Logger {
+object FallbackLogger : Logger {
 	override fun name(): String {
 		return "fallback"
 	}
