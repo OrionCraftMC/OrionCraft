@@ -1,9 +1,7 @@
 package io.github.orioncraftmc.orion.api.render
 
-object Tezzellator {
-	val bufferBuilder: BufferBuilder = BufferBuilder()
+interface Tezzellator {
+	val buffer: BufferBuilder
 
-	fun draw() {
-		TODO()
-	}
+	fun draw()
 }

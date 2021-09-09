@@ -1,4 +1,4 @@
-package io.github.orioncraftmc.orion.api.version
+package io.github.orioncraftmc.orion.api.meta
 
 enum class Version {
 	MC_1_5_2,

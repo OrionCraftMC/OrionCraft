@@ -8,7 +8,11 @@ import io.github.orioncraftmc.orion.api.impl.Implementor
 object OrionApi {
 	fun version() = Implementor.get().version
 
+	fun clientBrand() = Implementor.get().clientBrand
+
 	fun platform() = Implementor.get().platform
 
 	fun scheduler() = Implementor.get().scheduler
+
+	fun tezzellator() = Implementor.get().tezzellator
 }
