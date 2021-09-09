@@ -20,10 +20,16 @@ package io.github.orioncraftmc.orion.api.event
 
 /**
  * The epitome of functional programming ™️
+ *
+ * The format
+ * ```
+ * ```
+ *
  */
 interface Event {
 
 	val cancellable: Boolean
+		get() = false
 
 	val type: Type
 		get() = Type.PROCESS

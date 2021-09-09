@@ -5,3 +5,11 @@ interface Tezzellator {
 
 	fun draw()
 }
+
+object FallbackTezzellator: Tezzellator {
+	override val buffer: BufferBuilder
+		get() = TODO("Cannot be implemented")
+
+	override fun draw() {
+	}
+}

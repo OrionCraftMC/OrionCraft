@@ -1,6 +1,6 @@
 package io.github.orioncraftmc.orion.api.scheduler
 
-import io.github.orioncraftmc.orion.api.impl.Implementor
+import io.github.orioncraftmc.orion.api.OrionApi
 
 /**
  * Allows running tasks asynchronously
@@ -8,8 +8,14 @@ import io.github.orioncraftmc.orion.api.impl.Implementor
 // TODO
 interface Scheduler {
 	companion object {
-		fun get() = Implementor.get().scheduler
+		fun get() = OrionApi.scheduler()
 	}
 
-	fun runOnMainThread(task: Runnable)
+	fun queueOnMainThread(task: Runnable)
+}
+
+object FallbackScheduler: Scheduler {
+	override fun queueOnMainThread(task: Runnable) {
+		task.run()
+	}
 }

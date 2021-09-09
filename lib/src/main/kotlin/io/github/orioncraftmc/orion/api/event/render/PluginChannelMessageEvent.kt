@@ -6,6 +6,6 @@ import java.io.DataInput
 /**
  * Fired when a custom packet is sent from the server.
  *
- * <p>This event should be cancelled if the data is handled.</p>
+ * This event should be cancelled if the data is handled.
  */
 class PluginChannelMessageEvent(val channel: String, val data: DataInput): CancellableEvent()

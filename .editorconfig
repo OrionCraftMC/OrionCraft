@@ -12,6 +12,9 @@ indent_style = tab
 [*.java]
 indent_style = tab
 
+[*.kt]
+indent_style = tab
+
 [*.properties]
 indent_style = space
 indent_size = 2

@@ -1,5 +1,8 @@
 package io.github.orioncraftmc.orion.api.event
 
+/**
+ * Specifies an event that can be cancelled.
+ */
 abstract class CancellableEvent: Event {
 	var cancelled = false
 		private set

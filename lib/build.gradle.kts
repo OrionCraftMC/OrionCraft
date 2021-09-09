@@ -29,8 +29,7 @@ dependencies {
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    api("com.google.guava:guava:30.1-jre")
+    api("com.google.guava:guava:14.0.1")
 
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
@@ -44,4 +43,5 @@ dependencies {
 
 configure<LicenseExtension> {
 	header(rootProject.file("HEADER"))
+	exclude("**/OrionEventBus.kt")
 }

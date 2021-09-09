@@ -29,9 +29,6 @@ abstract class LifecycleEvent: Event {
 	final override val type: Event.Type
 		get() = Event.Type.LIFECYCLE
 
-	final override val cancellable: Boolean
-		get() = false
-
 	enum class Lifecycle {
 		/**
 		 * Fired immediately after the main mod class is loaded.
