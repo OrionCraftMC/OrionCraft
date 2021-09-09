@@ -32,8 +32,6 @@ object OrionApi {
 
 	val clientBrand: Any = TODO()
 
-	fun scheduler(): Any = TODO()
-
 	fun eventBus(): Any = TODO()
 
 	fun loggerFactory(): Any = TODO()
