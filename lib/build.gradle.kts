@@ -42,14 +42,8 @@ dependencies {
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
-	implementation("org.ow2.asm:asm:9.2")
-	implementation("org.ow2.asm:asm-util:9.2")
-
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api("org.apache.commons:commons-math3:3.6.1")
 }
 
 configure<LicenseExtension> {
-	header(rootProject.file("HEADER"))
-	exclude("**/OrionEventBus.kt")
+	header(rootProject.file("LICENSE"))
 }
