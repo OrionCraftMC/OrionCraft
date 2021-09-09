@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "OrionAPI"
-include("lib")
+include("api")
