@@ -1,3 +1,5 @@
+package io.github.orioncraftmc.orion.api.event
+
 /*
  * Copyright (C) 2021 OrionCraftMC
  *
@@ -16,6 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package io.github.orioncraftmc.orion.api.event
-
-annotation class EventListener
+fun interface EventHandler<T : Event> {
+	fun handleEvent(event: T)
+}

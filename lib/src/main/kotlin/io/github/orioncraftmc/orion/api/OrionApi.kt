@@ -18,8 +18,7 @@
 
 package io.github.orioncraftmc.orion.api
 
-import com.google.common.eventbus.EventBus
-import io.github.orioncraftmc.orion.api.event.OrionEventBus
+import io.github.orioncraftmc.orion.api.event.impl.EventBus
 import io.github.orioncraftmc.orion.api.impl.Implementor
 
 /**
@@ -36,7 +35,7 @@ object OrionApi {
 
 	fun tezzellator() = Implementor.get().tezzellator
 
-	fun eventBus() = OrionEventBus
+	fun eventBus() = EventBus
 
 	fun loggerFactory() = Implementor.get().loggerFactory
 }

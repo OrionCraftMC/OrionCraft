@@ -19,32 +19,6 @@
 package io.github.orioncraftmc.orion.api.event
 
 /**
- * The epitome of functional programming ™️
- *
- * The format
- * ```
- * ```
- *
+ * Used to notify code that something happened
  */
-interface Event {
-
-	val cancellable: Boolean
-		get() = false
-
-	val type: Type
-		get() = Type.PROCESS
-
-	enum class Type {
-		/**
-		 * Events that are fired at different points of the game's lifecycle.
-		 * E.g. client start, client stopping, client stopped, etc.
-		 */
-		LIFECYCLE,
-
-		/**
-		 * Events that are fired during certain processes that the client runs.
-		 * E.g. hud render, keybinding press, etc.
-		 */
-		PROCESS
-	}
-}
+interface Event
