@@ -21,7 +21,7 @@ package io.github.orioncraftmc.orion.api.impl
 import io.github.orioncraftmc.orion.api.logging.FallbackLoggerFactory
 import io.github.orioncraftmc.orion.api.logging.LoggerFactory
 import io.github.orioncraftmc.orion.api.meta.Platform
-import io.github.orioncraftmc.orion.api.meta.Version
+import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.render.FallbackTezzellator
 import io.github.orioncraftmc.orion.api.render.Tezzellator
 import io.github.orioncraftmc.orion.api.scheduler.FallbackScheduler
@@ -31,7 +31,7 @@ import io.github.orioncraftmc.orion.api.scheduler.Scheduler
  * Stores implementation details.
  */
 class Implementor(
-	val version: Version,
+	val version: ClientVersion,
 	val platform: Platform,
 	val scheduler: Scheduler,
 	val tezzellator: Tezzellator,
@@ -42,7 +42,7 @@ class Implementor(
 		 * Represents an empty implementor.
 		 */
 		private val fallback = Implementor(
-			Version.INVALID,
+			ClientVersion.INVALID,
 			Platform.INVALID,
 			FallbackScheduler,
 			FallbackTezzellator,

@@ -18,9 +18,10 @@
 
 package io.github.orioncraftmc.orion.api.meta
 
-enum class Version {
+enum class ClientVersion {
 	INVALID,
 	MC_1_5_2,
 	MC_1_6_4,
-	MC_1_7_10
+	MC_1_7_10,
+	MC_1_8_9,
 }
