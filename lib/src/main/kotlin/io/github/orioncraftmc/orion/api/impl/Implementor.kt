@@ -4,6 +4,9 @@ import io.github.orioncraftmc.orion.api.scheduler.Scheduler
 import io.github.orioncraftmc.orion.api.version.Platform
 import io.github.orioncraftmc.orion.api.version.Version
 
+/**
+ * Stores implementation details.
+ */
 class Implementor(
 	val version: Version,
 	val platform: Platform,
