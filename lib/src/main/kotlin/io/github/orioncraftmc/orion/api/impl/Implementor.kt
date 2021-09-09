@@ -28,8 +28,6 @@ import io.github.orioncraftmc.orion.api.logging.FallbackLoggerFactory
 import io.github.orioncraftmc.orion.api.logging.LoggerFactory
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.meta.Platform
-import io.github.orioncraftmc.orion.api.render.FallbackTezzellator
-import io.github.orioncraftmc.orion.api.render.Tezzellator
 import io.github.orioncraftmc.orion.api.scheduler.FallbackScheduler
 import io.github.orioncraftmc.orion.api.scheduler.Scheduler
 
@@ -40,7 +38,6 @@ class Implementor(
 	val version: ClientVersion,
 	val platform: Platform,
 	val scheduler: Scheduler,
-	val tezzellator: Tezzellator,
 	val loggerFactory: LoggerFactory
 ) {
 	companion object {
@@ -51,7 +48,6 @@ class Implementor(
 			ClientVersion.INVALID,
 			Platform.INVALID,
 			FallbackScheduler,
-			FallbackTezzellator,
 			FallbackLoggerFactory
 		)
 		private var implementor: Implementor? = null
