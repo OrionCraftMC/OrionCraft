@@ -11,15 +11,15 @@ import org.cadixdev.gradle.licenser.LicenseExtension
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id("org.jetbrains.kotlin.jvm") version "1.4.31"
-	id("org.cadixdev.licenser") version "0.6.1"
+    id("org.cadixdev.licenser") version "0.6.1"
 
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_16
-	targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 }
 
 repositories {
@@ -45,5 +45,5 @@ dependencies {
 }
 
 configure<LicenseExtension> {
-	header(rootProject.file("LICENSE"))
+    header(rootProject.file("LICENSE"))
 }

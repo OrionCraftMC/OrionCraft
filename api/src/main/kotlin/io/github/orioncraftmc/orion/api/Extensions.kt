@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.events
+package io.github.orioncraftmc.orion.api
 
-import io.github.orioncraftmc.orion.api.event.CancellableEvent
+import io.github.orioncraftmc.orion.api.event.Event
+import io.github.orioncraftmc.orion.api.event.impl.EventBus
 
-class CancellableTestEvent : CancellableEvent() {
-
+inline fun <reified T : Event> on(noinline handler: (T) -> Unit) {
+	EventBus.registerHandler(handler)
 }
