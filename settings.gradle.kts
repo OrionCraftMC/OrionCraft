@@ -1,2 +1,2 @@
-rootProject.name = "OrionAPI"
+rootProject.name = "OrionCraft"
 include("api")
