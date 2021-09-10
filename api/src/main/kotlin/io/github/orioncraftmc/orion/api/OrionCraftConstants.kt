@@ -24,15 +24,16 @@
 
 package io.github.orioncraftmc.orion.api
 
-import io.github.orioncraftmc.orion.api.meta.ClientVersion
+object OrionCraftConstants {
 
-object OrionCraft {
+	private val isDevEnvironment
+		get() = System.getProperty("lightcraft.launch.dev") != null
 
-	var clientVersion: ClientVersion = ClientVersion.INVALID
-		private set
+	val clientTitle: String
+		get() = "OrionCraft (${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"})"
 
-	fun startGameEntrypoint(version: ClientVersion) {
-		clientVersion = version
-	}
+	val clientBrand: String
+		get() = "${OrionCraft.clientVersion}/orioncraft"
+
 
 }

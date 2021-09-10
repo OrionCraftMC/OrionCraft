@@ -29,5 +29,10 @@ enum class ClientVersion {
 	MC_1_5_2,
 	MC_1_6_4,
 	MC_1_7_10,
-	MC_1_8_9,
+	MC_1_8_9;
+
+	override fun toString(): String {
+		if (this == INVALID) return "Unknown"
+		return name.removePrefix("MC_").replace('_', '.')
+	}
 }

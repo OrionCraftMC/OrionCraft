@@ -1,18 +1,27 @@
 import org.cadixdev.gradle.licenser.LicenseExtension
 
 plugins {
-    // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id("org.jetbrains.kotlin.jvm") version "1.5.30"
     id("org.cadixdev.licenser") version "0.6.1"
 
-    // Apply the java-library plugin for API and implementation separation.
     `java-library`
+    `maven-publish`
 }
+
+group = "io.github.orioncraftmc.orion"
+version = "1.0-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget  = JavaVersion.VERSION_16.toString()
+    }
+}
+
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -38,4 +47,12 @@ dependencies {
 
 configure<LicenseExtension> {
     header(rootProject.file("LICENSE"))
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
 }
