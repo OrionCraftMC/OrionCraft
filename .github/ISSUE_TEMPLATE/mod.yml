@@ -1,12 +1,12 @@
 name: New Mod
 description: File a mod request
 title: "Mod Request - "
-labels: [mods]
+labels: [ mods ]
 body:
   - type: input
     id: name
     attributes:
-      label: ModName
+      label: Mod Name
       description: What is the name of the mod in question?
       placeholder: ToggleSprint
     validations:
@@ -15,7 +15,6 @@ body:
     id: description
     attributes:
       label: Please describe the mod to us.
-      description: 
       placeholder: Allows users to toggle their sprint and sneak status
     validations:
       required: true
@@ -27,7 +26,9 @@ body:
       multiple: true
       options:
         - 1.5.2
+        - 1.6.4
         - 1.7.10
+        - 1.8.9
     validations:
       required: true
   - type: textarea
