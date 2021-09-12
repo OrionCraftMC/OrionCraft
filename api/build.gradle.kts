@@ -31,3 +31,7 @@ dependencies {
 configure<LicenseExtension> {
     header(rootProject.file("LICENSE"))
 }
+
+configure<JavaPluginExtension> {
+    withSourcesJar()
+}

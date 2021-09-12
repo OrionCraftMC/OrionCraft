@@ -22,26 +22,9 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api
+package io.github.orioncraftmc.orion.api.bridge
 
-import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
-import io.github.orioncraftmc.orion.api.bridge.impl.FallbackOrionCraftBridgeProvider
-import io.github.orioncraftmc.orion.api.meta.ClientVersion
+import io.github.orioncraftmc.orion.api.OrionCraft
 
-object OrionCraft {
-
-	var clientVersion: ClientVersion = ClientVersion.INVALID
-		private set
-
-	var bridges: OrionCraftBridgeProvider = FallbackOrionCraftBridgeProvider
-		private set
-
-	fun startGameEntrypoint(version: ClientVersion) {
-		clientVersion = version
-	}
-
-	fun setOrionCraftBridgesEntrypoint(bridgeProvider: OrionCraftBridgeProvider) {
-		bridges = bridgeProvider
-	}
-
-}
+val MinecraftBridge
+	get() = OrionCraft.bridges.minecraft
