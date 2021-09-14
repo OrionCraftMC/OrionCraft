@@ -22,20 +22,17 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.impl
+package io.github.orioncraftmc.orion.api.bridge.rendering
 
-import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
-import io.github.orioncraftmc.orion.api.bridge.minecraft.MinecraftBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
+interface OpenGlBridge {
+	fun enableBlend()
+	fun disableBlend()
 
-internal object FallbackOrionCraftBridgeProvider : OrionCraftBridgeProvider {
-	override val minecraftBridge: MinecraftBridge
-		get() = throw NotImplementedError("Fallback Bridge Provider is being used. Someone forgot to set bridges properly!")
+	fun enableTexture2D()
+	fun disableTexture2D()
 
-	override val openGlBridge: OpenGlBridge
-		get() = throw NotImplementedError("Fallback Bridge Provider is being used. Someone forgot to set bridges properly!")
+	fun enableBlendAlphaMinusSrcAlpha()
 
-	override val tessellator: TessellatorBridge
-		get() = throw NotImplementedError("Fallback Bridge Provider is being used. Someone forgot to set bridges properly!")
+	fun pushMatrix()
+	fun popMatrix()
 }

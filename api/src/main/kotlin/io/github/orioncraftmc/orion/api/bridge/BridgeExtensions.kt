@@ -27,4 +27,10 @@ package io.github.orioncraftmc.orion.api.bridge
 import io.github.orioncraftmc.orion.api.OrionCraft
 
 val MinecraftBridge
-	get() = OrionCraft.bridges.minecraft
+	get() = OrionCraft.bridges.minecraftBridge
+
+val OpenGlBridge
+	get() = OrionCraft.bridges.openGlBridge
+
+val TessellatorBridge
+	get() = OrionCraft.bridges.tessellator

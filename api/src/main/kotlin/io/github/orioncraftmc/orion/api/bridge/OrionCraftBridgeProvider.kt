@@ -25,7 +25,13 @@
 package io.github.orioncraftmc.orion.api.bridge
 
 import io.github.orioncraftmc.orion.api.bridge.minecraft.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
 
 interface OrionCraftBridgeProvider {
-	val minecraft: MinecraftBridge
+	val minecraftBridge: MinecraftBridge
+
+	val openGlBridge: OpenGlBridge
+
+	val tessellator: TessellatorBridge
 }
