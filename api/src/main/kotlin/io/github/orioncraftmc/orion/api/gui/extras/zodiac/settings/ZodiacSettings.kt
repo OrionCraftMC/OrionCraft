@@ -22,19 +22,37 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.api.gui.extras.zodiac.settings
 
-interface OpenGlBridge {
-	fun enableBlend()
-	fun disableBlend()
+import com.github.ajalt.colormath.Color
 
-	fun enableTexture2D()
-	fun disableTexture2D()
+data class ZodiacSettings(
+	var directionX: HorizontalDirection = HorizontalDirection.LEFT,
+	var directionY: VerticalDirection = VerticalDirection.UP,
 
-	fun enableBlendAlphaMinusSrcAlpha()
+	var velocityX: Double,
+	var velocityY: Double,
 
-	fun pushMatrix()
-	fun popMatrix()
+	var bounceX: Boolean,
+	var bounceY: Boolean,
 
-	fun setLineWidth(width: Float)
+	var parallax: Double? = 0.2,
+	var pivot: Double = 0.2,
+
+	var density: Int = 3000,
+	var dotRadiusMin: Double,
+	var dotRadiusMax: Double,
+
+	var dotColor: Color,
+	var linkColor: Color,
+
+	var linkDistance: Int,
+	var linkWidth: Int,
+) {
+	init {
+		check(velocityX in 0.1..2.0) { "velocityX is not inside valid range (0.1..2.0)" }
+		check(velocityY in 0.5..2.0) { "velocityY is not inside valid range (0.5..2.0)" }
+		check(dotRadiusMin in 1.0..10.0) { "dotRadius is not inside valid range (1.0..10.0)" }
+		check(dotRadiusMax in 1.0..10.0) { "dotRadius is not inside valid range (1.0..10.0)" }
+	}
 }

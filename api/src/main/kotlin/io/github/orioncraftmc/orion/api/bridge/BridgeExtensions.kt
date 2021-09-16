@@ -24,7 +24,9 @@
 
 package io.github.orioncraftmc.orion.api.bridge
 
+import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.OrionCraft
+import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
 
 val MinecraftBridge
 	get() = OrionCraft.bridges.minecraftBridge
@@ -34,3 +36,8 @@ val OpenGlBridge
 
 val TessellatorBridge
 	get() = OrionCraft.bridges.tessellator
+
+fun TessellatorBridge.setColor(color: Color) {
+	val rgb = color.toSRGB()
+	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
+}

@@ -30,4 +30,8 @@ interface MinecraftBridge {
 	val scaledResolution: ScaledResolutionBridge
 
 	fun openScreen(screen: OrionScreen)
+
+	val gameWidth: Int
+
+	val gameHeight: Int
 }

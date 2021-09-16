@@ -22,19 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.api.gui.extras.zodiac.settings
 
-interface OpenGlBridge {
-	fun enableBlend()
-	fun disableBlend()
-
-	fun enableTexture2D()
-	fun disableTexture2D()
-
-	fun enableBlendAlphaMinusSrcAlpha()
-
-	fun pushMatrix()
-	fun popMatrix()
-
-	fun setLineWidth(width: Float)
+enum class VerticalDirection {
+	UP,
+	RANDOM,
+	DOWN
 }

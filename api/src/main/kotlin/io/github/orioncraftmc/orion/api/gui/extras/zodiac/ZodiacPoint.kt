@@ -22,19 +22,6 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.api.gui.extras.zodiac
 
-interface OpenGlBridge {
-	fun enableBlend()
-	fun disableBlend()
-
-	fun enableTexture2D()
-	fun disableTexture2D()
-
-	fun enableBlendAlphaMinusSrcAlpha()
-
-	fun pushMatrix()
-	fun popMatrix()
-
-	fun setLineWidth(width: Float)
-}
+internal data class ZodiacPoint(var x: Double = 0.0, var y: Double = 0.0)

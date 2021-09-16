@@ -24,14 +24,48 @@
 
 package io.github.orioncraftmc.orion.api.gui.screens.impl
 
+import com.github.ajalt.colormath.model.RGBInt
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.gui.extras.zodiac.Zodiac
+import io.github.orioncraftmc.orion.api.gui.extras.zodiac.settings.HorizontalDirection
+import io.github.orioncraftmc.orion.api.gui.extras.zodiac.settings.VerticalDirection
+import io.github.orioncraftmc.orion.api.gui.extras.zodiac.settings.ZodiacSettings
 import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
 
 abstract class MainMenuScreen : OrionScreen {
+
+	private val zodiac = Zodiac(ZodiacSettings(
+		HorizontalDirection.RANDOM,
+		VerticalDirection.RANDOM,
+
+		0.5,
+		0.5,
+
+		density = 500,
+
+		bounceX = true,
+		bounceY = true,
+
+		dotRadiusMin = 1.0,
+		dotRadiusMax = 2.5,
+
+		dotColor = RGBInt(255, 255, 255, 75),
+		linkColor = RGBInt(255, 255, 255, 65),
+
+		linkDistance = 15,
+		linkWidth = 2
+	))
+
+	override fun onInitOrResize(width: Int, height: Int) {
+		zodiac.refresh(MinecraftBridge.gameWidth, MinecraftBridge.gameHeight)
+	}
 
 	// Implementation is provided by version
 	abstract fun renderSkybox(mouseX: Int, mouseY: Int, renderPartialTicks: Float)
 
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
 		renderSkybox(mouseX, mouseY, renderPartialTicks)
+		val scaledResolution = MinecraftBridge.scaledResolution
+		zodiac.draw(scaledResolution.scaledWidth, scaledResolution.scaledHeight)
 	}
 }

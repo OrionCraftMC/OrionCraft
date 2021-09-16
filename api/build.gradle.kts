@@ -26,6 +26,10 @@ dependencies {
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
+    implementation("com.github.ajalt.colormath:colormath:3.0.0")
+
+    implementation("org.danilopianini:java-quadtree:0.1.5-dev0u+fa95421")
+
 }
 
 configure<LicenseExtension> {

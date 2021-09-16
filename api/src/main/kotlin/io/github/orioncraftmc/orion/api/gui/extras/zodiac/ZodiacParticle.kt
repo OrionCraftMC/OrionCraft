@@ -22,19 +22,16 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.api.gui.extras.zodiac
 
-interface OpenGlBridge {
-	fun enableBlend()
-	fun disableBlend()
+internal data class ZodiacParticle(
+	var z: Double,
+	var x: Double,
+	var y: Double,
+	var vx: Double,
+	var vy: Double,
+	var dx: Double,
+	var dy: Double,
+	var r: Double,
 
-	fun enableTexture2D()
-	fun disableTexture2D()
-
-	fun enableBlendAlphaMinusSrcAlpha()
-
-	fun pushMatrix()
-	fun popMatrix()
-
-	fun setLineWidth(width: Float)
-}
+)
