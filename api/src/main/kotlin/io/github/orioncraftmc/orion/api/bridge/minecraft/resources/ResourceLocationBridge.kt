@@ -22,21 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api
+package io.github.orioncraftmc.orion.api.bridge.minecraft.resources
 
-object OrionCraftConstants {
-
-	private val isDevEnvironment
-		get() = System.getProperty("lightcraft.launch.dev") != null
-
-	val clientTitle: String
-		get() = "OrionCraft (${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"})"
-
-	val clientBrand: String
-		get() = "orioncraft"
-
-	const val ORION_RESOURCE_LOCATION_NS = "orion"
-
-	const val MINECRAFT_RESOURCE_LOCATION_NS = "minecraft"
-
+interface ResourceLocationBridge {
+	val namespace: String
+	val resource: String
+	val fullPath: String
 }

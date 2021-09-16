@@ -26,16 +26,24 @@ package io.github.orioncraftmc.orion.api.bridge.impl
 
 import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.minecraft.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationUtils
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
 
 internal object FallbackOrionCraftBridgeProvider : OrionCraftBridgeProvider {
 	override val minecraftBridge: MinecraftBridge
-		get() = throw NotImplementedError("Fallback Bridge Provider is being used. Someone forgot to set bridges properly!")
+		get() = bridgeNotImplemented()
 
 	override val openGlBridge: OpenGlBridge
-		get() = throw NotImplementedError("Fallback Bridge Provider is being used. Someone forgot to set bridges properly!")
+		get() = bridgeNotImplemented()
 
 	override val tessellator: TessellatorBridge
-		get() = throw NotImplementedError("Fallback Bridge Provider is being used. Someone forgot to set bridges properly!")
+		get() = bridgeNotImplemented()
+
+	override val resourceLocationUtils: ResourceLocationUtils
+		get() = bridgeNotImplemented()
+
+	private fun bridgeNotImplemented(): Nothing {
+		throw NotImplementedError("Fallback Bridge Provider is being used. Someone forgot to set bridges properly!")
+	}
 }

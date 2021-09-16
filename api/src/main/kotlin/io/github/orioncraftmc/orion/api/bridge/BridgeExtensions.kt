@@ -37,6 +37,9 @@ val OpenGlBridge
 val TessellatorBridge
 	get() = OrionCraft.bridges.tessellator
 
+val ResourceLocationUtils
+	get() = OrionCraft.bridges.resourceLocationUtils
+
 fun TessellatorBridge.setColor(color: Color) {
 	val rgb = color.toSRGB()
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
