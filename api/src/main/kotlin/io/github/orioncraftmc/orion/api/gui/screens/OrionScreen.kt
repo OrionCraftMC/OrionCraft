@@ -25,7 +25,7 @@
 package io.github.orioncraftmc.orion.api.gui.screens
 
 interface OrionScreen {
-	fun onInitOrResize(width: Int, height: Int) {}
+	fun onInitOrResize() {}
 
 	fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float)
 
