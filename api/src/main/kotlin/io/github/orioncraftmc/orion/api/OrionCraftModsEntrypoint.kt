@@ -22,19 +22,8 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge
+package io.github.orioncraftmc.orion.api
 
-import io.github.orioncraftmc.orion.api.OrionCraft
-
-val MinecraftBridge
-	get() = OrionCraft.bridges.minecraftBridge
-
-val OpenGlBridge
-	get() = OrionCraft.bridges.openGlBridge
-
-val TessellatorBridge
-	get() = OrionCraft.bridges.tessellator
-
-val ResourceLocationUtils
-	get() = OrionCraft.bridges.resourceLocationUtils
-
+fun interface OrionCraftModsEntrypoint {
+	fun initializeMods()
+}

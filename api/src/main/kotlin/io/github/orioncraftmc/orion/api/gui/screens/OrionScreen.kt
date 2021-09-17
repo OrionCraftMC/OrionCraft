@@ -24,10 +24,16 @@
 
 package io.github.orioncraftmc.orion.api.gui.screens
 
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+
 interface OrionScreen {
 	fun onInitOrResize() {}
 
 	fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float)
 
-	fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {}
+	fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int)
+
+	fun drawDefaultBackground() {
+		MinecraftBridge.drawDefaultBackground()
+	}
 }

@@ -4,6 +4,7 @@ dependencies {
 
     // Use the Kotlin JDK 8 standard library.
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    api("org.jetbrains.kotlin:kotlin-reflect")
 
     api("com.google.guava:guava:14.0.1")
 

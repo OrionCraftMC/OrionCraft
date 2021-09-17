@@ -24,17 +24,28 @@
 
 package io.github.orioncraftmc.orion.api.bridge
 
-import io.github.orioncraftmc.orion.api.OrionCraft
+import com.github.ajalt.colormath.Color
+import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
 
-val MinecraftBridge
-	get() = OrionCraft.bridges.minecraftBridge
+fun TessellatorBridge.setColor(color: Color) {
+	val rgb = color.toSRGB()
+	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
+}
 
-val OpenGlBridge
-	get() = OrionCraft.bridges.openGlBridge
+inline fun matrix(code: () -> Unit) {
+	OpenGlBridge.pushMatrix()
+	code()
+	OpenGlBridge.popMatrix()
+}
 
-val TessellatorBridge
-	get() = OrionCraft.bridges.tessellator
+inline fun uiRendering(code: () -> Unit) {
+	matrix {
+		OpenGlBridge.enableBlend()
+		OpenGlBridge.disableTexture2D()
 
-val ResourceLocationUtils
-	get() = OrionCraft.bridges.resourceLocationUtils
+		code()
 
+		OpenGlBridge.enableTexture2D()
+		OpenGlBridge.disableBlend()
+	}
+}

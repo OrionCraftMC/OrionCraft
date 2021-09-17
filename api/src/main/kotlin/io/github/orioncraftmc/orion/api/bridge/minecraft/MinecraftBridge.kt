@@ -31,6 +31,8 @@ interface MinecraftBridge {
 
 	fun openScreen(screen: OrionScreen)
 
+	fun drawDefaultBackground()
+
 	val gameWidth: Int
 
 	val gameHeight: Int

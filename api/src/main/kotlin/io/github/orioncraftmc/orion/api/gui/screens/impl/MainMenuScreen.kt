@@ -31,7 +31,22 @@ abstract class MainMenuScreen : OrionScreen {
 	// Implementation is provided by version
 	abstract fun renderSkybox(mouseX: Int, mouseY: Int, renderPartialTicks: Float)
 
+	// Implementation is provided by version
+	abstract fun superHandleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int)
+
+	// Implementation is provided by version
+	abstract fun superDrawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float)
+
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
 		renderSkybox(mouseX, mouseY, renderPartialTicks)
+
+		//call to super.drawScreen to render vanilla buttons
+		superDrawScreen(mouseX, mouseY, renderPartialTicks)
+	}
+
+	override fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {
+
+		//call to super.mouseClicked to handle clicks on vanilla buttons
+		superHandleMouseClick(mouseX, mouseY, clickedButtonId)
 	}
 }

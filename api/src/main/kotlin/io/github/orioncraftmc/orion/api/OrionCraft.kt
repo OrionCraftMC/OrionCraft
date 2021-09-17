@@ -42,6 +42,18 @@ object OrionCraft {
 
 	fun setOrionCraftBridgesEntrypoint(bridgeProvider: OrionCraftBridgeProvider) {
 		bridges = bridgeProvider
+
+		initializeMods()
+	}
+
+	private val modEntrypoints = arrayOf("io.github.orioncraftmc.orion.mods.ModsEntrypoint")
+	private fun initializeMods() {
+		for (modEntrypoint in modEntrypoints) {
+			val entrypointInstance = Class.forName(modEntrypoint).kotlin.objectInstance
+			if (entrypointInstance is OrionCraftModsEntrypoint) {
+				entrypointInstance.initializeMods()
+			}
+		}
 	}
 
 }

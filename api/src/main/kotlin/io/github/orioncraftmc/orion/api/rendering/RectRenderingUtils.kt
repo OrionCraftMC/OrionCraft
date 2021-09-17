@@ -22,19 +22,33 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge
+package io.github.orioncraftmc.orion.api.rendering
 
-import io.github.orioncraftmc.orion.api.OrionCraft
+import com.github.ajalt.colormath.Color
+import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
+import io.github.orioncraftmc.orion.api.bridge.setColor
+import io.github.orioncraftmc.orion.api.bridge.uiRendering
 
-val MinecraftBridge
-	get() = OrionCraft.bridges.minecraftBridge
+object RectRenderingUtils {
 
-val OpenGlBridge
-	get() = OrionCraft.bridges.openGlBridge
+	fun drawHollowRectangle(x1: Double, y1: Double, x2: Double, y2: Double, color: Color) {
+		uiRendering {
+			val width = x2 - x1
+			val height = y2 - y1
+			TessellatorBridge.startDrawingLineLoop()
+			TessellatorBridge.setColor(color)
 
-val TessellatorBridge
-	get() = OrionCraft.bridges.tessellator
+			//Top left
+			TessellatorBridge.addVertex(x1, y1, 0.0)
+			//Top right
+			TessellatorBridge.addVertex(x1 + width, y1, 0.0)
+			//Bottom right
+			TessellatorBridge.addVertex(x1 + width, y1 + height, 0.0)
+			//Bottom left
+			TessellatorBridge.addVertex(x1, y1 + height, 0.0)
 
-val ResourceLocationUtils
-	get() = OrionCraft.bridges.resourceLocationUtils
+			TessellatorBridge.draw()
+		}
+	}
 
+}

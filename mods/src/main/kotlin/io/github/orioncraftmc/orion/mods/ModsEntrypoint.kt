@@ -22,19 +22,11 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge
+package io.github.orioncraftmc.orion.mods
 
-import io.github.orioncraftmc.orion.api.OrionCraft
+import io.github.orioncraftmc.orion.api.OrionCraftModsEntrypoint
 
-val MinecraftBridge
-	get() = OrionCraft.bridges.minecraftBridge
-
-val OpenGlBridge
-	get() = OrionCraft.bridges.openGlBridge
-
-val TessellatorBridge
-	get() = OrionCraft.bridges.tessellator
-
-val ResourceLocationUtils
-	get() = OrionCraft.bridges.resourceLocationUtils
-
+object ModsEntrypoint : OrionCraftModsEntrypoint {
+	override fun initializeMods() {
+	}
+}
