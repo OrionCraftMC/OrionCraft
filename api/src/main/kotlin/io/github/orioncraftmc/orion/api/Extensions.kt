@@ -26,7 +26,12 @@ package io.github.orioncraftmc.orion.api
 
 import io.github.orioncraftmc.orion.api.event.Event
 import io.github.orioncraftmc.orion.api.event.impl.EventBus
+import io.github.orioncraftmc.orion.api.logging.FallbackLogger
+import io.github.orioncraftmc.orion.api.logging.Logger
 
 inline fun <reified T : Event> on(noinline handler: (T) -> Unit) {
 	EventBus.registerHandler(handler)
 }
+
+val logger: Logger
+	get() = FallbackLogger

@@ -27,6 +27,7 @@ package io.github.orioncraftmc.orion.api
 import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.impl.FallbackOrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
+import kotlin.system.measureTimeMillis
 
 object OrionCraft {
 
@@ -37,21 +38,34 @@ object OrionCraft {
 		private set
 
 	fun startGameEntrypoint(version: ClientVersion) {
+		logger.info("Initializing OrionCraft on Minecraft $version")
 		clientVersion = version
 	}
 
 	fun setOrionCraftBridgesEntrypoint(bridgeProvider: OrionCraftBridgeProvider) {
 		bridges = bridgeProvider
+		logger.info("Initialized Orion Bridges on Minecraft $clientVersion successfully")
 
+		doInit()
+	}
+
+	private fun doInit() {
 		initializeMods()
 	}
 
 	private val modEntrypoints = arrayOf("io.github.orioncraftmc.orion.mods.ModsEntrypoint")
 	private fun initializeMods() {
+		logger.info("Initializing OrionCraft mods")
 		for (modEntrypoint in modEntrypoints) {
-			val entrypointInstance = Class.forName(modEntrypoint).kotlin.objectInstance
+			val entrypointClazz = Class.forName(modEntrypoint).kotlin
+			val entrypointInstance = entrypointClazz.objectInstance
 			if (entrypointInstance is OrionCraftModsEntrypoint) {
-				entrypointInstance.initializeMods()
+				val entrypointName = entrypointClazz.simpleName
+				logger.debug("Found mod entrypoint $entrypointName")
+				val time = measureTimeMillis {
+					entrypointInstance.initializeMods()
+				}
+				logger.debug("Initialized entrypoint $entrypointName in $time ms")
 			}
 		}
 	}

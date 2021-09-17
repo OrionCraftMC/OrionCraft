@@ -26,7 +26,7 @@ package io.github.orioncraftmc.orion.api
 
 object OrionCraftConstants {
 
-	private val isDevEnvironment
+	val isDevEnvironment
 		get() = System.getProperty("lightcraft.launch.dev") != null
 
 	val clientTitle: String

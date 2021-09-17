@@ -24,28 +24,32 @@
 
 package io.github.orioncraftmc.orion.api.logging
 
-object FallbackLogger : Logger {
-	override fun name(): String {
-		return "fallback"
-	}
+import io.github.orioncraftmc.orion.api.OrionCraftConstants
 
+object FallbackLogger : Logger {
 	override fun debug(str: String, vararg args: Any) {
-		println("[DEBUG] " + str.format(args))
+		if (OrionCraftConstants.isDevEnvironment) {
+			internalLog("DEBUG", str, args)
+		}
 	}
 
 	override fun info(str: String, vararg args: Any) {
-		println("[INFO] " + str.format(args))
+		internalLog("INFO", str, args)
 	}
 
 	override fun warn(str: String, vararg args: Any) {
-		println("[WARN] " + str.format(args))
+		internalLog("WARN", str, args)
 	}
 
 	override fun error(str: String, vararg args: Any) {
-		println("[ERROR] " + str.format(args))
+		internalLog("ERROR", str, args)
 	}
 
 	override fun fatal(str: String, vararg args: Any) {
-		println("[FATAL] " + str.format(args))
+		internalLog("FATAL", str, args)
+	}
+
+	private fun internalLog(level: String, msg: String, args: Array<out Any>) {
+		println("[OrionCraft] [$level] ${msg.format(args)}")
 	}
 }
