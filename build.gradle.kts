@@ -7,8 +7,15 @@ subprojects {
     apply(plugin = "org.gradle.java-library")
     apply(plugin = "org.gradle.maven-publish")
 
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.cadixdev.licenser")
+
     group = "io.github.orioncraftmc.orion"
     version = "1.0-SNAPSHOT"
+
+    repositories {
+        mavenCentral()
+    }
 
     tasks {
         extensions.getByType(JavaPluginExtension::class.java).apply {
@@ -24,6 +31,15 @@ subprojects {
             }
         }
     }
+
+    configure<org.cadixdev.gradle.licenser.LicenseExtension> {
+        header(rootProject.file("LICENSE"))
+    }
+
+    configure<JavaPluginExtension> {
+        withSourcesJar()
+    }
+
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
