@@ -26,7 +26,7 @@ package io.github.orioncraftmc.orion.api.gui.screens.impl
 
 import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
 
-abstract class MainMenuScreen : OrionScreen {
+abstract class MainMenuScreen : OrionScreen() {
 
 	// Implementation is provided by version
 	abstract fun renderSkybox(mouseX: Int, mouseY: Int, renderPartialTicks: Float)

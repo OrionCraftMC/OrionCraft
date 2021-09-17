@@ -22,37 +22,16 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.screens
+package io.github.orioncraftmc.orion.api.gui.components
 
-import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.gui.components.ParentComponent
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
-abstract class OrionScreen : ParentComponent {
-	open fun onResize() {}
+interface Component {
+	var anchor: Anchor
 
-	fun internalOnResize() {
-		val sr = MinecraftBridge.scaledResolution
-		size.apply {
-			width = sr.scaledWidthFloat.toDouble()
-			height = sr.scaledHeightFloat.toDouble()
-		}
-		onResize()
-	}
+	var position: Point
 
-	open fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {}
-
-	open fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {}
-
-	override var position: Point = Point(0.0, 0.0)
-
-	override var size: Size = Size(0.0, 0.0)
-
-	override var anchor: Anchor = Anchor.TOP_LEFT
-
-	fun drawDefaultBackground() {
-		MinecraftBridge.drawDefaultBackground()
-	}
+	var size: Size
 }
