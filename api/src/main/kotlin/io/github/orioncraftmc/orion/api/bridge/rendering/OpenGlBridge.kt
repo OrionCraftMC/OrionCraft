@@ -38,5 +38,7 @@ interface OpenGlBridge {
 
 	fun translate(x: Double, y: Double, z: Double)
 
+	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
+
 	fun setLineWidth(width: Float)
 }

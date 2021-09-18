@@ -25,35 +25,30 @@
 package io.github.orioncraftmc.orion.api.gui.screens
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.api.gui.utils.ComponentUtils
-import java.util.*
 
-open class ComponentOrionScreen : OrionScreen(), Component {
+open class ComponentOrionScreen : ComponentContainer() {
+	private val zeroPoint = Point()
 
-	val components: List<Component> by lazy { Collections.unmodifiableList(componentsList) }
-	private val componentsList = mutableListOf<Component>()
-	private val zeroPosition = Point()
+	// We are at the root of the parent tree
+	override var parent: Component?
+		get() = null
+		set(value) {}
 
-	fun addComponent(component: Component) {
-		component.parent = this
-		componentsList.add(component)
-	}
+	override var anchor: Anchor
+		get() = Anchor.TOP_LEFT
+		set(value) {}
 
+	override var position: Point
+		get() = zeroPoint
+		set(value) {}
 
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
-		componentsList.forEach {
-			matrix {
-				ComponentUtils.offsetCurrentMatrixForComponent(it)
-				it.renderComponent(mouseX, mouseY)
-			}
-		}
 		super.drawScreen(mouseX, mouseY, renderPartialTicks)
+		renderComponent(mouseX, mouseY)
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {
@@ -61,6 +56,7 @@ open class ComponentOrionScreen : OrionScreen(), Component {
 	}
 
 	override fun onResize() {
+		componentsList.clear()
 		val sr = MinecraftBridge.scaledResolution
 		size.apply {
 			width = sr.scaledWidthFloat.toDouble()
@@ -70,25 +66,4 @@ open class ComponentOrionScreen : OrionScreen(), Component {
 		super.onResize()
 	}
 
-	override fun renderComponent(mouseX: Int, mouseY: Int) {
-	}
-
-	override var anchor: Anchor
-		get() = Anchor.TOP_LEFT
-		set(value) {}
-
-	final override var padding: Padding = Padding(0.0)
-
-	override var position: Point
-		get() {
-			return zeroPosition
-		}
-		set(value) {}
-
-	override var size: Size = Size()
-
-	// We are at the root of the parent tree
-	override var parent: Component?
-		get() = null
-		set(value) {}
 }

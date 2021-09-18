@@ -26,28 +26,28 @@ package io.github.orioncraftmc.orion.api.rendering
 
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
-import io.github.orioncraftmc.orion.api.bridge.setColor
 import io.github.orioncraftmc.orion.api.bridge.basicShapesRendering
+import io.github.orioncraftmc.orion.api.bridge.setColor
 
 object RectRenderingUtils {
 
-	fun drawHollowRectangle(x1: Double, y1: Double, x2: Double, y2: Double, color: Color) {
+	fun drawRectangle(x1: Double, y1: Double, x2: Double, y2: Double, color: Color, isHollow: Boolean = false) {
+		val tessellator = TessellatorBridge
 		basicShapesRendering {
-			val width = x2 - x1
-			val height = y2 - y1
-			TessellatorBridge.startDrawingLineLoop()
-			TessellatorBridge.setColor(color)
+			if (isHollow) {
+				tessellator.startDrawingLineLoop()
+				tessellator.setColor(color)
+			} else {
+				tessellator.startDrawingQuads()
+				tessellator.setColor(color)
+			}
 
-			//Top left
-			TessellatorBridge.addVertex(x1, y1, 0.0)
-			//Top right
-			TessellatorBridge.addVertex(x1 + width, y1, 0.0)
-			//Bottom right
-			TessellatorBridge.addVertex(x1 + width, y1 + height, 0.0)
-			//Bottom left
-			TessellatorBridge.addVertex(x1, y1 + height, 0.0)
+			tessellator.addVertex(x1, y2, 0.0)
+			tessellator.addVertex(x2, y2, 0.0)
+			tessellator.addVertex(x2, y1, 0.0)
+			tessellator.addVertex(x1, y1, 0.0)
 
-			TessellatorBridge.draw()
+			tessellator.draw()
 		}
 	}
 

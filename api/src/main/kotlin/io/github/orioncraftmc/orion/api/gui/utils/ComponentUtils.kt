@@ -26,11 +26,12 @@ package io.github.orioncraftmc.orion.api.gui.utils
 
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.rendering.RectRenderingUtils
 
 object ComponentUtils {
 	fun offsetCurrentMatrixForComponent(component: Component) {
-		var currentParent = component.parent
-		while (currentParent != null) {
+		val currentParent = component.parent
+		if (currentParent != null) {
 			val newPos =
 				AnchorUtils.computePosition(
 					component.position,
@@ -42,7 +43,21 @@ object ComponentUtils {
 				)
 
 			OpenGlBridge.translate(newPos.x, newPos.y, 0.0)
-			currentParent = currentParent.parent
 		}
+	}
+
+	fun renderBackgroundColor(component: Component) {
+		val backgroundColor = component.backgroundColor ?: return
+		val padding = component.padding
+
+		val size = component.size
+		RectRenderingUtils.drawRectangle(
+			-padding.left,
+			-padding.top,
+			size.width + padding.right,
+			size.height + padding.bottom,
+			backgroundColor,
+			false
+		)
 	}
 }

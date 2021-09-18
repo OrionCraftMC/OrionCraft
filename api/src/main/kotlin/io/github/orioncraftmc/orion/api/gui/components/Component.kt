@@ -24,6 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.gui.components
 
+import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
@@ -40,5 +41,10 @@ interface Component {
 
 	var size: Size
 
+	val paddedSize: Size
+		get() = size + padding
+
 	var parent: Component?
+
+	var backgroundColor: Color?
 }

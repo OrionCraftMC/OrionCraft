@@ -22,40 +22,9 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge
+package io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow
 
-import com.github.ajalt.colormath.Color
-import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
-
-fun FontRendererBridge.drawString(value: String, x: Int, y: Int, color: Color, hasShadow: Boolean = false) {
-	drawString(value, x, y, color.toSRGB().toRGBInt().argb.toInt(), hasShadow)
-}
-
- fun TessellatorBridge.setColor(color: Color) {
-	val rgb = color.toSRGB()
-	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
-}
-
- fun OpenGlBridge.setColor(color: Color) {
-	val rgb = color.toSRGB()
-	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
-}
-
-inline fun matrix(code: () -> Unit) {
-	OpenGlBridge.pushMatrix()
-	code()
-	OpenGlBridge.popMatrix()
-}
-
-inline fun basicShapesRendering(code: () -> Unit) {
-	matrix {
-		OpenGlBridge.enableBlend()
-		OpenGlBridge.disableTexture2D()
-		OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
-		code()
-		OpenGlBridge.enableTexture2D()
-		OpenGlBridge.disableBlend()
-	}
+enum class FlowLayoutDirection {
+	HORIZONTAL,
+	VERTICAL
 }

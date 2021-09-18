@@ -32,6 +32,8 @@ data class Padding(
 ) {
 	constructor(all: Double) : this(all, all, all, all)
 
+	constructor(topBottom: Double, leftRight: Double) : this(leftRight, topBottom, leftRight, topBottom)
+
 	operator fun plus(other: Padding): Padding {
 		return Padding(left + other.left, top + other.top, right + other.right, bottom + other.bottom)
 	}

@@ -22,21 +22,46 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components
+package io.github.orioncraftmc.orion.api.gui.components.impl.containers
 
 import com.github.ajalt.colormath.Color
+import io.github.orioncraftmc.orion.api.bridge.matrix
+import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
+import io.github.orioncraftmc.orion.api.gui.utils.ComponentUtils
+import java.util.*
 
-abstract class AbstractComponent(
-	override var anchor: Anchor = Anchor.TOP_LEFT,
-	override var position: Point = Point(),
-	override var size: Size = Size(),
-	override var padding: Padding = Padding(0.0),
-	override var backgroundColor: Color? = null
-) : Component {
+open class ComponentContainer : OrionScreen(), Component {
+	val components: List<Component> by lazy { Collections.unmodifiableList(componentsList) }
+	protected val componentsList = mutableListOf<Component>()
+
+	override var anchor: Anchor = Anchor.TOP_LEFT
+	final override var padding: Padding = Padding(0.0)
+	override var position: Point = Point()
+	override var size: Size = Size()
 	override var parent: Component? = null
+	override var backgroundColor: Color? = null
 
+	fun addComponent(component: Component) {
+		component.parent = this
+		componentsList.add(component)
+	}
+
+	override fun renderComponent(mouseX: Int, mouseY: Int) {
+		componentsList.forEach {
+			matrix {
+				performComponentLayout(it)
+				ComponentUtils.renderBackgroundColor(it)
+				it.renderComponent(mouseX, mouseY)
+			}
+		}
+	}
+
+	open fun performComponentLayout(component: Component) {
+		ComponentUtils.offsetCurrentMatrixForComponent(component)
+	}
 }

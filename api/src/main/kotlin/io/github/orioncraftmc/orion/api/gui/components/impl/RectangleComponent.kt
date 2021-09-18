@@ -22,40 +22,12 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge
+package io.github.orioncraftmc.orion.api.gui.components.impl
 
-import com.github.ajalt.colormath.Color
-import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
+import io.github.orioncraftmc.orion.api.gui.components.AbstractComponent
 
-fun FontRendererBridge.drawString(value: String, x: Int, y: Int, color: Color, hasShadow: Boolean = false) {
-	drawString(value, x, y, color.toSRGB().toRGBInt().argb.toInt(), hasShadow)
-}
-
- fun TessellatorBridge.setColor(color: Color) {
-	val rgb = color.toSRGB()
-	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
-}
-
- fun OpenGlBridge.setColor(color: Color) {
-	val rgb = color.toSRGB()
-	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
-}
-
-inline fun matrix(code: () -> Unit) {
-	OpenGlBridge.pushMatrix()
-	code()
-	OpenGlBridge.popMatrix()
-}
-
-inline fun basicShapesRendering(code: () -> Unit) {
-	matrix {
-		OpenGlBridge.enableBlend()
-		OpenGlBridge.disableTexture2D()
-		OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
-		code()
-		OpenGlBridge.enableTexture2D()
-		OpenGlBridge.disableBlend()
+class RectangleComponent : AbstractComponent() {
+	override fun renderComponent(mouseX: Int, mouseY: Int) {
+		// Left intentionally blank
 	}
 }
