@@ -31,13 +31,13 @@ import java.util.*
 
 object AnchorUtils {
 
-	private val topYAnchorSet: EnumSet<Anchor> = EnumSet.of(Anchor.TOP_LEFT, Anchor.TOP_MIDDLE, Anchor.TOP_RIGHT)
-	private val middleYAnchorSet: EnumSet<Anchor> = EnumSet.of(Anchor.MIDDLE_LEFT, Anchor.MIDDLE, Anchor.MIDDLE_RIGHT)
-	private val bottomYAnchorSet: EnumSet<Anchor> = EnumSet.of(Anchor.BOTTOM_LEFT, Anchor.BOTTOM_MIDDLE, Anchor.BOTTOM_RIGHT)
+	private val topYAnchorSet = EnumSet.of(Anchor.TOP_LEFT, Anchor.TOP_MIDDLE, Anchor.TOP_RIGHT)
+	private val middleYAnchorSet = EnumSet.of(Anchor.MIDDLE_LEFT, Anchor.MIDDLE, Anchor.MIDDLE_RIGHT)
+	private val bottomYAnchorSet = EnumSet.of(Anchor.BOTTOM_LEFT, Anchor.BOTTOM_MIDDLE, Anchor.BOTTOM_RIGHT)
 
-	private val leftXAnchorSet: EnumSet<Anchor> = EnumSet.of(Anchor.TOP_LEFT, Anchor.MIDDLE_LEFT, Anchor.BOTTOM_LEFT)
-	private val middleXAnchorSet: EnumSet<Anchor> = EnumSet.of(Anchor.TOP_MIDDLE, Anchor.MIDDLE, Anchor.BOTTOM_MIDDLE)
-	private val rightXAnchorSet: EnumSet<Anchor> = EnumSet.of(Anchor.TOP_RIGHT, Anchor.MIDDLE_RIGHT, Anchor.BOTTOM_RIGHT)
+	private val leftXAnchorSet = EnumSet.of(Anchor.TOP_LEFT, Anchor.MIDDLE_LEFT, Anchor.BOTTOM_LEFT)
+	private val middleXAnchorSet = EnumSet.of(Anchor.TOP_MIDDLE, Anchor.MIDDLE, Anchor.BOTTOM_MIDDLE)
+	private val rightXAnchorSet = EnumSet.of(Anchor.TOP_RIGHT, Anchor.MIDDLE_RIGHT, Anchor.BOTTOM_RIGHT)
 
 	fun computePosition(position: Point, size: Size, anchor: Anchor, containerSize: Size = Size(0.0, 0.0)): Point {
 

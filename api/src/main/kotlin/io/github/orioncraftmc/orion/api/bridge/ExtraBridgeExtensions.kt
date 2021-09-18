@@ -47,9 +47,7 @@ inline fun basicShapesRendering(code: () -> Unit) {
 	matrix {
 		OpenGlBridge.enableBlend()
 		OpenGlBridge.disableTexture2D()
-
 		code()
-
 		OpenGlBridge.enableTexture2D()
 		OpenGlBridge.disableBlend()
 	}

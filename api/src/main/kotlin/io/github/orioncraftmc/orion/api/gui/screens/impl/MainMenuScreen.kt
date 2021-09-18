@@ -36,10 +36,14 @@ abstract class MainMenuScreen : ComponentOrionScreen() {
 
 		addComponent(LabelComponent("OrionCraft ${OrionCraft.clientVersion}").apply {
 			anchor = Anchor.BOTTOM_LEFT
+			position.x = 5.0
+			position.y = 5.0
 		})
 
 		addComponent(LabelComponent("Copyright Mojang AB. Do not redistribute!").apply {
 			anchor = Anchor.BOTTOM_RIGHT
+			position.x = 5.0
+			position.y = 5.0
 		})
 	}
 
@@ -62,7 +66,6 @@ abstract class MainMenuScreen : ComponentOrionScreen() {
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {
-
 		//call to super.mouseClicked to handle clicks on vanilla buttons
 		superHandleMouseClick(mouseX, mouseY, clickedButtonId)
 	}

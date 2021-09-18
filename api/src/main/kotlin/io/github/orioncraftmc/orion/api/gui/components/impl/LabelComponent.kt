@@ -31,16 +31,9 @@ import io.github.orioncraftmc.orion.api.bridge.drawString
 import io.github.orioncraftmc.orion.api.gui.components.AbstractComponent
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
-class LabelComponent() : AbstractComponent() {
-	var text: String = ""
-
-	var color: Color = RGBInt(255, 255, 255)
+class LabelComponent(var text: String = "", var color: Color = RGBInt(255, 255, 255)) : AbstractComponent() {
 
 	var hasDropShadow: Boolean = true
-
-	constructor(text: String) : this() {
-		this.text = text
-	}
 
 	override var size: Size
 		get() = super.size.apply {

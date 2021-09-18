@@ -28,11 +28,12 @@ import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
-abstract class AbstractComponent : Component {
-
-	override var anchor: Anchor = Anchor.TOP_LEFT
-	override var position: Point = Point()
+abstract class AbstractComponent(
+	override var anchor: Anchor = Anchor.TOP_LEFT,
+	override var position: Point = Point(),
 	override var size: Size = Size()
+) : Component {
+
 	override var parent: Component? = null
 
 }

@@ -45,6 +45,7 @@ open class ComponentOrionScreen : OrionScreen(), Component {
 		componentsList.add(component)
 	}
 
+
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
 		componentsList.forEach {
 			matrix {
