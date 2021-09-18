@@ -25,9 +25,14 @@
 package io.github.orioncraftmc.orion.api.bridge
 
 import com.github.ajalt.colormath.Color
+import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
 
-fun TessellatorBridge.setColor(color: Color) {
+fun FontRendererBridge.drawString(value: String, x: Int, y: Int, color: Color, hasShadow: Boolean = false) {
+	drawString(value, x, y, color.toSRGB().toRGBInt().argb.toInt(), hasShadow)
+}
+
+ fun TessellatorBridge.setColor(color: Color) {
 	val rgb = color.toSRGB()
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
 }
@@ -38,7 +43,7 @@ inline fun matrix(code: () -> Unit) {
 	OpenGlBridge.popMatrix()
 }
 
-inline fun uiRendering(code: () -> Unit) {
+inline fun basicShapesRendering(code: () -> Unit) {
 	matrix {
 		OpenGlBridge.enableBlend()
 		OpenGlBridge.disableTexture2D()

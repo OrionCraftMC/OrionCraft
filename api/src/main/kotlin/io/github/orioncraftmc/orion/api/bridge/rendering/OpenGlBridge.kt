@@ -36,5 +36,7 @@ interface OpenGlBridge {
 	fun pushMatrix()
 	fun popMatrix()
 
+	fun translate(x: Double, y: Double, z: Double)
+
 	fun setLineWidth(width: Float)
 }

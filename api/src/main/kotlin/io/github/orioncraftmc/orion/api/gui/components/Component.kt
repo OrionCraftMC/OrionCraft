@@ -29,9 +29,13 @@ import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
 interface Component {
+	fun renderComponent(mouseX: Int, mouseY: Int)
+
 	var anchor: Anchor
 
 	var position: Point
 
 	var size: Size
+
+	var parent: Component?
 }

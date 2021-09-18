@@ -24,10 +24,13 @@
 
 package io.github.orioncraftmc.orion.api.bridge.minecraft
 
+import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
 import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
 
 interface MinecraftBridge {
 	val scaledResolution: ScaledResolutionBridge
+
+	val fontRenderer: FontRendererBridge
 
 	fun openScreen(screen: OrionScreen)
 

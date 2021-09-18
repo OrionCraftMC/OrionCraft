@@ -24,4 +24,4 @@
 
 package io.github.orioncraftmc.orion.api.gui.model
 
-data class Size(var width: Double, var height: Double)
+data class Size(var width: Double = 0.0, var height: Double = 0.0)

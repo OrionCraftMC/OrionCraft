@@ -22,18 +22,34 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.model
+package io.github.orioncraftmc.orion.api.gui.components.impl
 
-enum class Anchor {
-	TOP_LEFT,
-	TOP_MIDDLE,
-	TOP_RIGHT,
+import com.github.ajalt.colormath.Color
+import com.github.ajalt.colormath.model.RGBInt
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.drawString
+import io.github.orioncraftmc.orion.api.gui.components.AbstractComponent
+import io.github.orioncraftmc.orion.api.gui.model.Size
 
-	MIDDLE_LEFT,
-	MIDDLE,
-	MIDDLE_RIGHT,
+class LabelComponent() : AbstractComponent() {
+	var text: String = ""
 
-	BOTTOM_LEFT,
-	BOTTOM_MIDDLE,
-	BOTTOM_RIGHT
+	var color: Color = RGBInt(255, 255, 255)
+
+	var hasDropShadow: Boolean = true
+
+	constructor(text: String) : this() {
+		this.text = text
+	}
+
+	override var size: Size
+		get() = super.size.apply {
+			width = MinecraftBridge.fontRenderer.getStringWidth(text).toDouble()
+			height = MinecraftBridge.fontRenderer.fontHeight.toDouble()
+		}
+		set(value) {}
+
+	override fun renderComponent(mouseX: Int, mouseY: Int) {
+		MinecraftBridge.fontRenderer.drawString(text, 0, 0, color, hasDropShadow)
+	}
 }

@@ -24,9 +24,24 @@
 
 package io.github.orioncraftmc.orion.api.gui.screens.impl
 
-import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
+import io.github.orioncraftmc.orion.api.OrionCraft
+import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
+import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.screens.ComponentOrionScreen
 
-abstract class MainMenuScreen : OrionScreen() {
+abstract class MainMenuScreen : ComponentOrionScreen() {
+
+	override fun onResize() {
+		super.onResize()
+
+		addComponent(LabelComponent("OrionCraft ${OrionCraft.clientVersion}").apply {
+			anchor = Anchor.BOTTOM_LEFT
+		})
+
+		addComponent(LabelComponent("Copyright Mojang AB. Do not redistribute!").apply {
+			anchor = Anchor.BOTTOM_RIGHT
+		})
+	}
 
 	// Implementation is provided by version
 	abstract fun renderSkybox(mouseX: Int, mouseY: Int, renderPartialTicks: Float)
@@ -39,6 +54,8 @@ abstract class MainMenuScreen : OrionScreen() {
 
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
 		renderSkybox(mouseX, mouseY, renderPartialTicks)
+
+		super.drawScreen(mouseX, mouseY, renderPartialTicks)
 
 		//call to super.drawScreen to render vanilla buttons
 		superDrawScreen(mouseX, mouseY, renderPartialTicks)

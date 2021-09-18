@@ -22,18 +22,17 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.model
+package io.github.orioncraftmc.orion.api.gui.components
 
-enum class Anchor {
-	TOP_LEFT,
-	TOP_MIDDLE,
-	TOP_RIGHT,
+import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.model.Point
+import io.github.orioncraftmc.orion.api.gui.model.Size
 
-	MIDDLE_LEFT,
-	MIDDLE,
-	MIDDLE_RIGHT,
+abstract class AbstractComponent : Component {
 
-	BOTTOM_LEFT,
-	BOTTOM_MIDDLE,
-	BOTTOM_RIGHT
+	override var anchor: Anchor = Anchor.TOP_LEFT
+	override var position: Point = Point()
+	override var size: Size = Size()
+	override var parent: Component? = null
+
 }

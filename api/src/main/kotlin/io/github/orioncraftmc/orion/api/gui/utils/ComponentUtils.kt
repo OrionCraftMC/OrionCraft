@@ -22,18 +22,19 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.model
+package io.github.orioncraftmc.orion.api.gui.utils
 
-enum class Anchor {
-	TOP_LEFT,
-	TOP_MIDDLE,
-	TOP_RIGHT,
+import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
+import io.github.orioncraftmc.orion.api.gui.components.Component
 
-	MIDDLE_LEFT,
-	MIDDLE,
-	MIDDLE_RIGHT,
-
-	BOTTOM_LEFT,
-	BOTTOM_MIDDLE,
-	BOTTOM_RIGHT
+object ComponentUtils {
+	fun offsetCurrentMatrixForComponent(component: Component) {
+		var currentParent = component.parent
+		while (currentParent != null) {
+			val newPos =
+				AnchorUtils.computePosition(component.position, component.size, component.anchor, currentParent.size)
+			OpenGlBridge.translate(newPos.x, newPos.y, 0.0)
+			currentParent = currentParent.parent
+		}
+	}
 }

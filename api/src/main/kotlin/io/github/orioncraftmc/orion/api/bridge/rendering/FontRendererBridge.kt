@@ -22,18 +22,12 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.model
+package io.github.orioncraftmc.orion.api.bridge.rendering
 
-enum class Anchor {
-	TOP_LEFT,
-	TOP_MIDDLE,
-	TOP_RIGHT,
+interface FontRendererBridge {
+	val fontHeight: Int
 
-	MIDDLE_LEFT,
-	MIDDLE,
-	MIDDLE_RIGHT,
+	fun drawString(value: String, x: Int, y: Int, color: Int, hasShadow: Boolean = false)
 
-	BOTTOM_LEFT,
-	BOTTOM_MIDDLE,
-	BOTTOM_RIGHT
+	fun getStringWidth(value: String): Int
 }

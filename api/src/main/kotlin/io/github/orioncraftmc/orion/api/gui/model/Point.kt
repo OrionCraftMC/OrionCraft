@@ -24,7 +24,8 @@
 
 package io.github.orioncraftmc.orion.api.gui.model
 
-data class Point(var x: Double, var y: Double) {
+data class Point(var x: Double = 0.0, var y: Double = 0.0) {
+
 	operator fun plus(other: Point): Point {
 		return Point(x + other.x, y + other.y)
 	}

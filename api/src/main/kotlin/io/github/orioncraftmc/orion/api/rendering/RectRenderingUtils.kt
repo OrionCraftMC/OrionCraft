@@ -27,12 +27,12 @@ package io.github.orioncraftmc.orion.api.rendering
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
 import io.github.orioncraftmc.orion.api.bridge.setColor
-import io.github.orioncraftmc.orion.api.bridge.uiRendering
+import io.github.orioncraftmc.orion.api.bridge.basicShapesRendering
 
 object RectRenderingUtils {
 
 	fun drawHollowRectangle(x1: Double, y1: Double, x2: Double, y2: Double, color: Color) {
-		uiRendering {
+		basicShapesRendering {
 			val width = x2 - x1
 			val height = y2 - y1
 			TessellatorBridge.startDrawingLineLoop()
