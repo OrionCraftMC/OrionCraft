@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.api.gui.utils
 
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 import java.util.*
@@ -39,13 +40,36 @@ object AnchorUtils {
 	private val middleXAnchorSet = EnumSet.of(Anchor.TOP_MIDDLE, Anchor.MIDDLE, Anchor.BOTTOM_MIDDLE)
 	private val rightXAnchorSet = EnumSet.of(Anchor.TOP_RIGHT, Anchor.MIDDLE_RIGHT, Anchor.BOTTOM_RIGHT)
 
-	fun computePosition(position: Point, size: Size, anchor: Anchor, containerSize: Size = Size(0.0, 0.0)): Point {
+	fun computePosition(
+		position: Point,
+		size: Size,
+		anchor: Anchor,
+		containerSize: Size = Size(0.0, 0.0),
+		padding: Padding = Padding(0.0),
+		parentPadding: Padding = Padding(0.0)
+	): Point {
 
 		val (isXLeft, isXMiddle, isXRight) = extractXInformationFromAnchor(anchor)
 		val (isYTop, isYMiddle, isYBottom) = extractYInformationFromAnchor(anchor)
 
-		val x = handleAnchoringOnPointInsideContainer(isXLeft, isXMiddle, isXRight, position.x, size.width, containerSize.width)
-		val y = handleAnchoringOnPointInsideContainer(isYTop, isYMiddle, isYBottom, position.y, size.height, containerSize.height)
+		val x = handleAnchoringOnPointInsideContainer(
+			isXLeft,
+			isXMiddle,
+			isXRight,
+			position.x,
+			size.width,
+			containerSize.width,
+			if (isXLeft) padding.left + parentPadding.left else if (isXRight) padding.right + parentPadding.right else 0.0
+		)
+		val y = handleAnchoringOnPointInsideContainer(
+			isYTop,
+			isYMiddle,
+			isYBottom,
+			position.y,
+			size.height,
+			containerSize.height,
+			if (isYTop) padding.top + parentPadding.top else if (isYBottom) padding.bottom + parentPadding.bottom else 0.0
+		)
 
 		return Point(x, y)
 	}
@@ -70,16 +94,17 @@ object AnchorUtils {
 		isExtraSize: Boolean,
 		originalItemPoint: Double,
 		originalItemSize: Double,
-		originalContainerSize: Double = 0.0
+		originalContainerSize: Double = 0.0,
+		padding: Double
 	) = when {
 		isOriginalPos -> {
-			originalItemPoint
+			originalItemPoint + padding
 		}
 		isMiddle -> {
-			(originalContainerSize / 2) - (originalItemPoint / 2) - (originalItemSize / 2)
+			(originalContainerSize / 2) - (originalItemPoint / 2) - (originalItemSize / 2) - (padding / 2)
 		}
 		isExtraSize -> {
-			originalContainerSize - originalItemPoint - originalItemSize
+			originalContainerSize - originalItemPoint - originalItemSize - padding
 		}
 		else -> throw NotImplementedError()
 	}

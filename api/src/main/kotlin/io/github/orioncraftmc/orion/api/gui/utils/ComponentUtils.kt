@@ -32,7 +32,15 @@ object ComponentUtils {
 		var currentParent = component.parent
 		while (currentParent != null) {
 			val newPos =
-				AnchorUtils.computePosition(component.position, component.size, component.anchor, currentParent.size)
+				AnchorUtils.computePosition(
+					component.position,
+					component.size,
+					component.anchor,
+					currentParent.size,
+					component.padding,
+					currentParent.padding
+				)
+
 			OpenGlBridge.translate(newPos.x, newPos.y, 0.0)
 			currentParent = currentParent.parent
 		}

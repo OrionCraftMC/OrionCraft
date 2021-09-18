@@ -22,20 +22,21 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components
+package io.github.orioncraftmc.orion.api.gui.model
 
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
+data class Padding(
+	var left: Double,
+	var top: Double,
+	var right: Double,
+	var bottom: Double
+) {
+	constructor(all: Double) : this(all, all, all, all)
 
-abstract class AbstractComponent(
-	override var anchor: Anchor = Anchor.TOP_LEFT,
-	override var position: Point = Point(),
-	override var size: Size = Size(),
-	override var padding: Padding = Padding(0.0)
-) : Component {
+	operator fun plus(other: Padding): Padding {
+		return Padding(left + other.left, top + other.top, right + other.right, bottom + other.bottom)
+	}
 
-	override var parent: Component? = null
-
+	operator fun minus(other: Padding): Padding {
+		return Padding(left - other.left, top - other.top, right - other.right, bottom - other.bottom)
+	}
 }

@@ -28,6 +28,7 @@ import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.api.gui.utils.ComponentUtils
@@ -35,10 +36,9 @@ import java.util.*
 
 open class ComponentOrionScreen : OrionScreen(), Component {
 
-	//Components
 	val components: List<Component> by lazy { Collections.unmodifiableList(componentsList) }
-
 	private val componentsList = mutableListOf<Component>()
+	private val zeroPosition = Point()
 
 	fun addComponent(component: Component) {
 		component.parent = this
@@ -77,7 +77,8 @@ open class ComponentOrionScreen : OrionScreen(), Component {
 		get() = Anchor.TOP_LEFT
 		set(value) {}
 
-	private val zeroPosition = Point()
+	final override var padding: Padding = Padding(0.0)
+
 	override var position: Point
 		get() {
 			return zeroPosition
@@ -86,7 +87,7 @@ open class ComponentOrionScreen : OrionScreen(), Component {
 
 	override var size: Size = Size()
 
-	// We are at the top of the parent tree
+	// We are at the root of the parent tree
 	override var parent: Component?
 		get() = null
 		set(value) {}

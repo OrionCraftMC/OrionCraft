@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.api.gui.components
 
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
@@ -32,6 +33,8 @@ interface Component {
 	fun renderComponent(mouseX: Int, mouseY: Int)
 
 	var anchor: Anchor
+
+	var padding: Padding
 
 	var position: Point
 
