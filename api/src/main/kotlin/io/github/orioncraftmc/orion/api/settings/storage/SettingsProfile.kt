@@ -22,23 +22,16 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api
+package io.github.orioncraftmc.orion.api.settings.storage
 
-object OrionCraftConstants {
+import com.fasterxml.jackson.databind.JsonNode
 
-	val isDevEnvironment
-		get() = System.getProperty("lightcraft.launch.dev") != null
+data class SettingsFile(
+	var currentProfileName: String,
+	val profiles: MutableMap<String, SettingsProfile>
+)
 
-	val clientTitle: String
-		get() = "OrionCraft (${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"})"
-
-	val clientBrand: String
-		get() = "orioncraft"
-
-	const val ORION_RESOURCE_LOCATION_NS = "orion"
-
-	const val MINECRAFT_RESOURCE_LOCATION_NS = "minecraft"
-
-	const val DEFAULT_PROFILE_NAME = "Default"
-
-}
+data class SettingsProfile(
+	val name: String,
+    val modSettings: MutableMap<String, MutableMap<String, JsonNode>>
+)

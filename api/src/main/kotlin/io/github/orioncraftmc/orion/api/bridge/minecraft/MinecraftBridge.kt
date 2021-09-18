@@ -26,6 +26,7 @@ package io.github.orioncraftmc.orion.api.bridge.minecraft
 
 import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
 import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
+import java.io.File
 
 interface MinecraftBridge {
 	val scaledResolution: ScaledResolutionBridge
@@ -39,4 +40,6 @@ interface MinecraftBridge {
 	val gameWidth: Int
 
 	val gameHeight: Int
+
+	val gameAppDirectory: File
 }

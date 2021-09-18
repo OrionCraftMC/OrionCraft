@@ -22,23 +22,8 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api
+package io.github.orioncraftmc.orion.api.mods
 
-object OrionCraftConstants {
-
-	val isDevEnvironment
-		get() = System.getProperty("lightcraft.launch.dev") != null
-
-	val clientTitle: String
-		get() = "OrionCraft (${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"})"
-
-	val clientBrand: String
-		get() = "orioncraft"
-
-	const val ORION_RESOURCE_LOCATION_NS = "orion"
-
-	const val MINECRAFT_RESOURCE_LOCATION_NS = "minecraft"
-
-	const val DEFAULT_PROFILE_NAME = "Default"
+abstract class OrionMod(val id: String, val name: String, val category: ModCategory) {
 
 }

@@ -24,9 +24,11 @@
 
 package io.github.orioncraftmc.orion.api
 
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.impl.FallbackOrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
+import io.github.orioncraftmc.orion.api.settings.SettingsProvider
 import kotlin.system.measureTimeMillis
 
 object OrionCraft {
@@ -36,6 +38,8 @@ object OrionCraft {
 
 	var bridges: OrionCraftBridgeProvider = FallbackOrionCraftBridgeProvider
 		private set
+
+	lateinit var settingsProvider: SettingsProvider
 
 	fun startGameEntrypoint(version: ClientVersion) {
 		logger.info("Initializing OrionCraft on Minecraft $version")
@@ -50,7 +54,16 @@ object OrionCraft {
 	}
 
 	private fun doInit() {
+		initializeSettings()
 		initializeMods()
+	}
+
+	private fun initializeSettings() {
+		logger.info("Initializing OrionCraft settings")
+		settingsProvider = SettingsProvider(MinecraftBridge.gameAppDirectory)
+
+		val time = measureTimeMillis { settingsProvider.load() }
+		logger.info("Initialized and loaded OrionCraft settings in $time ms")
 	}
 
 	private val modEntrypoints = arrayOf("io.github.orioncraftmc.orion.mods.ModsEntrypoint")

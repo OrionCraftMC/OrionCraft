@@ -15,4 +15,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
     api("com.github.ajalt.colormath:colormath:3.0.0")
+
+    // Json I/O
+    api("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.+")
 }
