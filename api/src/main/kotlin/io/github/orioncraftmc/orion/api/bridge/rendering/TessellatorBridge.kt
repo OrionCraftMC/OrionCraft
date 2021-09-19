@@ -25,19 +25,11 @@
 package io.github.orioncraftmc.orion.api.bridge.rendering
 
 interface TessellatorBridge {
-
-	fun startDrawingLineStrip()
-
-	fun startDrawingLineLoop()
-
-	fun startDrawingTriangleFan()
-
-	fun startDrawingQuads()
+	fun start(mode: DrawMode)
 
 	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
 
 	fun addVertex(x: Double, y: Double, z: Double)
 
 	fun draw()
-
 }

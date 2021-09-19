@@ -27,6 +27,7 @@ package io.github.orioncraftmc.orion.api.rendering
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
 import io.github.orioncraftmc.orion.api.bridge.setColor
 import kotlin.math.cos
 import kotlin.math.sin
@@ -59,7 +60,7 @@ object RenderingUtils {
 		var y = 0.0
 
 		val tessellator = TessellatorBridge
-		tessellator.startDrawingLineLoop()
+		tessellator.start(DrawMode.LINE_LOOP)
 		tessellator.setColor(color)
 		OpenGlBridge.setLineWidth(width)
 
@@ -104,10 +105,10 @@ object RenderingUtils {
 
 		if (filled) {
 			// If we want a filled arc, we can use Triangle Fan to draw it
-			tessellator.startDrawingTriangleFan()
+			tessellator.start(DrawMode.TRIANGLE_FAN)
 		} else {
 			// Otherwise, draw a line loop
-			tessellator.startDrawingLineLoop()
+			tessellator.start(DrawMode.LINE_LOOP)
 		}
 
 		tessellator.setColor(color)

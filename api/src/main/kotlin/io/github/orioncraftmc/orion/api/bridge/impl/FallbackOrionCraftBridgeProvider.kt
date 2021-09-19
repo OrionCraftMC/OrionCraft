@@ -29,6 +29,7 @@ import io.github.orioncraftmc.orion.api.bridge.minecraft.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationUtils
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
+import io.github.orioncraftmc.orion.api.logging.Logger
 
 internal object FallbackOrionCraftBridgeProvider : OrionCraftBridgeProvider {
 	override val minecraftBridge: MinecraftBridge
@@ -41,6 +42,9 @@ internal object FallbackOrionCraftBridgeProvider : OrionCraftBridgeProvider {
 		get() = bridgeNotImplemented()
 
 	override val resourceLocationUtils: ResourceLocationUtils
+		get() = bridgeNotImplemented()
+
+	override val logger: Logger
 		get() = bridgeNotImplemented()
 
 	private fun bridgeNotImplemented(): Nothing {

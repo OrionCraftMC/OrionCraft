@@ -27,6 +27,7 @@ package io.github.orioncraftmc.orion.api.rendering
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
 import io.github.orioncraftmc.orion.api.bridge.basicShapesRendering
+import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
 import io.github.orioncraftmc.orion.api.bridge.setColor
 
 object RectRenderingUtils {
@@ -35,10 +36,10 @@ object RectRenderingUtils {
 		val tessellator = TessellatorBridge
 		basicShapesRendering {
 			if (isHollow) {
-				tessellator.startDrawingLineLoop()
+				tessellator.start(DrawMode.LINE_LOOP)
 				tessellator.setColor(color)
 			} else {
-				tessellator.startDrawingQuads()
+				tessellator.start(DrawMode.QUADS)
 				tessellator.setColor(color)
 			}
 
