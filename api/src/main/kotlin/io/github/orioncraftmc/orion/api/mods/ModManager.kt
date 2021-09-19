@@ -22,22 +22,20 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api
+package io.github.orioncraftmc.orion.api.mods
 
-import io.github.orioncraftmc.orion.api.event.Event
-import io.github.orioncraftmc.orion.api.event.EventHandler
-import io.github.orioncraftmc.orion.api.event.impl.EventBus
-import io.github.orioncraftmc.orion.api.logging.FallbackLogger
-import io.github.orioncraftmc.orion.api.logging.Logger
-import io.github.orioncraftmc.orion.api.mods.OrionMod
+import java.util.*
 
-inline fun <reified T : Event> OrionMod.on(crossinline handler: (T) -> Unit) {
-	EventBus.registerHandler(EventHandler<T> {
-		if (this.isEnabled) {
-			handler.invoke(it)
+class ModManager {
+
+	private val modsList = mutableMapOf<String, OrionMod>()
+	val mods by lazy { Collections.unmodifiableMap(modsList) }
+
+	fun registerMod(mod: OrionMod) {
+		modsList[mod.id] = mod
+		if (mod.isEnabled) {
+			mod.onEnabled()
 		}
-	})
-}
+	}
 
-val logger: Logger
-	get() = FallbackLogger
+}

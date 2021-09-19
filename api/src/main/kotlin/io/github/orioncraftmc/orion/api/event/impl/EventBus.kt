@@ -26,7 +26,7 @@
 
 package io.github.orioncraftmc.orion.api.event.impl
 
-import com.google.common.collect.HashMultimap
+import com.google.common.collect.LinkedHashMultimap
 import com.google.common.collect.Multimap
 import io.github.orioncraftmc.orion.api.event.CancellableEvent
 import io.github.orioncraftmc.orion.api.event.Event
@@ -37,7 +37,7 @@ import io.github.orioncraftmc.orion.api.event.EventHandler
  */
 object EventBus {
 	@PublishedApi
-	internal val eventHandlers: Multimap<Class<out Event>, EventHandler<out Event>> = HashMultimap.create()
+	internal val eventHandlers: Multimap<Class<out Event>, EventHandler<out Event>> = LinkedHashMultimap.create()
 
 	fun <T : Event> registerHandler(clazz: Class<T>, handler: EventHandler<T>) {
 		eventHandlers[clazz].add(handler)

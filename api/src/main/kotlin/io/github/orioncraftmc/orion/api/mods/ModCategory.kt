@@ -25,5 +25,6 @@
 package io.github.orioncraftmc.orion.api.mods
 
 enum class ModCategory {
-	NEW
+	NEW,
+	STAFF
 }

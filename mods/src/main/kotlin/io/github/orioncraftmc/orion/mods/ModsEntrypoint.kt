@@ -28,5 +28,7 @@ import io.github.orioncraftmc.orion.api.OrionCraftModsEntrypoint
 
 object ModsEntrypoint : OrionCraftModsEntrypoint {
 	override fun initializeMods() {
+
 	}
+
 }
