@@ -26,53 +26,62 @@ package io.github.orioncraftmc.orion.api.mods.settings
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import io.github.orioncraftmc.orion.api.OrionCraftConstants
-import io.github.orioncraftmc.orion.api.mods.settings.storage.SettingsFile
-import io.github.orioncraftmc.orion.api.mods.settings.storage.SettingsProfile
+import io.github.orioncraftmc.orion.api.mods.settings.storage.GlobalSettings
 import java.io.File
 
 class SettingsProvider(runDirectory: File) {
 
 	val mapper = jacksonObjectMapper()
-	private val settingsFile = File(runDirectory, ".orioncraft${File.separatorChar}settings.json")
 
-	var currentSettingsFile: SettingsFile =
-		SettingsFile(
-			OrionCraftConstants.DEFAULT_PROFILE_NAME,
-			mutableMapOf(OrionCraftConstants.DEFAULT_PROFILE_NAME to computeDefaultProfile())
-		)
-		set(value) {
-			field = value
-			saveSettings()
-		}
+	private var globalSettings: GlobalSettings = GlobalSettings()
+	lateinit var currentProfile: RawSettingsProfile
 
-	private var currentSettingsProfileName: String
-		get() = currentSettingsFile.currentProfileName
-		set(value) {
-			currentSettingsFile.currentProfileName = value
-			saveSettings()
-		}
+	private val settingsProfilesFolder =
+		File(runDirectory, ".orioncraft${File.separatorChar}profiles").also { it.mkdirs() }
+	private val globalSettingsFile = File(runDirectory, ".orioncraft${File.separatorChar}settings.json")
 
-	var currentSettingsProfile: SettingsProfile
-		get() = currentSettingsFile.profiles[currentSettingsProfileName] ?: computeDefaultProfile()
-		set(value) {
-			currentSettingsFile.currentProfileName = value.name
-		}
+	private fun computeDefaultProfile() = mutableMapOf<String, RawSettingsProfileData>()
+	private fun getProfileFile(name: String): File = File(settingsProfilesFolder, "$name.json")
 
+	private fun createEmptyProfileIfNeeded() {
+		val name = globalSettings.currentProfile
+		val profileFile = getProfileFile(name)
 
-	private fun computeDefaultProfile() = SettingsProfile(OrionCraftConstants.DEFAULT_PROFILE_NAME, mutableMapOf())
-
-	fun load() {
-		if (!settingsFile.exists()) {
-			saveSettings()
-		} else {
-			currentSettingsFile = mapper.readValue(settingsFile)
+		if (!profileFile.exists()) {
+			mapper.writeValue(profileFile, computeDefaultProfile())
 		}
 	}
 
-	fun saveSettings() {
-		settingsFile.parentFile.mkdirs()
-		mapper.writeValue(settingsFile, currentSettingsFile)
+	fun load() {
+		loadGlobalSettings()
+		createEmptyProfileIfNeeded()
+		loadCurrentProfile()
+	}
+
+	private fun loadCurrentProfile() {
+		currentProfile = mapper.readValue(getProfileFile(globalSettings.currentProfile))
+	}
+
+	fun save() {
+		writeGlobalSettings()
+		writeCurrentProfile()
+	}
+
+	private fun writeCurrentProfile() {
+		mapper.writeValue(getProfileFile(globalSettings.currentProfile), currentProfile)
+	}
+
+	private fun loadGlobalSettings() {
+		if (globalSettingsFile.exists()) {
+			globalSettings = mapper.readValue(globalSettingsFile)
+		} else {
+			// Save default global settings
+			writeGlobalSettings()
+		}
+	}
+
+	private fun writeGlobalSettings() {
+		mapper.writeValue(globalSettingsFile, globalSettings)
 	}
 
 }

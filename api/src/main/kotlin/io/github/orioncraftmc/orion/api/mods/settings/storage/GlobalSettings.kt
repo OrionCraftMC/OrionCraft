@@ -24,9 +24,8 @@
 
 package io.github.orioncraftmc.orion.api.mods.settings.storage
 
-import com.fasterxml.jackson.databind.JsonNode
+import io.github.orioncraftmc.orion.api.OrionCraftConstants
 
-data class SettingsProfile(
-	val name: String,
-    val modSettings: MutableMap<String, MutableMap<String, JsonNode>>
+data class GlobalSettings(
+	var currentProfile: String = OrionCraftConstants.DEFAULT_PROFILE_NAME
 )

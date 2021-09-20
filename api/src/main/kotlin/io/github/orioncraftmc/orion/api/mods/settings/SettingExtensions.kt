@@ -24,6 +24,11 @@
 
 package io.github.orioncraftmc.orion.api.mods.settings
 
+import com.fasterxml.jackson.databind.JsonNode
+
+typealias RawSettingsProfileData = MutableMap<String, JsonNode>
+typealias RawSettingsProfile = MutableMap<String, RawSettingsProfileData>
+
 infix fun <T> AbstractModSetting<T>.update(updateNotification: (T) -> Unit): AbstractModSetting<T> {
 	addModificationNotification(updateNotification)
 	return this

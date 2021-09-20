@@ -61,12 +61,12 @@ abstract class AbstractModSetting<T>(val default: T) {
 
 		rawModSettings[name] = mapper.valueToTree(value)
 
-		OrionCraft.settingsProvider.saveSettings()
+		OrionCraft.settingsProvider.save()
 		modificationNotificationList.forEach { it.invoke(value) }
 	}
 
 	fun getRawModSettings(mod: OrionMod) =
-		OrionCraft.settingsProvider.currentSettingsProfile.modSettings.getOrPut(mod.id) { mutableMapOf() }
+		OrionCraft.settingsProvider.currentProfile.getOrPut(mod.id) { mutableMapOf() }
 
 	inline fun <reified U> getModSettingValue(mod: OrionMod, name: String): U? {
 		return getRawModSettings(mod)[name]?.let { mapper.treeToValue<U>(it) }

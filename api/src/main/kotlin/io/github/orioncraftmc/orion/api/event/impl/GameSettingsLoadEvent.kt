@@ -22,9 +22,8 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mods.settings.storage
+package io.github.orioncraftmc.orion.api.event.impl
 
-data class SettingsFile(
-	var currentProfileName: String,
-	val profiles: MutableMap<String, SettingsProfile>
-)
+import io.github.orioncraftmc.orion.api.event.Event
+
+class GameSettingsLoadEvent : Event
