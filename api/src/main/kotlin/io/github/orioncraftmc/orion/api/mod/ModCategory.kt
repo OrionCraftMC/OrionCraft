@@ -22,19 +22,9 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mods
+package io.github.orioncraftmc.orion.api.mod
 
-import io.github.orioncraftmc.orion.api.mods.settings.AbstractModSetting
-import io.github.orioncraftmc.orion.api.mods.settings.ModSettingsBuilder
-import io.github.orioncraftmc.orion.api.mods.settings.update
-
-abstract class OrionMod(val id: String, val name: String, val category: ModCategory) {
-	val settings = mutableListOf<AbstractModSetting<*>>()
-
-	open var isEnabled: Boolean by setting().boolean(false) update { if (it) onEnable() else onDisable() }
-
-	open fun onEnable() {}
-	open fun onDisable() {}
-
-	protected fun setting() = ModSettingsBuilder
+enum class ModCategory {
+	NEW,
+	STAFF
 }

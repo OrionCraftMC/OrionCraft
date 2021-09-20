@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mods.settings
+package io.github.orioncraftmc.orion.api.mod.settings
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import io.github.orioncraftmc.orion.api.mods.settings.storage.GlobalSettings
+import io.github.orioncraftmc.orion.api.mod.settings.storage.GlobalSettings
 import java.io.File
 
 class SettingsProvider(runDirectory: File) {

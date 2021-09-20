@@ -28,7 +28,7 @@ import io.github.orioncraftmc.orion.api.event.Event
 import io.github.orioncraftmc.orion.api.event.EventBus
 import io.github.orioncraftmc.orion.api.event.EventHandler
 import io.github.orioncraftmc.orion.api.logging.Logger
-import io.github.orioncraftmc.orion.api.mods.OrionMod
+import io.github.orioncraftmc.orion.api.mod.OrionMod
 
 inline fun <reified T : Event> onEvent(noinline handler: (T) -> Unit) {
 	EventBus.registerHandler(handler)

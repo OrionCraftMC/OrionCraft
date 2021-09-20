@@ -22,9 +22,20 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mods
+package io.github.orioncraftmc.orion.api.mod
 
-enum class ModCategory {
-	NEW,
-	STAFF
+import java.util.*
+
+class ModManager {
+
+	private val modsList = mutableMapOf<String, OrionMod>()
+	val mods by lazy { Collections.unmodifiableMap(modsList) }
+
+	fun registerMod(mod: OrionMod) {
+		modsList[mod.id] = mod
+		if (mod.isEnabled) {
+			mod.onEnable()
+		}
+	}
+
 }

@@ -22,12 +22,9 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mods.settings
+package io.github.orioncraftmc.orion.api.mod.settings.impl
 
-import io.github.orioncraftmc.orion.api.mods.settings.impl.BooleanSetting
+import io.github.orioncraftmc.orion.api.mod.settings.AbstractModSetting
 
-object ModSettingsBuilder {
-	fun boolean(default: Boolean): BooleanSetting {
-		return BooleanSetting(default)
-	}
+class BooleanSetting(default: Boolean) : AbstractModSetting<Boolean>(default) {
 }

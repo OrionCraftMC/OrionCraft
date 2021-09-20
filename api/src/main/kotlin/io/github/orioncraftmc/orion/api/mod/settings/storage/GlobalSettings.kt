@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mods.settings.storage
+package io.github.orioncraftmc.orion.api.mod.settings.storage
 
 import io.github.orioncraftmc.orion.api.OrionCraftConstants
 

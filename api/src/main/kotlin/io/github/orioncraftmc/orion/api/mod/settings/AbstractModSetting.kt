@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mods.settings
+package io.github.orioncraftmc.orion.api.mod.settings
 
 import com.fasterxml.jackson.module.kotlin.treeToValue
 import io.github.orioncraftmc.orion.api.OrionCraft
-import io.github.orioncraftmc.orion.api.mods.OrionMod
+import io.github.orioncraftmc.orion.api.mod.OrionMod
 import kotlin.reflect.KProperty
 
 abstract class AbstractModSetting<T>(val default: T) {

@@ -26,8 +26,8 @@ package io.github.orioncraftmc.orion.mods.fullbright
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.event.impl.GameSettingsLoadEvent
-import io.github.orioncraftmc.orion.api.mods.ModCategory
-import io.github.orioncraftmc.orion.api.mods.OrionMod
+import io.github.orioncraftmc.orion.api.mod.ModCategory
+import io.github.orioncraftmc.orion.api.mod.OrionMod
 import io.github.orioncraftmc.orion.api.on
 
 object FullBrightMod : OrionMod("fullbright", "FullBright", ModCategory.NEW) {

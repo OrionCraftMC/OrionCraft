@@ -22,14 +22,12 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mods.settings
+package io.github.orioncraftmc.orion.api.mod.settings
 
-import com.fasterxml.jackson.databind.JsonNode
+import io.github.orioncraftmc.orion.api.mod.settings.impl.BooleanSetting
 
-typealias RawSettingsProfileData = MutableMap<String, JsonNode>
-typealias RawSettingsProfile = MutableMap<String, RawSettingsProfileData>
-
-infix fun <T> AbstractModSetting<T>.update(updateNotification: (T) -> Unit): AbstractModSetting<T> {
-	addModificationNotification(updateNotification)
-	return this
+object ModSettingsBuilder {
+	fun boolean(default: Boolean): BooleanSetting {
+		return BooleanSetting(default)
+	}
 }
