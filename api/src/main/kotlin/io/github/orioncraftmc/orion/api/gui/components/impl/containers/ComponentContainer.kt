@@ -32,7 +32,7 @@ import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
-import io.github.orioncraftmc.orion.api.gui.utils.ComponentUtils
+import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 import java.util.*
 
 open class ComponentContainer : OrionScreen(), Component {

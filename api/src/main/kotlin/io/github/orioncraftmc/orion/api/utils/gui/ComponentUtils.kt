@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.utils
+package io.github.orioncraftmc.orion.api.utils.gui
 
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.rendering.RectRenderingUtils
+import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
 object ComponentUtils {
 	fun offsetCurrentMatrixForComponent(component: Component) {
