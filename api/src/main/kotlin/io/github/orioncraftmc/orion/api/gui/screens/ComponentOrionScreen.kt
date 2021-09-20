@@ -46,6 +46,10 @@ open class ComponentOrionScreen : ComponentContainer() {
 		get() = zeroPoint
 		set(value) {}
 
+	override var scale: Double
+		get() = 1.0
+		set(value) {}
+
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
 		super.drawScreen(mouseX, mouseY, renderPartialTicks)
 		renderComponent(mouseX, mouseY)

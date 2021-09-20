@@ -40,6 +40,8 @@ interface Component {
 	var position: Point
 
 	var size: Size
+	
+	var scale: Double
 
 	val paddedSize: Size
 		get() = size + padding

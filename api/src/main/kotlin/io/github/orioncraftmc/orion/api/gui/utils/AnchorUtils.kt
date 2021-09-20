@@ -46,7 +46,8 @@ object AnchorUtils {
 		anchor: Anchor,
 		containerSize: Size = Size(0.0, 0.0),
 		padding: Padding = Padding(0.0),
-		parentPadding: Padding = Padding(0.0)
+		parentPadding: Padding = Padding(0.0),
+		scale: Double = 1.0
 	): Point {
 
 		val (isXLeft, isXMiddle, isXRight) = extractXInformationFromAnchor(anchor)
@@ -57,18 +58,18 @@ object AnchorUtils {
 			isXMiddle,
 			isXRight,
 			position.x,
-			size.width,
+			size.width * scale,
 			containerSize.width,
-			if (isXLeft) padding.left + parentPadding.left else if (isXRight) padding.right + parentPadding.right else 0.0
+			if (isXLeft) (padding.left * scale) + parentPadding.left else if (isXRight) (padding.right * scale) + parentPadding.right else 0.0
 		)
 		val y = handleAnchoringOnPointInsideContainer(
 			isYTop,
 			isYMiddle,
 			isYBottom,
 			position.y,
-			size.height,
+			size.height * scale,
 			containerSize.height,
-			if (isYTop) padding.top + parentPadding.top else if (isYBottom) padding.bottom + parentPadding.bottom else 0.0
+			if (isYTop) (padding.top * scale) + parentPadding.top else if (isYBottom) (padding.bottom * scale) + parentPadding.bottom else 0.0
 		)
 
 		return Point(x, y)

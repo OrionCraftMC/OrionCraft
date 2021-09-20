@@ -39,7 +39,8 @@ object ComponentUtils {
 					component.anchor,
 					currentParent.size,
 					component.padding,
-					currentParent.padding
+					currentParent.padding,
+					component.scale
 				)
 
 			OpenGlBridge.translate(newPos.x, newPos.y, 0.0)
@@ -59,5 +60,9 @@ object ComponentUtils {
 			backgroundColor,
 			false
 		)
+	}
+
+	fun scaleComponent(component: Component) {
+		OpenGlBridge.scale(component.scale, component.scale, 1.0)
 	}
 }

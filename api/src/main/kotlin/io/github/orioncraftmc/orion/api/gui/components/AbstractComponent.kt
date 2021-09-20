@@ -35,7 +35,8 @@ abstract class AbstractComponent(
 	override var position: Point = Point(),
 	override var size: Size = Size(),
 	override var padding: Padding = Padding(0.0),
-	override var backgroundColor: Color? = null
+	override var backgroundColor: Color? = null,
+	override var scale: Double = 1.0
 ) : Component {
 	override var parent: Component? = null
 

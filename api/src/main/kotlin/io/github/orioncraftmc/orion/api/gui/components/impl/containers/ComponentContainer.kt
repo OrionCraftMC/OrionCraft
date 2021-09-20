@@ -45,6 +45,7 @@ open class ComponentContainer : OrionScreen(), Component {
 	override var size: Size = Size()
 	override var parent: Component? = null
 	override var backgroundColor: Color? = null
+	override var scale: Double = 1.0
 
 	fun addComponent(component: Component) {
 		component.parent = this
@@ -63,5 +64,6 @@ open class ComponentContainer : OrionScreen(), Component {
 
 	open fun performComponentLayout(component: Component) {
 		ComponentUtils.offsetCurrentMatrixForComponent(component)
+		ComponentUtils.scaleComponent(component)
 	}
 }
