@@ -26,6 +26,7 @@ package io.github.orioncraftmc.orion.api.gui.screens.impl
 
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.screens.ComponentOrionScreen
@@ -41,6 +42,18 @@ abstract class MainMenuScreen : ComponentOrionScreen() {
 
 		addComponent(LabelComponent("OrionCraft ${OrionCraft.clientVersion}").apply {
 			anchor = Anchor.BOTTOM_LEFT
+		})
+
+		addComponent(ComponentContainer().apply {
+			size.apply {
+				width = this@MainMenuScreen.size.width
+				height = this@MainMenuScreen.size.height / 4 + 48
+			}
+			addComponent(LabelComponent("OrionCraft").apply {
+				anchor = Anchor.BOTTOM_MIDDLE
+				padding = Padding(0.0,0.0,0.0, 10.0)
+				scale = 3.5
+			})
 		})
 
 		addComponent(LabelComponent("Copyright Mojang AB. Do not distribute!").apply {
