@@ -25,9 +25,8 @@
 package io.github.orioncraftmc.orion.api
 
 import io.github.orioncraftmc.orion.api.event.Event
-import io.github.orioncraftmc.orion.api.event.EventHandler
 import io.github.orioncraftmc.orion.api.event.EventBus
-import io.github.orioncraftmc.orion.api.logging.FallbackLogger
+import io.github.orioncraftmc.orion.api.event.EventHandler
 import io.github.orioncraftmc.orion.api.logging.Logger
 import io.github.orioncraftmc.orion.api.mods.OrionMod
 
@@ -45,4 +44,4 @@ inline fun <reified T : Event> OrionMod.on(crossinline handler: (T) -> Unit) {
 }
 
 val logger: Logger
-	get() = FallbackLogger
+	get() = OrionCraft.bridges.logger
