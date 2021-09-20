@@ -22,54 +22,9 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.events
+package io.github.orioncraftmc.orion.api.mods.settings.storage
 
-import io.github.orioncraftmc.orion.api.event.EventBus
-import kotlin.test.AfterTest
-import kotlin.test.Test
-import kotlin.test.assertTrue
-import kotlin.test.fail
-
-class EventTests {
-	@AfterTest
-	fun cleanupEvents() {
-		EventBus.removeAllHandlers<TestEvent>()
-		EventBus.removeAllHandlers<CancellableTestEvent>()
-	}
-
-	@Test
-	fun `Can register Event Handler`() {
-		EventBus.registerHandler<TestEvent> {
-			fail("Event handler should not be invoked when no event gets")
-		}
-	}
-
-	@Test
-	fun `Event gets invoked`() {
-		var eventGotInvoked = false
-		EventBus.registerHandler<TestEvent> {
-			eventGotInvoked = true
-		}
-		EventBus.callEvent(TestEvent())
-
-		assertTrue(eventGotInvoked)
-	}
-
-	@Test
-	fun `Cancelled Events do not get propagated after being cancelled`() {
-
-		EventBus.registerHandler<CancellableTestEvent> {
-			it.cancelled = true
-		}
-
-		EventBus.registerHandler<CancellableTestEvent> {
-			fail("Second Event Handler got invoked")
-		}
-
-		val event = CancellableTestEvent()
-		EventBus.callEvent(event)
-
-		assertTrue(event.cancelled)
-	}
-
-}
+data class SettingsFile(
+	var currentProfileName: String,
+	val profiles: MutableMap<String, SettingsProfile>
+)

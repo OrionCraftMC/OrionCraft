@@ -29,7 +29,7 @@ import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.impl.FallbackOrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.mods.ModManager
-import io.github.orioncraftmc.orion.api.settings.SettingsProvider
+import io.github.orioncraftmc.orion.api.mods.settings.SettingsProvider
 import kotlin.system.measureTimeMillis
 
 object OrionCraft {

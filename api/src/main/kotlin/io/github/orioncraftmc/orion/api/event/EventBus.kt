@@ -24,13 +24,10 @@
 
 @file:Suppress("UnstableApiUsage", "UNCHECKED_CAST")
 
-package io.github.orioncraftmc.orion.api.event.impl
+package io.github.orioncraftmc.orion.api.event
 
 import com.google.common.collect.LinkedHashMultimap
 import com.google.common.collect.Multimap
-import io.github.orioncraftmc.orion.api.event.CancellableEvent
-import io.github.orioncraftmc.orion.api.event.Event
-import io.github.orioncraftmc.orion.api.event.EventHandler
 
 /**
  * An EventBus that allows to register and invoke event notifications

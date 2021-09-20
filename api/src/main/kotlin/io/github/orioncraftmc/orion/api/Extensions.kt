@@ -26,11 +26,16 @@ package io.github.orioncraftmc.orion.api
 
 import io.github.orioncraftmc.orion.api.event.Event
 import io.github.orioncraftmc.orion.api.event.EventHandler
-import io.github.orioncraftmc.orion.api.event.impl.EventBus
+import io.github.orioncraftmc.orion.api.event.EventBus
 import io.github.orioncraftmc.orion.api.logging.FallbackLogger
 import io.github.orioncraftmc.orion.api.logging.Logger
 import io.github.orioncraftmc.orion.api.mods.OrionMod
 
+inline fun <reified T : Event> onEvent(noinline handler: (T) -> Unit) {
+	EventBus.registerHandler(handler)
+}
+
+// This event handler for mods checks automatically if the mod is enabled
 inline fun <reified T : Event> OrionMod.on(crossinline handler: (T) -> Unit) {
 	EventBus.registerHandler(EventHandler<T> {
 		if (this.isEnabled) {

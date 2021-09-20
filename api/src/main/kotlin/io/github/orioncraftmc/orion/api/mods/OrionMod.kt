@@ -24,7 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.mods
 
-import io.github.orioncraftmc.orion.api.settings.SettingPropertyProvider
+import io.github.orioncraftmc.orion.api.mods.settings.SettingPropertyProvider
 
 abstract class OrionMod(val id: String, val name: String, val category: ModCategory) {
 

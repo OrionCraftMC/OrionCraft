@@ -22,14 +22,9 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.settings.storage
+package io.github.orioncraftmc.orion.api.mods.settings.storage
 
 import com.fasterxml.jackson.databind.JsonNode
-
-data class SettingsFile(
-	var currentProfileName: String,
-	val profiles: MutableMap<String, SettingsProfile>
-)
 
 data class SettingsProfile(
 	val name: String,

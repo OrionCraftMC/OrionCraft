@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.screens
+package io.github.orioncraftmc.orion.api.gui.components.screens
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component

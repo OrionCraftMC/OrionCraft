@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.settings
+package io.github.orioncraftmc.orion.api.mods.settings
 
 import com.fasterxml.jackson.module.kotlin.treeToValue
 import io.github.orioncraftmc.orion.api.OrionCraft

@@ -29,7 +29,7 @@ import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.screens.ComponentOrionScreen
+import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 
 abstract class MainMenuScreen : ComponentOrionScreen() {
 

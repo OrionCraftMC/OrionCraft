@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.settings
+package io.github.orioncraftmc.orion.api.mods.settings
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.github.orioncraftmc.orion.api.OrionCraftConstants
-import io.github.orioncraftmc.orion.api.settings.storage.SettingsFile
-import io.github.orioncraftmc.orion.api.settings.storage.SettingsProfile
+import io.github.orioncraftmc.orion.api.mods.settings.storage.SettingsFile
+import io.github.orioncraftmc.orion.api.mods.settings.storage.SettingsProfile
 import java.io.File
 
 class SettingsProvider(runDirectory: File) {
