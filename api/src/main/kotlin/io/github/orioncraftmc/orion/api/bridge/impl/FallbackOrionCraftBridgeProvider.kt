@@ -29,6 +29,7 @@ import io.github.orioncraftmc.orion.api.bridge.minecraft.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationUtils
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
+import io.github.orioncraftmc.orion.api.logging.FallbackLogger
 import io.github.orioncraftmc.orion.api.logging.Logger
 
 internal object FallbackOrionCraftBridgeProvider : OrionCraftBridgeProvider {
@@ -45,7 +46,7 @@ internal object FallbackOrionCraftBridgeProvider : OrionCraftBridgeProvider {
 		get() = bridgeNotImplemented()
 
 	override val logger: Logger
-		get() = bridgeNotImplemented()
+		get() = FallbackLogger
 
 	private fun bridgeNotImplemented(): Nothing {
 		throw NotImplementedError("Fallback Bridge Provider is being used. Someone forgot to set bridges properly!")
