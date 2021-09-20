@@ -22,26 +22,18 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft
+package io.github.orioncraftmc.orion.mods.fullbright
 
-import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
-import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
-import java.io.File
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.mods.ModCategory
+import io.github.orioncraftmc.orion.api.mods.OrionMod
 
-interface MinecraftBridge {
-	val scaledResolution: ScaledResolutionBridge
+object FullBrightMod : OrionMod("fullbright", "FullBright", ModCategory.NEW) {
+	override fun onEnable() {
+		MinecraftBridge.gameSettings.gammaValue = 100f
+	}
 
-	val fontRenderer: FontRendererBridge
-
-	fun openScreen(screen: OrionScreen)
-
-	fun drawDefaultBackground()
-
-	val gameWidth: Int
-
-	val gameHeight: Int
-
-	val gameAppDirectory: File
-
-	val gameSettings: GameSettingsBridge
+	override fun onDisable() {
+		MinecraftBridge.gameSettings.gammaValue = 1f
+	}
 }

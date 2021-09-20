@@ -24,24 +24,6 @@
 
 package io.github.orioncraftmc.orion.api.bridge.minecraft
 
-import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
-import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
-import java.io.File
-
-interface MinecraftBridge {
-	val scaledResolution: ScaledResolutionBridge
-
-	val fontRenderer: FontRendererBridge
-
-	fun openScreen(screen: OrionScreen)
-
-	fun drawDefaultBackground()
-
-	val gameWidth: Int
-
-	val gameHeight: Int
-
-	val gameAppDirectory: File
-
-	val gameSettings: GameSettingsBridge
+interface GameSettingsBridge {
+	var gammaValue: Float
 }

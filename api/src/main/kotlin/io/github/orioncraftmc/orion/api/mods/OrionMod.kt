@@ -24,16 +24,17 @@
 
 package io.github.orioncraftmc.orion.api.mods
 
-import io.github.orioncraftmc.orion.api.mods.settings.SettingPropertyProvider
+import io.github.orioncraftmc.orion.api.mods.settings.AbstractModSetting
+import io.github.orioncraftmc.orion.api.mods.settings.ModSettingsBuilder
+import io.github.orioncraftmc.orion.api.mods.settings.update
 
 abstract class OrionMod(val id: String, val name: String, val category: ModCategory) {
+	val settings = mutableListOf<AbstractModSetting<*>>()
 
-	open var isEnabled: Boolean by setting(false) { if (it) onEnabled() else onDisabled() }
+	open var isEnabled: Boolean by setting().boolean(false) update { if (it) onEnable() else onDisable() }
 
-	open fun onEnabled() {}
-	open fun onDisabled() {}
+	open fun onEnable() {}
+	open fun onDisable() {}
 
-	protected fun <T> setting(default: T, updateNotification: ((T) -> Unit)? = null): SettingPropertyProvider<T> =
-		SettingPropertyProvider(default, updateNotification)
-
+	protected fun setting() = ModSettingsBuilder
 }

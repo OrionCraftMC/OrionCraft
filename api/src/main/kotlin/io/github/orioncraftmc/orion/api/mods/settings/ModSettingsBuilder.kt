@@ -22,26 +22,12 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft
+package io.github.orioncraftmc.orion.api.mods.settings
 
-import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
-import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
-import java.io.File
+import io.github.orioncraftmc.orion.api.mods.settings.impl.BooleanSetting
 
-interface MinecraftBridge {
-	val scaledResolution: ScaledResolutionBridge
-
-	val fontRenderer: FontRendererBridge
-
-	fun openScreen(screen: OrionScreen)
-
-	fun drawDefaultBackground()
-
-	val gameWidth: Int
-
-	val gameHeight: Int
-
-	val gameAppDirectory: File
-
-	val gameSettings: GameSettingsBridge
+object ModSettingsBuilder {
+	fun boolean(default: Boolean): BooleanSetting {
+		return BooleanSetting(default)
+	}
 }

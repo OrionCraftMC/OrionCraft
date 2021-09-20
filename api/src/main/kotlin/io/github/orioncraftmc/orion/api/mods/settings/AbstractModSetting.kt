@@ -29,27 +29,40 @@ import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.mods.OrionMod
 import kotlin.reflect.KProperty
 
-class SettingPropertyProvider<T>(val default: T, private val updateNotification: ((T) -> Unit)? = null) {
+abstract class AbstractModSetting<T>(val default: T) {
 	val mapper get() = OrionCraft.settingsProvider.mapper
+
+	private val modificationNotificationList = mutableListOf<(T) -> Unit>()
+
+	fun addModificationNotification(handler: (T) -> Unit) {
+		modificationNotificationList.add(handler)
+	}
+
+	var name: String = ""
+		private set
+
+	operator fun provideDelegate(
+		mod: OrionMod, property: KProperty<*>
+	): AbstractModSetting<T> {
+		name = property.name
+		mod.settings.add(this)
+		return this
+	}
 
 	inline operator fun <reified U : T> getValue(
 		mod: OrionMod,
 		property: KProperty<*>
 	): U {
-		return getModSettingValue<U>(mod, getPropertyNameAsSetting(property)) ?: (default as U)
+		return getModSettingValue<U>(mod, name) ?: (default as U)
 	}
 
 	operator fun setValue(mod: OrionMod, property: KProperty<*>, value: T) {
-		val access = getPropertyNameAsSetting(property)
 		val rawModSettings = getRawModSettings(mod)
 
-		if (value != default) {
-			rawModSettings[access] = mapper.valueToTree(value)
-		} else {
-			rawModSettings.remove(access)
-		}
+		rawModSettings[name] = mapper.valueToTree(value)
+
 		OrionCraft.settingsProvider.saveSettings()
-		updateNotification?.invoke(value)
+		modificationNotificationList.forEach { it.invoke(value) }
 	}
 
 	fun getRawModSettings(mod: OrionMod) =
@@ -59,5 +72,4 @@ class SettingPropertyProvider<T>(val default: T, private val updateNotification:
 		return getRawModSettings(mod)[name]?.let { mapper.treeToValue<U>(it) }
 	}
 
-	fun getPropertyNameAsSetting(property: KProperty<*>) = property.name
 }

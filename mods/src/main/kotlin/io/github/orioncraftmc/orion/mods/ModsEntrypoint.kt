@@ -24,11 +24,13 @@
 
 package io.github.orioncraftmc.orion.mods
 
+import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.OrionCraftModsEntrypoint
+import io.github.orioncraftmc.orion.mods.fullbright.FullBrightMod
 
 object ModsEntrypoint : OrionCraftModsEntrypoint {
 	override fun initializeMods() {
-
+		OrionCraft.modManager.registerMod(FullBrightMod)
 	}
 
 }

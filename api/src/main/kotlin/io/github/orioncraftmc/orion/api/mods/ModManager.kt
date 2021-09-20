@@ -34,7 +34,7 @@ class ModManager {
 	fun registerMod(mod: OrionMod) {
 		modsList[mod.id] = mod
 		if (mod.isEnabled) {
-			mod.onEnabled()
+			mod.onEnable()
 		}
 	}
 
