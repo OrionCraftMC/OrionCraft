@@ -29,8 +29,9 @@ import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
+import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
 
-open class ComponentOrionScreen : ComponentContainer() {
+open class ComponentOrionScreen : ComponentContainer(), OrionScreen {
 	private val zeroPoint = Point()
 
 	// We are at the root of the parent tree
@@ -56,7 +57,8 @@ open class ComponentOrionScreen : ComponentContainer() {
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {
-		super.handleMouseClick(mouseX, mouseY, clickedButtonId)
+		super<OrionScreen>.handleMouseClick(mouseX, mouseY, clickedButtonId)
+		super<ComponentContainer>.handleMouseClick(mouseX, mouseY)
 	}
 
 	override fun onResize() {

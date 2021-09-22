@@ -26,17 +26,17 @@ package io.github.orioncraftmc.orion.api.gui.screens
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 
-abstract class OrionScreen {
+interface OrionScreen {
 
 	fun internalOnResize() {
 		onResize()
 	}
 
-	open fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {}
+	fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {}
 
-	open fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {}
+	fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {}
 
-	open fun onResize() {}
+	fun onResize() {}
 
 	fun drawDefaultBackground() {
 		MinecraftBridge.drawDefaultBackground()

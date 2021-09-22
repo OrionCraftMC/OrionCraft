@@ -31,13 +31,12 @@ import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils.computeMousePosition
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils.isMouseWithinComponent
 import java.util.*
 
-open class ComponentContainer : OrionScreen(), Component {
+open class ComponentContainer : Component {
 	val components: List<Component> by lazy { Collections.unmodifiableList(componentsList) }
 	protected val componentsList = mutableListOf<Component>()
 
@@ -48,15 +47,6 @@ open class ComponentContainer : OrionScreen(), Component {
 	override var parent: Component? = null
 	override var backgroundColor: Color? = null
 	override var scale: Double = 1.0
-
-	override fun onResize() {
-		super.onResize()
-		componentsList.forEach {
-			if (it is ComponentContainer) {
-				it.onResize()
-			}
-		}
-	}
 
 	fun addComponent(component: Component) {
 		component.parent = this
@@ -75,10 +65,6 @@ open class ComponentContainer : OrionScreen(), Component {
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
-		handleMouseClick(mouseX, mouseY, -1)
-	}
-
-	override fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {
 		componentsList.forEach { component ->
 			val (finalMouseX, finalMouseY) = computeMousePosition(component, mouseX, mouseY)
 

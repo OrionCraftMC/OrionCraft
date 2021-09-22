@@ -34,21 +34,14 @@ import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 class ButtonComponent(var text: String, var color: Color = RGBInt(255, 255, 255), onClick: () -> Unit = {}) : ComponentContainer() {
 
 	init {
-		// Notify of the resize ourselves
-		onResize()
+		addComponent(LabelComponent(text, color).apply {
+			anchor = Anchor.MIDDLE
+		})
 	}
 
 	var unpressedBackground = RGBInt(0, 0, 0, 90)
 	var pressedBackground = RGBInt(255, 255, 255, 90)
 	var borderColor = RGBInt(255, 255, 255, 127)
-
-	override fun onResize() {
-		super.onResize()
-
-		addComponent(LabelComponent(text, color).apply {
-			anchor = Anchor.MIDDLE
-		})
-	}
 
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
 		ComponentUtils.renderBackgroundColor(this, getBackgroundColor(mouseX, mouseY))
