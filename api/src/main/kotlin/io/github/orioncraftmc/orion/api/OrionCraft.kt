@@ -27,6 +27,7 @@ package io.github.orioncraftmc.orion.api
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.impl.FallbackOrionCraftBridgeProvider
+import io.github.orioncraftmc.orion.api.keybinding.KeybindingManager
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.mod.ModManager
 import io.github.orioncraftmc.orion.api.mod.settings.SettingsProvider
@@ -41,6 +42,7 @@ object OrionCraft {
 		private set
 
 	lateinit var modManager: ModManager
+
 	lateinit var settingsProvider: SettingsProvider
 
 	fun startGameEntrypoint(version: ClientVersion) {
@@ -57,7 +59,12 @@ object OrionCraft {
 
 	private fun doInit() {
 		initializeSettings()
+		initializeKeybindings()
 		initializeMods()
+	}
+
+	private fun initializeKeybindings() {
+		KeybindingManager.initialize()
 	}
 
 	private fun initializeSettings() {

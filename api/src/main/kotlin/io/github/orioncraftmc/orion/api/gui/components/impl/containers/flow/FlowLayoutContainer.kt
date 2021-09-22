@@ -62,5 +62,5 @@ open class FlowLayoutContainer(var direction: FlowLayoutDirection = FlowLayoutDi
 		}
 	}
 
-	private fun getComponentSize(it: Component) = it.paddedSize
+	private fun getComponentSize(it: Component) = it.effectiveSize
 }

@@ -22,49 +22,41 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components
+package io.github.orioncraftmc.orion.api.gui.components.impl
 
 import com.github.ajalt.colormath.Color
+import com.github.ajalt.colormath.model.RGBInt
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.api.utils.gui.AnchorUtils
+import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 
-interface Component {
-	fun renderComponent(mouseX: Int, mouseY: Int)
+class ButtonComponent(var text: String, var color: Color = RGBInt(255, 255, 255)) : ComponentContainer() {
 
-	fun handleMouseClick(mouseX: Int, mouseY: Int) {}
+	init {
+		// Notify of the resize ourselves
+		onResize()
+	}
 
-	var anchor: Anchor
+	var unpressedBackground = RGBInt(0, 0, 0, 90)
+	var pressedBackground = RGBInt(255, 255, 255, 90)
 
-	var padding: Padding
+	override fun onResize() {
+		super.onResize()
 
-	var position: Point
+		addComponent(LabelComponent(text, color).apply {
+			anchor = Anchor.MIDDLE
+		})
+	}
 
-	var size: Size
+	override fun renderComponent(mouseX: Int, mouseY: Int) {
+		ComponentUtils.renderBackgroundColor(this, getBackgroundColor(mouseX, mouseY))
+		super.renderComponent(mouseX, mouseY)
+	}
 
-	var scale: Double
-
-	val effectiveSize: Size
-		get() = size + padding
-
-	val effectivePosition: Point
-		get() {
-			if (parent == null) return position
-
-			return AnchorUtils.computePosition(
-				this.position,
-				this.size,
-				this.anchor,
-				parent!!.size,
-				this.padding,
-				parent!!.padding,
-				this.scale
-			)
+	private fun getBackgroundColor(mouseX: Int, mouseY: Int) =
+		if (ComponentUtils.isMouseWithinComponent(mouseX, mouseY, this)) {
+			pressedBackground
+		} else {
+			unpressedBackground
 		}
-
-	var parent: Component?
-
-	var backgroundColor: Color?
 }

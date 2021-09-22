@@ -22,49 +22,6 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components
+package io.github.orioncraftmc.orion.api.keybinding
 
-import com.github.ajalt.colormath.Color
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.api.utils.gui.AnchorUtils
-
-interface Component {
-	fun renderComponent(mouseX: Int, mouseY: Int)
-
-	fun handleMouseClick(mouseX: Int, mouseY: Int) {}
-
-	var anchor: Anchor
-
-	var padding: Padding
-
-	var position: Point
-
-	var size: Size
-
-	var scale: Double
-
-	val effectiveSize: Size
-		get() = size + padding
-
-	val effectivePosition: Point
-		get() {
-			if (parent == null) return position
-
-			return AnchorUtils.computePosition(
-				this.position,
-				this.size,
-				this.anchor,
-				parent!!.size,
-				this.padding,
-				parent!!.padding,
-				this.scale
-			)
-		}
-
-	var parent: Component?
-
-	var backgroundColor: Color?
-}
+data class OrionKeybinding(var id: String, var keyCode: Int?)

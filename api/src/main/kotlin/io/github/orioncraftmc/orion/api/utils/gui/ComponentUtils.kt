@@ -24,31 +24,19 @@
 
 package io.github.orioncraftmc.orion.api.utils.gui
 
+import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
 object ComponentUtils {
 	fun offsetCurrentMatrixForComponent(component: Component) {
-		val currentParent = component.parent
-		if (currentParent != null) {
-			val newPos =
-				AnchorUtils.computePosition(
-					component.position,
-					component.size,
-					component.anchor,
-					currentParent.size,
-					component.padding,
-					currentParent.padding,
-					component.scale
-				)
-
-			OpenGlBridge.translate(newPos.x, newPos.y, 0.0)
-		}
+		val newPos = component.effectivePosition
+		OpenGlBridge.translate(newPos.x, newPos.y, 0.0)
 	}
 
-	fun renderBackgroundColor(component: Component) {
-		val backgroundColor = component.backgroundColor ?: return
+	fun renderBackgroundColor(component: Component, color: Color?) {
+		val backgroundColor = color ?: return
 		val padding = component.padding
 
 		val size = component.size
@@ -65,4 +53,29 @@ object ComponentUtils {
 	fun scaleComponent(component: Component) {
 		OpenGlBridge.scale(component.scale, component.scale, 1.0)
 	}
+
+
+	fun isMouseWithinComponent(
+		mouseX: Int,
+		mouseY: Int,
+		component: Component
+	): Boolean {
+		val componentSize = component.effectiveSize
+
+		return (mouseX >= 0 && mouseX <= (componentSize.width * component.scale)
+				&& mouseY >= 0 && mouseY <= componentSize.height * component.scale)
+	}
+
+	fun computeMousePosition(
+		component: Component,
+		mouseX: Int,
+		mouseY: Int
+	): Pair<Int, Int> {
+		val componentPos = component.effectivePosition
+
+		val finalMouseX = mouseX - componentPos.x.toInt()
+		val finalMouseY = mouseY - componentPos.y.toInt()
+		return Pair(finalMouseX, finalMouseY)
+	}
+
 }
