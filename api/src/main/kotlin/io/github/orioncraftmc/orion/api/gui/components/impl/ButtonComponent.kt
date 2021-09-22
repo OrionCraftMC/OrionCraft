@@ -29,8 +29,9 @@ import com.github.ajalt.colormath.model.RGBInt
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
+import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
-class ButtonComponent(var text: String, var color: Color = RGBInt(255, 255, 255)) : ComponentContainer() {
+class ButtonComponent(var text: String, var color: Color = RGBInt(255, 255, 255), onClick: () -> Unit = {}) : ComponentContainer() {
 
 	init {
 		// Notify of the resize ourselves
@@ -39,6 +40,7 @@ class ButtonComponent(var text: String, var color: Color = RGBInt(255, 255, 255)
 
 	var unpressedBackground = RGBInt(0, 0, 0, 90)
 	var pressedBackground = RGBInt(255, 255, 255, 90)
+	var borderColor = RGBInt(255, 255, 255, 127)
 
 	override fun onResize() {
 		super.onResize()
@@ -50,7 +52,26 @@ class ButtonComponent(var text: String, var color: Color = RGBInt(255, 255, 255)
 
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
 		ComponentUtils.renderBackgroundColor(this, getBackgroundColor(mouseX, mouseY))
+		renderButtonBorder()
 		super.renderComponent(mouseX, mouseY)
+	}
+
+	private fun renderButtonBorder() {
+		val ourPadding = padding
+		val ourSize = size
+		RectRenderingUtils.drawRectangle(
+			-ourPadding.left,
+			-ourPadding.top,
+			ourSize.width + ourPadding.right,
+			ourSize.height + ourPadding.bottom,
+			borderColor,
+			true
+		)
+
+	}
+
+	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
+		super.handleMouseClick(mouseX, mouseY)
 	}
 
 	private fun getBackgroundColor(mouseX: Int, mouseY: Int) =
