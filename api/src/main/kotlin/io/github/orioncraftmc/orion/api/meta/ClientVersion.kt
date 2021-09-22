@@ -24,10 +24,10 @@
 
 package io.github.orioncraftmc.orion.api.meta
 
-enum class ClientVersion {
+enum class ClientVersion(val isNostalgiaVersion: Boolean = false) {
 	INVALID,
-	MC_1_5_2,
-	MC_1_6_4,
+	MC_1_5_2(true),
+	MC_1_6_4(true),
 	MC_1_7_10,
 	MC_1_8_9;
 
