@@ -32,17 +32,32 @@ import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
-class ButtonComponent(var text: String, var color: Color = RGBInt(255, 255, 255), onClick: () -> Unit = {}) : ComponentContainer() {
+class ButtonComponent(
+	text: String,
+	var color: Color = RGBInt(255, 255, 255),
+	val onClick: () -> Unit = {}
+) : ComponentContainer() {
+
+	var borderColor = RGBInt(255, 255, 255, 127)
+	var pressedBackground = RGBInt(255, 255, 255, 90)
+	var unpressedBackground = RGBInt(0, 0, 0, 90)
+
+	var text = text
+		set(value) {
+			field = value
+			createLabelComponent()
+		}
 
 	init {
+		createLabelComponent()
+	}
+
+	private fun createLabelComponent() {
+		componentsList.clear()
 		addComponent(LabelComponent(text, color).apply {
 			anchor = Anchor.MIDDLE
 		})
 	}
-
-	var unpressedBackground = RGBInt(0, 0, 0, 90)
-	var pressedBackground = RGBInt(255, 255, 255, 90)
-	var borderColor = RGBInt(255, 255, 255, 127)
 
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
 		ComponentUtils.renderBackgroundColor(this, getBackgroundColor(mouseX, mouseY))
@@ -67,6 +82,7 @@ class ButtonComponent(var text: String, var color: Color = RGBInt(255, 255, 255)
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
 		super.handleMouseClick(mouseX, mouseY)
+		onClick()
 	}
 
 	private fun getBackgroundColor(mouseX: Int, mouseY: Int) =
