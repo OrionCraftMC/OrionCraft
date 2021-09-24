@@ -35,7 +35,7 @@ import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 class ButtonComponent(
 	text: String,
 	var color: Color = RGBInt(255, 255, 255),
-	val onClick: () -> Unit = {}
+	var onClick: () -> Unit = {}
 ) : ComponentContainer() {
 
 	var borderColor = RGBInt(255, 255, 255, 127)
@@ -81,8 +81,11 @@ class ButtonComponent(
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
-		super.handleMouseClick(mouseX, mouseY)
 		onClick()
+	}
+
+	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
+		super.handleMouseRelease(mouseX, mouseY)
 	}
 
 	private fun getBackgroundColor(mouseX: Int, mouseY: Int) =

@@ -65,12 +65,28 @@ open class ComponentContainer : Component {
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
+		doActionIfMouseIsOverComponent(mouseX, mouseY) { finalMouseX, finalMouseY ->
+			handleMouseClick(finalMouseX, finalMouseY)
+		}
+	}
+
+	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
+		doActionIfMouseIsOverComponent(mouseX, mouseY) { finalMouseX, finalMouseY ->
+			handleMouseRelease(finalMouseX, finalMouseY)
+		}
+	}
+
+	private inline fun doActionIfMouseIsOverComponent(
+		mouseX: Int,
+		mouseY: Int,
+		action: Component.(finalMouseX: Int, finalMouseY: Int) -> Unit
+	) {
 		componentsList.forEach { component ->
 			val (finalMouseX, finalMouseY) = computeMousePosition(component, mouseX, mouseY)
 
 			val isMouseWithinComponent = isMouseWithinComponent(finalMouseX, finalMouseY, component)
 			if (isMouseWithinComponent) {
-				component.handleMouseClick(finalMouseX, finalMouseY)
+				action(component, finalMouseX, finalMouseY)
 			}
 		}
 	}

@@ -37,6 +37,8 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		addComponent(ButtonComponent("Mods").apply {
 			size = Size(85.0, 27.0)
 			anchor = Anchor.MIDDLE
+			onClick = {
+			}
 		})
 	}
 

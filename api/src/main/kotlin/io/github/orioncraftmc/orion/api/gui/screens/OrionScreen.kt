@@ -36,6 +36,16 @@ interface OrionScreen {
 
 	fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {}
 
+	/**
+	 * Invoked when the mouse button has been clicked (pressed and released) on a component.
+	 */
+	fun handleMouseClick(mouseX: Int, mouseY: Int) {}
+
+	/**
+	 * Invoked when a mouse button has been released on a component.
+	 */
+	fun handleMouseRelease(mouseX: Int, mouseY: Int) {}
+
 	fun onResize() {}
 
 	fun drawDefaultBackground() {

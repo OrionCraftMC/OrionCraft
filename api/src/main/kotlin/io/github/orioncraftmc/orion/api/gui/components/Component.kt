@@ -34,7 +34,15 @@ import io.github.orioncraftmc.orion.api.utils.gui.AnchorUtils
 interface Component {
 	fun renderComponent(mouseX: Int, mouseY: Int)
 
+	/**
+	 * Invoked when the mouse button has been clicked (pressed and released) on a component.
+	 */
 	fun handleMouseClick(mouseX: Int, mouseY: Int) {}
+
+	/**
+	 * Invoked when a mouse button has been released on a component.
+	 */
+	fun handleMouseRelease(mouseX: Int, mouseY: Int) {}
 
 	var anchor: Anchor
 
