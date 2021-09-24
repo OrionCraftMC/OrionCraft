@@ -24,4 +24,6 @@
 
 package io.github.orioncraftmc.orion.api.event.impl
 
-data class HudRenderEvent(val tickDelta: Float)
+import io.github.orioncraftmc.orion.api.event.Event
+
+data class HudRenderEvent(val tickDelta: Float): Event
