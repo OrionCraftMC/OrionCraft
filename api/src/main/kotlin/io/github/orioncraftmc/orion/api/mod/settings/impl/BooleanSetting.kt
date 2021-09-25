@@ -26,5 +26,5 @@ package io.github.orioncraftmc.orion.api.mod.settings.impl
 
 import io.github.orioncraftmc.orion.api.mod.settings.AbstractModSetting
 
-class BooleanSetting(default: Boolean) : AbstractModSetting<Boolean>(default) {
-}
+class BooleanSetting(default: Boolean) : AbstractModSetting<Boolean>(default)
+

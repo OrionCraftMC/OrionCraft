@@ -41,8 +41,8 @@ abstract class AbstractModSetting<T>(val default: T) {
 	var name: String = ""
 		private set
 
-	operator fun provideDelegate(
-		mod: OrionMod, property: KProperty<*>
+	operator fun <M: OrionMod> provideDelegate(
+		mod: M, property: KProperty<*>
 	): AbstractModSetting<T> {
 		name = property.name
 		mod.settings.add(this)

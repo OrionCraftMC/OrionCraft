@@ -22,20 +22,20 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mod
+package io.github.orioncraftmc.orion.mods.hud
 
-import io.github.orioncraftmc.orion.api.mod.settings.AbstractModSetting
-import io.github.orioncraftmc.orion.api.mod.settings.ModSettingsBuilder
-import io.github.orioncraftmc.orion.api.mod.settings.update
+import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
+import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
+import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
-abstract class OrionMod(val id: String, val name: String, val category: ModCategory) {
-	val settings = mutableListOf<AbstractModSetting<*>>()
+object TestHudMod : HudOrionMod("hudtest", "Hud Test") {
 
-	open var isEnabled: Boolean by setting().boolean(false) update { if (it) onEnable() else onDisable() }
+	override fun getHudComponent(anchor: Anchor): Component {
+		return LabelComponent("Test Hud Mod - Hello world!")
+	}
 
-	open fun onEnable() {}
-
-	open fun onDisable() {}
-
-	protected fun setting() = ModSettingsBuilder
+	override fun getDummyHudComponent(anchor: Anchor): Component {
+		return getHudComponent(anchor)
+	}
 }

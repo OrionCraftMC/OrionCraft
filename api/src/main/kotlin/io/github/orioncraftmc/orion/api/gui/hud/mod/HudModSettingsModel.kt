@@ -22,20 +22,11 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mod
+package io.github.orioncraftmc.orion.api.gui.hud.mod
 
-import io.github.orioncraftmc.orion.api.mod.settings.AbstractModSetting
-import io.github.orioncraftmc.orion.api.mod.settings.ModSettingsBuilder
-import io.github.orioncraftmc.orion.api.mod.settings.update
+import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.model.Point
 
-abstract class OrionMod(val id: String, val name: String, val category: ModCategory) {
-	val settings = mutableListOf<AbstractModSetting<*>>()
-
-	open var isEnabled: Boolean by setting().boolean(false) update { if (it) onEnable() else onDisable() }
-
-	open fun onEnable() {}
-
-	open fun onDisable() {}
-
-	protected fun setting() = ModSettingsBuilder
-}
+data class HudModSettingsModel(val position: Point = Point(),
+							   val anchor: Anchor = Anchor.TOP_LEFT,
+							   val scale: Double = 1.0)

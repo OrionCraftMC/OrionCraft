@@ -25,9 +25,14 @@
 package io.github.orioncraftmc.orion.api.mod.settings
 
 import io.github.orioncraftmc.orion.api.mod.settings.impl.BooleanSetting
+import io.github.orioncraftmc.orion.api.mod.settings.impl.HudModSetting
 
 object ModSettingsBuilder {
 	fun boolean(default: Boolean): BooleanSetting {
 		return BooleanSetting(default)
+	}
+
+	fun hud(): HudModSetting {
+		return HudModSetting()
 	}
 }

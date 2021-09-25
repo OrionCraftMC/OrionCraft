@@ -24,6 +24,12 @@
 
 package io.github.orioncraftmc.orion.api
 
+import io.github.orioncraftmc.orion.api.mod.OrionMod
+
 fun interface OrionCraftModsEntrypoint {
 	fun initializeMods()
+
+	fun registerMod(mod: OrionMod) {
+		OrionCraft.modManager.registerMod(mod)
+	}
 }

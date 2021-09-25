@@ -26,5 +26,6 @@ package io.github.orioncraftmc.orion.api.mod
 
 enum class ModCategory {
 	NEW,
+	HUD,
 	STAFF
 }

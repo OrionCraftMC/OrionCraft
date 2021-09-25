@@ -24,15 +24,14 @@
 
 package io.github.orioncraftmc.orion.mods
 
-import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.OrionCraftModsEntrypoint
 import io.github.orioncraftmc.orion.mods.fullbright.FullBrightMod
-import io.github.orioncraftmc.orion.mods.hudtest.BigBrainHudTest
+import io.github.orioncraftmc.orion.mods.hud.TestHudMod
 
 object ModsEntrypoint : OrionCraftModsEntrypoint {
 	override fun initializeMods() {
-		OrionCraft.modManager.registerMod(FullBrightMod)
-		OrionCraft.modManager.registerMod(BigBrainHudTest)
+		registerMod(FullBrightMod)
+		registerMod(TestHudMod)
 	}
 
 }
