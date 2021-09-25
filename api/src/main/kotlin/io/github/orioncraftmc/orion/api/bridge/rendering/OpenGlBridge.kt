@@ -31,6 +31,9 @@ interface OpenGlBridge {
 	fun enableTexture2D()
 	fun disableTexture2D()
 
+	fun enableRescaleNormal()
+	fun disableRescaleNormal()
+
 	fun enableBlendAlphaMinusSrcAlpha()
 
 	fun pushMatrix()
