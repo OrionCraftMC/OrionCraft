@@ -34,7 +34,7 @@ interface PlayerInventoryBridge: InventoryBridge {
 
 	val armorInventory: Array<ItemStackBridge>
 
-	val currentItem: Int
+	val currentItemIndex: Int
 
 	val mouseHeldStack: ItemStackBridge?
 
