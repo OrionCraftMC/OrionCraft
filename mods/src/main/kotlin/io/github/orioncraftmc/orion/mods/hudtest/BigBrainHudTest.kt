@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.mods.hudtest
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.event.impl.HudRenderEvent
 import io.github.orioncraftmc.orion.api.mod.ModCategory
 import io.github.orioncraftmc.orion.api.mod.OrionMod
@@ -34,6 +35,9 @@ object BigBrainHudTest: OrionMod("hudtest", "Hud Test", ModCategory.NEW) {
 	init {
 		on<HudRenderEvent> {
 			MinecraftBridge.fontRenderer.drawString("Orion Hud Render Test", 0, 0, 0xFF0000)
+
+			OpenGlBridge.setColor(255, 255, 255, 255)
+			val inv = MinecraftBridge.player.playerInventory
 		}
 	}
 }
