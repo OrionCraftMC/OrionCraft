@@ -26,6 +26,7 @@ package io.github.orioncraftmc.orion.mods.hudtest
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
+import io.github.orioncraftmc.orion.api.bridge.minecraft.item.inventory.PlayerInventoryBridge
 import io.github.orioncraftmc.orion.api.event.impl.HudRenderEvent
 import io.github.orioncraftmc.orion.api.mod.ModCategory
 import io.github.orioncraftmc.orion.api.mod.OrionMod
@@ -41,6 +42,32 @@ object BigBrainHudTest: OrionMod("hudtest", "Hud Test", ModCategory.NEW) {
 			OpenGlBridge.enableRescaleNormal()
 			OpenGlBridge.enableBlend()
 			OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
+			OpenGlBridge.enableStandardItemLighting()
+
+			for (j in 3 downTo 0) {
+				val k = (MinecraftBridge.scaledResolution.scaledWidth / 2 - 90 - j * 20 + 2) + 50
+				val l = 5
+				renderArmorProper(3 - j, k, l, it.tickDelta, inv)
+			}
+		}
+	}
+
+	private fun renderArmorProper(i: Int, j: Int, k: Int, tickDelta: Float, inv: PlayerInventoryBridge) {
+		val stack = inv.armorInventory[i]
+		if (stack != null) {
+			val g = 0 // TODO
+			if (g > 0.0F) {
+				OpenGlBridge.pushMatrix()
+				val h = 1.0F + g / 5.0F
+				OpenGlBridge.translate((j + 8).toDouble(), (-(k + 12)).toDouble(), 0.0)
+				OpenGlBridge.scale(1.5 / h, (h + 1.5) / 2.0F, 1.5)
+				OpenGlBridge.translate(((-(j + 8)).toDouble()), ((-(k + 12)).toDouble()), 0.0)
+			}
+			MinecraftBridge.defaultRenderItem.renderItemAndEffectIntoGui(stack, j + 60, k)
+			if (g > 0.0F) {
+				OpenGlBridge.popMatrix()
+			}
+			MinecraftBridge.defaultRenderItem.renderItemOverlayIntoGui(stack, j + 60, k)
 		}
 	}
 }

@@ -30,9 +30,9 @@ import io.github.orioncraftmc.orion.api.bridge.minecraft.item.ItemStackBridge
  * Immutable player inventory definition.
  */
 interface PlayerInventoryBridge: InventoryBridge {
-	val mainInventory: Array<ItemStackBridge>
+	val mainInventory: Array<ItemStackBridge?>
 
-	val armorInventory: Array<ItemStackBridge>
+	val armorInventory: Array<ItemStackBridge?>
 
 	val currentItemIndex: Int
 
