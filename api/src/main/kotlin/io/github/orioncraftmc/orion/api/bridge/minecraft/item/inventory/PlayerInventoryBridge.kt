@@ -44,5 +44,5 @@ interface PlayerInventoryBridge: InventoryBridge {
 
 	val firstEmptyStack: Int
 
-	fun hasItem(id: Int): Boolean
+	fun hasItemById(id: Int): Boolean
 }
