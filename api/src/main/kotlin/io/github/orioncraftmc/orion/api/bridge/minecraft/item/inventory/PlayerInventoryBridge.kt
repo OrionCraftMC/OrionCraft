@@ -38,11 +38,9 @@ interface PlayerInventoryBridge: InventoryBridge {
 
 	val mouseHeldStack: ItemStackBridge?
 
-	val hotbarSize: Int
-
 	val currentHeldItem: ItemStackBridge?
 
-	val firstEmptyStack: Int
+	val firstEmptyStackSlot: Int
 
 	fun hasItemById(id: Int): Boolean
 }
