@@ -30,4 +30,6 @@ interface ItemStackBridge {
 	val itemId: Int
 
 	val meta: Int
+
+	val animationsToGo: Int
 }
