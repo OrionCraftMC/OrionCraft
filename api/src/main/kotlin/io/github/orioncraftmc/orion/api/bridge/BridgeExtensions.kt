@@ -32,9 +32,6 @@ val MinecraftBridge
 val OpenGlBridge
 	get() = OrionCraft.bridges.openGlBridge
 
-val DefaultRenderItemBridge
-	get() = OrionCraft.bridges.defaultRenderItemBridge
-
 val TessellatorBridge
 	get() = OrionCraft.bridges.tessellator
 
