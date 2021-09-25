@@ -38,7 +38,9 @@ object BigBrainHudTest: OrionMod("hudtest", "Hud Test", ModCategory.NEW) {
 
 			OpenGlBridge.setColor(255, 255, 255, 255)
 			val inv = MinecraftBridge.player.playerInventory
-
+			OpenGlBridge.enableRescaleNormal()
+			OpenGlBridge.enableBlend()
+			OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
 		}
 	}
 }
