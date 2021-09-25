@@ -24,5 +24,10 @@
 
 package io.github.orioncraftmc.orion.api.bridge.rendering.item
 
+import io.github.orioncraftmc.orion.api.bridge.minecraft.item.ItemStackBridge
+
 interface RenderItemBridge {
+	fun renderItemAndEffectIntoGui(item: ItemStackBridge, x: Int, y: Int)
+
+	fun renderItemOverlayIntoGui(item: ItemStackBridge, x: Int, y: Int)
 }
