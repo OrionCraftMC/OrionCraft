@@ -55,7 +55,7 @@ object BigBrainHudTest: OrionMod("hudtest", "Hud Test", ModCategory.NEW) {
 	private fun renderArmorProper(i: Int, j: Int, k: Int, tickDelta: Float, inv: PlayerInventoryBridge) {
 		val stack = inv.armorInventory[i]
 		if (stack != null) {
-			val g = stack.animationsToGo - tickDelta // TODO
+			val g = stack.animationsToGo - tickDelta
 			if (g > 0.0F) {
 				OpenGlBridge.pushMatrix()
 				val h = 1.0F + g / 5.0F
