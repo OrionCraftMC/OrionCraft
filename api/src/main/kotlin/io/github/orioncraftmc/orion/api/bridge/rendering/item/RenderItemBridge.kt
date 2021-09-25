@@ -24,7 +24,5 @@
 
 package io.github.orioncraftmc.orion.api.bridge.rendering.item
 
-import io.github.orioncraftmc.orion.api.bridge.rendering.gui.GuiBridge
-
-interface ItemRendererBridge: GuiBridge {
+interface RenderItemBridge {
 }
