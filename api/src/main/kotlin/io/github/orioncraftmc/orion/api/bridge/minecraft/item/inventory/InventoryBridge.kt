@@ -35,6 +35,4 @@ interface InventoryBridge {
 	fun getStack(slot: Int): ItemStackBridge
 
 	val name: String
-
-	val localizedName: Boolean
 }
