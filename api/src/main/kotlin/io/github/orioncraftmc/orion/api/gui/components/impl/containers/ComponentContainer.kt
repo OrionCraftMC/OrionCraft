@@ -56,10 +56,7 @@ open class ComponentContainer : Component {
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
 		componentsList.forEach {
 			matrix {
-				performComponentLayout(it)
-				ComponentUtils.renderBackgroundColor(it, it.backgroundColor)
-				val (finalMouseX, finalMouseY) = computeMousePosition(it, mouseX, mouseY)
-				it.renderComponent(finalMouseX, finalMouseY)
+				ComponentUtils.renderComponent(it, mouseX, mouseY)
 			}
 		}
 	}
@@ -92,8 +89,7 @@ open class ComponentContainer : Component {
 	}
 
 	open fun performComponentLayout(component: Component) {
-		ComponentUtils.offsetCurrentMatrixForComponent(component)
-		ComponentUtils.scaleComponent(component)
+		ComponentUtils.performComponentLayout(component)
 	}
 }
 

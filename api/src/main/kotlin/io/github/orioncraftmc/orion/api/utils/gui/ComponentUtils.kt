@@ -30,9 +30,26 @@ import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
 object ComponentUtils {
-	fun offsetCurrentMatrixForComponent(component: Component) {
+	fun renderComponent(
+		component: Component,
+		mouseX: Int,
+		mouseY: Int,
+		doLayout: Boolean = true
+	) {
+		if (doLayout) performComponentLayout(component)
+		renderBackgroundColor(component, component.backgroundColor)
+		val (finalMouseX, finalMouseY) = computeMousePosition(component, mouseX, mouseY)
+		component.renderComponent(finalMouseX, finalMouseY)
+	}
+
+	fun translateComponent(component: Component) {
 		val newPos = component.effectivePosition
 		OpenGlBridge.translate(newPos.x, newPos.y, 0.0)
+	}
+
+	fun performComponentLayout(component: Component) {
+		translateComponent(component)
+		scaleComponent(component)
 	}
 
 	fun renderBackgroundColor(component: Component, color: Color?) {
