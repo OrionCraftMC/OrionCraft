@@ -27,39 +27,54 @@ package io.github.orioncraftmc.orion.api.gui.screens.impl
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
+import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 
 abstract class MainMenuScreen : ComponentOrionScreen() {
 
-	init {
-		padding = Padding(5.0)
+	private val logoContainer = ComponentContainer().apply {
+		addComponent(LabelComponent("OrionCraft").apply {
+			anchor = Anchor.BOTTOM_MIDDLE
+			padding = Padding(0.0, 0.0, 0.0, 10.0)
+			scale = 3.5
+		})
 	}
 
-	override fun onResize() {
-		super.onResize()
+	init {
+		padding = Padding(5.0)
+		addLabels()
+		addOrionCraftLogo()
+	}
 
-		addComponent(LabelComponent("OrionCraft ${OrionCraft.clientVersion}").apply {
-			anchor = Anchor.BOTTOM_LEFT
-		})
+	private fun addOrionCraftLogo() {
+		addComponent(logoContainer)
+	}
 
-		addComponent(ComponentContainer().apply {
+	private fun updateOrionLogoContainerSize() {
+		logoContainer.apply {
 			size.apply {
 				width = this@MainMenuScreen.size.width
 				height = this@MainMenuScreen.size.height / 4 + 48
 			}
-			addComponent(LabelComponent("OrionCraft").apply {
-				anchor = Anchor.BOTTOM_MIDDLE
-				padding = Padding(0.0,0.0,0.0, 10.0)
-				scale = 3.5
-			})
+		}
+	}
+
+	override fun onResize() {
+		super.onResize()
+		updateOrionLogoContainerSize()
+	}
+
+	private fun addLabels() {
+		addComponent(LabelComponent("OrionCraft ${OrionCraft.clientVersion}").apply {
+			anchor = Anchor.BOTTOM_LEFT
 		})
 
 		addComponent(LabelComponent("Copyright Mojang AB. Do not distribute!").apply {
 			anchor = Anchor.BOTTOM_RIGHT
 		})
 	}
+
 
 	// Implementation is provided by version
 	abstract fun renderSkybox(mouseX: Int, mouseY: Int, renderPartialTicks: Float)

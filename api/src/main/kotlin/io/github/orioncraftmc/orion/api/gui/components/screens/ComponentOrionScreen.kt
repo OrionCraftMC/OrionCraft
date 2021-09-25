@@ -73,7 +73,6 @@ open class ComponentOrionScreen : ComponentContainer(), OrionScreen {
 	}
 
 	override fun onResize() {
-		componentsList.clear()
 		val sr = MinecraftBridge.scaledResolution
 		size.apply {
 			width = sr.scaledWidthFloat.toDouble()

@@ -31,15 +31,15 @@ import io.github.orioncraftmc.orion.api.gui.model.Size
 
 class ModsEditorScreen : ComponentOrionScreen() {
 
-	override fun onResize() {
-		super.onResize()
+	val modsButton = ButtonComponent("Mods").apply {
+		size = Size(85.0, 27.0)
+		anchor = Anchor.MIDDLE
+		onClick = {
+		}
+	}
 
-		addComponent(ButtonComponent("Mods").apply {
-			size = Size(85.0, 27.0)
-			anchor = Anchor.MIDDLE
-			onClick = {
-			}
-		})
+	init {
+		addComponent(modsButton)
 	}
 
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
