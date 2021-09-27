@@ -27,4 +27,4 @@ package io.github.orioncraftmc.orion.api.event.impl
 import io.github.orioncraftmc.orion.api.event.Event
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 
-data class HudModComponentRefreshEvent(val mod: HudOrionMod) : Event
+data class HudModComponentRefreshEvent<H : Enum<H>>(val mod: HudOrionMod<H>, val element: Enum<H>) : Event

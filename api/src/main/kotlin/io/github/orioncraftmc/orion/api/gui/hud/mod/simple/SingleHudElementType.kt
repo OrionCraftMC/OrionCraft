@@ -22,11 +22,8 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mod.settings.impl
+package io.github.orioncraftmc.orion.api.gui.hud.mod.simple
 
-import io.github.orioncraftmc.orion.api.gui.hud.mod.HudModSettingsModel
-import io.github.orioncraftmc.orion.api.mod.settings.AbstractModSetting
-
-class HudModSetting<H> : AbstractModSetting<MutableMap<H, HudModSettingsModel>>(
-	mutableMapOf()
-)
+enum class SingleHudElementType {
+	SINGLE
+}

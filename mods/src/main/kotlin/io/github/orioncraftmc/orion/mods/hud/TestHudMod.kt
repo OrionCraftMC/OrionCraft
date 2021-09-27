@@ -26,10 +26,10 @@ package io.github.orioncraftmc.orion.mods.hud
 
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
-import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
+import io.github.orioncraftmc.orion.api.gui.hud.mod.simple.SingleHudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
-object TestHudMod : HudOrionMod("hudtest", "Hud Test") {
+object TestHudMod : SingleHudOrionMod("hudtest", "Hud Test") {
 
 	override fun getHudComponent(anchor: Anchor): Component {
 		return LabelComponent("Test Hud Mod - Hello world!")

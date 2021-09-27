@@ -30,10 +30,13 @@ import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.mod.ModCategory
 import io.github.orioncraftmc.orion.api.mod.OrionMod
+import java.util.*
 
-abstract class HudOrionMod(id: String, name: String) : OrionMod(id, name, ModCategory.HUD) {
+abstract class HudOrionMod<H : Enum<H>>(id: String, name: String) : OrionMod(id, name, ModCategory.HUD) {
 
-	val hudSettings: HudModSettingsModel by setting().hud()
+	val hudSettings: MutableMap<H, HudModSettingsModel> by setting().hud()
+
+	abstract val availableHudElements: EnumSet<*>
 
 	/**
 	 * Returns the component that is rendered on the gui
@@ -42,7 +45,7 @@ abstract class HudOrionMod(id: String, name: String) : OrionMod(id, name, ModCat
 	 * Example: Users can decide to anchor components on the right side of their screen
 	 * @param anchor The anchor requested by the user
 	 */
-	abstract fun getHudComponent(anchor: Anchor): Component?
+	abstract fun getHudComponent(anchor: Anchor, hudElement: Enum<H>): Component?
 
 	/**
 	 * Returns the hud component that is used as a fallback when editing the hud gui
@@ -51,12 +54,12 @@ abstract class HudOrionMod(id: String, name: String) : OrionMod(id, name, ModCat
 	 * Example: Users can decide to anchor components on the right side of their screen
 	 * @param anchor The anchor requested by the user
 	 */
-	abstract fun getDummyHudComponent(anchor: Anchor): Component
+	abstract fun getDummyHudComponent(anchor: Anchor, hudElement: Enum<H>): Component
 
 	/**
 	 * Requests OrionCraft to delete the old hud component shown on the hud
 	 */
-	fun refreshHudComponent() {
-		EventBus.callEvent(HudModComponentRefreshEvent(this))
+	fun refreshHudComponent(hudElement: Enum<H>) {
+		EventBus.callEvent(HudModComponentRefreshEvent(this, hudElement))
 	}
 }

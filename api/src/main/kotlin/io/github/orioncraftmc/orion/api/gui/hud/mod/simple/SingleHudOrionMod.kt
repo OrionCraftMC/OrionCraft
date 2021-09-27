@@ -22,11 +22,26 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.mod.settings.impl
+package io.github.orioncraftmc.orion.api.gui.hud.mod.simple
 
-import io.github.orioncraftmc.orion.api.gui.hud.mod.HudModSettingsModel
-import io.github.orioncraftmc.orion.api.mod.settings.AbstractModSetting
+import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
+import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import java.util.*
 
-class HudModSetting<H> : AbstractModSetting<MutableMap<H, HudModSettingsModel>>(
-	mutableMapOf()
-)
+abstract class SingleHudOrionMod(id: String, name: String) : HudOrionMod<SingleHudElementType>(id, name) {
+	override val availableHudElements: EnumSet<SingleHudElementType> =
+		EnumSet.allOf(SingleHudElementType::class.java)
+
+	abstract fun getHudComponent(anchor: Anchor): Component?
+
+	abstract fun getDummyHudComponent(anchor: Anchor): Component
+
+	override fun getHudComponent(anchor: Anchor, hudElement: Enum<SingleHudElementType>): Component? {
+		return getHudComponent(anchor)
+	}
+
+	override fun getDummyHudComponent(anchor: Anchor, hudElement: Enum<SingleHudElementType>): Component {
+		return getDummyHudComponent(anchor)
+	}
+}
