@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.api.utils.rendering
 
 import com.github.ajalt.colormath.Color
+import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
 import io.github.orioncraftmc.orion.api.bridge.basicShapesRendering
 import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
@@ -32,10 +33,28 @@ import io.github.orioncraftmc.orion.api.bridge.setColor
 
 object RectRenderingUtils {
 
-	fun drawRectangle(x1: Double, y1: Double, x2: Double, y2: Double, color: Color, isHollow: Boolean = false) {
+	fun drawRectangle(
+		x1: Double,
+		y1: Double,
+		x2: Double,
+		y2: Double,
+		color: Color,
+		isHollow: Boolean = false,
+		lineWidth: Double = 1.0
+	) {
+
+		val finalX1 = minOf(x1, x2)
+		val finalX2 = maxOf(x1, x2)
+		val finalY1 = minOf(y1, y2)
+		val finalY2 = maxOf(y1, y2)
+
 		val tessellator = TessellatorBridge
+
+		val halfLineWidth = lineWidth / 2.0
+
 		basicShapesRendering {
 			if (isHollow) {
+				OpenGlBridge.setLineWidth(lineWidth.toFloat())
 				tessellator.start(DrawMode.LINE_LOOP)
 				tessellator.setColor(color)
 			} else {
@@ -43,10 +62,10 @@ object RectRenderingUtils {
 				tessellator.setColor(color)
 			}
 
-			tessellator.addVertex(x1, y2, 0.0)
-			tessellator.addVertex(x2, y2, 0.0)
-			tessellator.addVertex(x2, y1, 0.0)
-			tessellator.addVertex(x1, y1, 0.0)
+			tessellator.addVertex(finalX1 - halfLineWidth, finalY2 + halfLineWidth, 0.0)
+			tessellator.addVertex(finalX2 + halfLineWidth, finalY2 + halfLineWidth, 0.0)
+			tessellator.addVertex(finalX2 + halfLineWidth, finalY1 - halfLineWidth, 0.0)
+			tessellator.addVertex(finalX1 - halfLineWidth, finalY1 - halfLineWidth, 0.0)
 
 			tessellator.draw()
 		}

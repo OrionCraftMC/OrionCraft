@@ -25,8 +25,13 @@
 package io.github.orioncraftmc.orion.api.gui.screens
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.gui.GuiScreenBridge
 
-interface OrionScreen {
+interface OrionScreen : GuiScreenBridge {
+
+	override var zLevel: Float
+		get() = 0.0f
+		set(value) {}
 
 	fun internalOnResize() {
 		onResize()
@@ -37,14 +42,19 @@ interface OrionScreen {
 	fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {}
 
 	/**
-	 * Invoked when the mouse button has been clicked (pressed and released) on a component.
+	 * Invoked when the mouse button has been clicked (pressed and released).
 	 */
 	fun handleMouseClick(mouseX: Int, mouseY: Int) {}
 
 	/**
-	 * Invoked when a mouse button has been released on a component.
+	 * Invoked when a mouse button has been released.
 	 */
 	fun handleMouseRelease(mouseX: Int, mouseY: Int) {}
+
+	/**
+	 * Invoked when a mouse button has been moved.
+	 */
+	fun handleMouseMove(mouseX: Int, mouseY: Int, button: Int) {}
 
 	fun onResize() {}
 

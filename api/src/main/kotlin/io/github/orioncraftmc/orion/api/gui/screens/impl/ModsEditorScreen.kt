@@ -24,14 +24,70 @@
 
 package io.github.orioncraftmc.orion.api.gui.screens.impl
 
+import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
+import io.github.orioncraftmc.orion.api.bridge.matrix
+import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
+import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
+import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackground
+import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackgroundSelected
+import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentSelectionBorder
+import io.github.orioncraftmc.orion.api.utils.ColorConstants.rectangleBorder
+import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
+import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
 class ModsEditorScreen : ComponentOrionScreen() {
 
-	val modsButton = ButtonComponent("Mods").apply {
+	val borderRectangleLineWidth = 2.0
+
+	var selectionBoxFirstPoint: Point? = null
+
+	inner class ModsEditorHudModuleRenderer : BaseHudModuleRenderer() {
+
+		override fun renderComponent(mod: HudOrionMod<*>, hudElement: Enum<*>, component: Component) {
+			matrix {
+				drawComponentRectangle(component)
+				OpenGlBridge.enableBlend()
+				ComponentUtils.renderComponent(component, 0, 0)
+			}
+		}
+
+		private fun drawComponentRectangle(component: Component) {
+			val size = component.effectiveSize
+			val position = component.effectivePosition
+			val yPositionOffset = -0.5
+			RectRenderingUtils.drawRectangle(
+				position.x,
+				position.y + yPositionOffset,
+				position.x + size.width,
+				position.y + size.height + yPositionOffset,
+				rectangleBorder,
+				true,
+				borderRectangleLineWidth
+			)
+
+			var backgroundColor = modComponentBackground
+			if (ComponentUtils.isMouseWithinComponent(mousePosition.x.toInt(), mousePosition.y.toInt(), component, true)) {
+				backgroundColor = modComponentBackgroundSelected
+			}
+
+			RectRenderingUtils.drawRectangle(
+				position.x,
+				position.y + yPositionOffset,
+				position.x + size.width,
+				position.y + size.height + yPositionOffset,
+				backgroundColor,
+				false
+			)
+		}
+	}
+
+	private val modsButton = ButtonComponent("Mods").apply {
 		size = Size(85.0, 27.0)
 		anchor = Anchor.MIDDLE
 		onClick = {
@@ -42,7 +98,40 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		addComponent(modsButton)
 	}
 
+	private val modulesRenderer = ModsEditorHudModuleRenderer()
+	val mousePosition = Point(0.0, 0.0)
+
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
+		mousePosition.apply {
+			x = mouseX.toDouble()
+			y = mouseY.toDouble()
+		}
 		super.drawScreen(mouseX, mouseY, renderPartialTicks)
+		drawSelectionBox(mouseX, mouseY)
+		modulesRenderer.renderHudElements()
+	}
+
+	private fun drawSelectionBox(mouseX: Int, mouseY: Int) {
+		val boxFirstPoint = selectionBoxFirstPoint
+		if (boxFirstPoint != null) {
+			RectRenderingUtils.drawRectangle(
+				boxFirstPoint.x, boxFirstPoint.y,
+				mouseX.toDouble(), mouseY.toDouble(), modComponentSelectionBorder, true, 2.0
+			)
+			RectRenderingUtils.drawRectangle(
+				boxFirstPoint.x, boxFirstPoint.y,
+				mouseX.toDouble(), mouseY.toDouble(), modComponentBackground, false
+			)
+		}
+	}
+
+	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
+		selectionBoxFirstPoint = null
+		super.handleMouseRelease(mouseX, mouseY)
+	}
+
+	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
+		selectionBoxFirstPoint = Point(mouseX.toDouble(), mouseY.toDouble())
+		super.handleMouseClick(mouseX, mouseY)
 	}
 }

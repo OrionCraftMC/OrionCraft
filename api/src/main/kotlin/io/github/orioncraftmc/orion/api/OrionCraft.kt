@@ -27,7 +27,7 @@ package io.github.orioncraftmc.orion.api
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.impl.FallbackOrionCraftBridgeProvider
-import io.github.orioncraftmc.orion.api.gui.hud.HudRendererManager
+import io.github.orioncraftmc.orion.api.gui.hud.InGameHudRenderer
 import io.github.orioncraftmc.orion.api.keybinding.KeybindingManager
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.mod.ModManager
@@ -45,7 +45,7 @@ object OrionCraft {
 	lateinit var modManager: ModManager
 
 	lateinit var settingsProvider: SettingsProvider
-	lateinit var hudRendererManager: HudRendererManager
+	lateinit var inGameHudRenderer: InGameHudRenderer
 
 	fun startGameEntrypoint(version: ClientVersion) {
 		logger.info("Initializing OrionCraft on Minecraft $version")
@@ -82,7 +82,7 @@ object OrionCraft {
 
 	private fun initializeHudRendererManager() {
 		logger.info("Initializing OrionCraft Hud Renderer Manager")
-		hudRendererManager = HudRendererManager()
+		inGameHudRenderer = InGameHudRenderer()
 		logger.info("Initialized OrionCraft Hud Renderer Manager")
 	}
 

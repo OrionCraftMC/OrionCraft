@@ -22,10 +22,19 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft
+package io.github.orioncraftmc.orion.api.utils
 
-interface GameSettingsBridge {
-	var gammaValue: Float
+import com.github.ajalt.colormath.model.RGBInt
 
-	val guiScale: Int
+object ColorConstants {
+
+	val rectangleBorder = RGBInt(255, 255, 255, 127)
+
+	val buttonBackground = RGBInt(0, 0, 0, 90)
+	val buttonPressedBackground = RGBInt(255, 255, 255, 90)
+
+	val modComponentBackground = RGBInt(255, 255, 255, 40)
+	val modComponentBackgroundSelected = RGBInt(255, 255, 255, 100)
+	val modComponentSelectionBorder = RGBInt(200, 200, 200)
+
 }

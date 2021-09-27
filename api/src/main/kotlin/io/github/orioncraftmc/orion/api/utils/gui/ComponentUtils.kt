@@ -27,6 +27,7 @@ package io.github.orioncraftmc.orion.api.utils.gui
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
 object ComponentUtils {
@@ -75,12 +76,15 @@ object ComponentUtils {
 	fun isMouseWithinComponent(
 		mouseX: Int,
 		mouseY: Int,
-		component: Component
+		component: Component,
+		isAbsoluteCoordinates: Boolean = false
 	): Boolean {
 		val componentSize = component.effectiveSize
+		var startingPoint = Point()
+		if (isAbsoluteCoordinates) startingPoint = component.effectivePosition
 
-		return (mouseX >= 0 && mouseX <= (componentSize.width * component.scale)
-				&& mouseY >= 0 && mouseY <= componentSize.height * component.scale)
+		return (mouseX >= startingPoint.x && mouseX <= startingPoint.x + (componentSize.width * component.scale)
+				&& mouseY >= startingPoint.y && mouseY <= startingPoint.y + (componentSize.height * component.scale))
 	}
 
 	fun computeMousePosition(

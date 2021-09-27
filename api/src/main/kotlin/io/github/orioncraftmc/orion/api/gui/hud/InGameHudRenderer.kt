@@ -22,10 +22,29 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft
+package io.github.orioncraftmc.orion.api.gui.hud
 
-interface GameSettingsBridge {
-	var gammaValue: Float
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.matrix
+import io.github.orioncraftmc.orion.api.event.impl.HudRenderEvent
+import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
+import io.github.orioncraftmc.orion.api.gui.screens.impl.ModsEditorScreen
+import io.github.orioncraftmc.orion.api.onEvent
+import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 
-	val guiScale: Int
+class InGameHudRenderer : BaseHudModuleRenderer() {
+
+	init {
+		onEvent<HudRenderEvent> {
+			if (MinecraftBridge.currentOpenedScreen is ModsEditorScreen) return@onEvent
+			renderHudElements()
+		}
+	}
+
+	override fun renderComponent(mod: HudOrionMod<*>, hudElement: Enum<*>, component: Component) {
+		matrix {
+			ComponentUtils.renderComponent(component, 0, 0)
+		}
+	}
 }

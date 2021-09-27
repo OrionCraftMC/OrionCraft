@@ -26,9 +26,11 @@ package io.github.orioncraftmc.orion.api.gui.components.impl
 
 import com.github.ajalt.colormath.Color
 import com.github.ajalt.colormath.model.RGBInt
-import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.utils.ColorConstants.buttonBackground
+import io.github.orioncraftmc.orion.api.utils.ColorConstants.buttonPressedBackground
+import io.github.orioncraftmc.orion.api.utils.ColorConstants.rectangleBorder
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
@@ -38,9 +40,9 @@ class ButtonComponent(
 	var onClick: () -> Unit = {}
 ) : ComponentContainer() {
 
-	var borderColor = RGBInt(255, 255, 255, 127)
-	var pressedBackground = RGBInt(255, 255, 255, 90)
-	var unpressedBackground = RGBInt(0, 0, 0, 90)
+	var borderColor = rectangleBorder
+	var pressedBackground = buttonPressedBackground
+	var unpressedBackground = buttonBackground
 
 	var text = text
 		set(value) {
@@ -68,14 +70,14 @@ class ButtonComponent(
 	private fun renderButtonBorder() {
 		val ourPadding = padding
 		val ourSize = size
-		OpenGlBridge.setLineWidth(2.0f)
 		RectRenderingUtils.drawRectangle(
 			-ourPadding.left,
 			-ourPadding.top,
 			ourSize.width + ourPadding.right,
 			ourSize.height + ourPadding.bottom,
 			borderColor,
-			true
+			true,
+			2.0
 		)
 
 	}

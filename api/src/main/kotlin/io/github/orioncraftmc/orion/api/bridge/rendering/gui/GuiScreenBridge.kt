@@ -22,10 +22,6 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft
+package io.github.orioncraftmc.orion.api.bridge.rendering.gui
 
-interface GameSettingsBridge {
-	var gammaValue: Float
-
-	val guiScale: Int
-}
+interface GuiScreenBridge : GuiBridge

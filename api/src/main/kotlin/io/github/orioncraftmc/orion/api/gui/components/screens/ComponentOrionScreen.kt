@@ -61,10 +61,10 @@ open class ComponentOrionScreen : ComponentContainer(), OrionScreen {
 	override fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {
 		super<OrionScreen>.handleMouseClick(mouseX, mouseY, clickedButtonId)
 		super<ComponentContainer>.handleMouseClick(mouseX, mouseY)
+		handleMouseClick(mouseX, mouseY)
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
-		handleMouseClick(mouseX, mouseY, -1)
 	}
 
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
