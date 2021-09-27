@@ -24,7 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.mod.settings
 
-import com.fasterxml.jackson.module.kotlin.treeToValue
+import com.google.common.reflect.TypeToken
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.mod.OrionMod
 import kotlin.reflect.KProperty
@@ -41,7 +41,7 @@ abstract class AbstractModSetting<T>(val default: T) {
 	var name: String = ""
 		private set
 
-	operator fun <M: OrionMod> provideDelegate(
+	operator fun <M : OrionMod> provideDelegate(
 		mod: M, property: KProperty<*>
 	): AbstractModSetting<T> {
 		name = property.name
@@ -55,7 +55,7 @@ abstract class AbstractModSetting<T>(val default: T) {
 		mod: OrionMod,
 		property: KProperty<*>
 	): U {
-		return cachedValue as U ?: (getModSettingValue<U>(mod, name) ?: (default as U)).also {
+		return cachedValue as? U ?: (getModSettingValue<U>(mod, name) ?: (default as U)).also {
 			cachedValue = it
 		}
 	}
@@ -73,8 +73,15 @@ abstract class AbstractModSetting<T>(val default: T) {
 	fun getRawModSettings(mod: OrionMod) =
 		OrionCraft.settingsProvider.currentProfile.getOrPut(mod.id) { mutableMapOf() }
 
+	@Suppress("UnstableApiUsage")
 	inline fun <reified U> getModSettingValue(mod: OrionMod, name: String): U? {
-		return getRawModSettings(mod)[name]?.let { mapper.treeToValue<U>(it) }
-	}
+		val type = object : TypeToken<U>(mod.javaClass) {}.type
 
+		return getRawModSettings(mod)[name]?.let {
+			mapper.readValue(
+				mapper.treeAsTokens(it),
+				mapper.constructType(type)
+			)
+		}
+	}
 }
