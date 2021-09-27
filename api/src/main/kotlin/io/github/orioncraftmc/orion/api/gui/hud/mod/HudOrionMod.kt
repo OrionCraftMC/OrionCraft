@@ -36,7 +36,7 @@ abstract class HudOrionMod<H : Enum<H>>(id: String, name: String) : OrionMod(id,
 
 	val hudSettings: MutableMap<H, HudModSettingsModel> by setting().hud()
 
-	abstract val availableHudElements: EnumSet<*>
+	abstract val allHudElements: EnumSet<*>
 
 	/**
 	 * Returns the component that is rendered on the gui

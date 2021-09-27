@@ -66,7 +66,7 @@ class HudRendererManager {
 		lastGameWidth = MinecraftBridge.gameWidth
 
 		OrionCraft.modManager.mods.values.filterIsInstance<HudOrionMod<*>>().forEach { hudMod ->
-			hudMod.availableHudElements.forEach hudElements@{ hudElement ->
+			hudMod.allHudElements.forEach hudElements@{ hudElement ->
 				if (!hudMod.isEnabled && hasComponentVisible(hudMod, hudElement)) {
 					removeHudModComponent(hudMod, hudElement)
 					return@forEach
