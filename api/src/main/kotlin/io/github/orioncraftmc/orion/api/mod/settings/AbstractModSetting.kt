@@ -49,14 +49,19 @@ abstract class AbstractModSetting<T>(val default: T) {
 		return this
 	}
 
+	var cachedValue: T? = null
+
 	inline operator fun <reified U : T> getValue(
 		mod: OrionMod,
 		property: KProperty<*>
 	): U {
-		return getModSettingValue<U>(mod, name) ?: (default as U)
+		return cachedValue as U ?: (getModSettingValue<U>(mod, name) ?: (default as U)).also {
+			cachedValue = it
+		}
 	}
 
 	operator fun setValue(mod: OrionMod, property: KProperty<*>, value: T) {
+		cachedValue = value
 		val rawModSettings = getRawModSettings(mod)
 
 		rawModSettings[name] = mapper.valueToTree(value)
