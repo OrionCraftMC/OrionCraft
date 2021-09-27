@@ -27,6 +27,9 @@ package io.github.orioncraftmc.orion.api.gui.hud.mod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
 
-data class HudModSettingsModel(val position: Point = Point(),
-							   val anchor: Anchor = Anchor.TOP_LEFT,
-							   val scale: Double = 1.0)
+data class HudModSettingsModel(
+	val enabled: Boolean = false,
+	val position: Point = Point(),
+	val anchor: Anchor = Anchor.TOP_LEFT,
+	val scale: Double = 1.0
+)

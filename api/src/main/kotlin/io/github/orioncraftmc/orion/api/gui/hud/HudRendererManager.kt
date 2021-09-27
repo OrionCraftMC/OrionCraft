@@ -34,12 +34,13 @@ import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.RectangleComponent
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudModSettingsModel
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
+import io.github.orioncraftmc.orion.api.gui.hud.mod.simple.SingleHudOrionMod
 import io.github.orioncraftmc.orion.api.onEvent
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 
 class HudRendererManager {
 
-	private val modComponents = HashBasedTable.create<String, Enum<*>, Component>()
+	private val modElementComponents = HashBasedTable.create<String, Enum<*>, Component>()
 
 	init {
 		onEvent<HudRenderEvent> {
@@ -67,25 +68,36 @@ class HudRendererManager {
 
 		OrionCraft.modManager.mods.values.filterIsInstance<HudOrionMod<*>>().forEach { hudMod ->
 			hudMod.allHudElements.forEach hudElements@{ hudElement ->
-				if (!hudMod.isEnabled && hasComponentVisible(hudMod, hudElement)) {
+				if (hasElementVisible(hudMod, hudElement) && !hasElementEnabled(hudMod, hudElement)) {
 					removeHudModComponent(hudMod, hudElement)
 					return@forEach
 				}
-				prepareHudModComponent(hudMod, hudElement)
 
+				if (hasElementEnabled(hudMod, hudElement)) {
+					prepareHudModComponent(hudMod, hudElement)
+				}
 			}
 		}
 
-		modComponents.values().forEach {
+		modElementComponents.values().forEach {
 			matrix {
 				ComponentUtils.renderComponent(it, 0, 0)
 			}
 		}
 	}
 
+	private fun hasElementEnabled(
+		hudMod: HudOrionMod<*>,
+		hudElement: Enum<*>
+	): Boolean {
+		// If the mod only has one hud element, only check if the mod is enabled.
+		// Otherwise, check if the specific element is enabled as well.
+		return hudMod.isEnabled && (hudMod is SingleHudOrionMod || getHudElementSettings(hudMod, hudElement).enabled)
+	}
+
 	private fun prepareHudModComponent(hudMod: HudOrionMod<*>, hudElement: Enum<*>) {
-		if (hasComponentVisible(hudMod, hudElement)) return
-		val hudSettings = hudMod.hudSettings[hudElement] ?: HudModSettingsModel()
+		if (hasElementVisible(hudMod, hudElement)) return
+		val hudSettings = getHudElementSettings(hudMod, hudElement)
 		val component = hudMod.getHudComponent(hudSettings.anchor, @Suppress("TYPE_MISMATCH") hudElement)
 
 		if (component != null) {
@@ -96,15 +108,20 @@ class HudRendererManager {
 				position = hudSettings.position
 				scale = hudSettings.scale
 			}
-			modComponents.put(hudMod.id, hudElement, component)
+			modElementComponents.put(hudMod.id, hudElement, component)
 		}
 	}
 
+	private fun getHudElementSettings(
+		hudMod: HudOrionMod<*>,
+		hudElement: Enum<*>
+	) = hudMod.hudSettings[hudElement] ?: HudModSettingsModel()
+
 	private fun removeHudModComponent(mod: HudOrionMod<*>, hudElement: Enum<*>) {
-		modComponents.remove(mod.id, hudElement)
+		modElementComponents.remove(mod.id, hudElement)
 	}
 
-	private fun hasComponentVisible(hudMod: HudOrionMod<*>, hudElement: Enum<*>) =
-		modComponents.contains(hudMod.id, hudElement)
+	private fun hasElementVisible(hudMod: HudOrionMod<*>, hudElement: Enum<*>) =
+		modElementComponents.contains(hudMod.id, hudElement)
 
 }
