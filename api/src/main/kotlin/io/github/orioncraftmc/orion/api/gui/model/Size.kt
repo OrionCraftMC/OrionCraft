@@ -28,4 +28,8 @@ data class Size(var width: Double = 0.0, var height: Double = 0.0) {
 	operator fun plus(padding: Padding): Size {
 		return Size(width + padding.left + padding.right, height + padding.top + padding.bottom)
 	}
+
+	operator fun times(scale: Double): Size {
+		return Size(width * scale, height * scale)
+	}
 }

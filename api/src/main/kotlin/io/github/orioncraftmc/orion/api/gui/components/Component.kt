@@ -55,7 +55,7 @@ interface Component {
 	var scale: Double
 
 	val effectiveSize: Size
-		get() = size + padding
+		get() = (size + padding) * scale
 
 	val effectivePosition: Point
 		get() {
