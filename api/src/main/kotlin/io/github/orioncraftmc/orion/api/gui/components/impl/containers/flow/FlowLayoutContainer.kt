@@ -52,12 +52,12 @@ open class FlowLayoutContainer(var direction: FlowLayoutDirection = FlowLayoutDi
 			FlowLayoutDirection.HORIZONTAL -> {
 				val width = components.sumOf { getComponentSize(it).width }
 				val height = components.maxOf { getComponentSize(it).height }
-				Size(width, height)
+				Size(width, height) + padding
 			}
 			FlowLayoutDirection.VERTICAL -> {
 				val width = components.maxOf { getComponentSize(it).width }
 				val height = components.sumOf { getComponentSize(it).height }
-				Size(width, height)
+				Size(width, height) + padding
 			}
 		}
 	}
