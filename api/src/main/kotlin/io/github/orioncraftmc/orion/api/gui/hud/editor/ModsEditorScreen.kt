@@ -24,6 +24,9 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.editor
 
+import com.google.common.collect.HashBasedTable
+import com.google.common.collect.Table
+import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.components.Component
@@ -34,6 +37,7 @@ import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.orion.api.logger
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackground
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackgroundSelected
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentSelectionBorder
@@ -60,7 +64,6 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 		override fun renderComponent(mod: HudOrionMod<*>, hudElement: Enum<*>, component: Component) {
 			matrix {
-				handleMouseMovement(mod, hudElement, component)
 				drawComponentRectangle(component)
 				OpenGlBridge.enableBlend()
 				ComponentUtils.renderComponent(component, 0, 0)
@@ -103,26 +106,6 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		}
 	}
 
-	var selectedComponent: HudElementSelection? = null
-
-	var isMouseDown = false
-
-	private fun handleMouseMovement(
-		mod: HudOrionMod<*>,
-		hudElement: Enum<*>,
-		component: Component
-	) {
-		if (selectedComponent == null && isMouseDown && ComponentUtils.isMouseWithinComponent(
-				mousePosition.x.toInt(),
-				mousePosition.y.toInt(),
-				component,
-				true
-			)
-		) {
-			selectedComponent = HudElementSelection(mod, hudElement, component)
-		}
-	}
-
 	private val modsButton = ButtonComponent("Mods").apply {
 		size = Size(85.0, 27.0)
 		anchor = Anchor.MIDDLE
@@ -137,14 +120,41 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private val modulesRenderer = ModsEditorHudModuleRenderer()
 	val mousePosition = Point(0.0, 0.0)
 
+	val mapIsDragging: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
+
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
 		mousePosition.apply {
 			x = mouseX.toDouble()
 			y = mouseY.toDouble()
 		}
 		super.drawScreen(mouseX, mouseY, renderPartialTicks)
-		drawSelectionBox(mouseX, mouseY)
+		if (!handleComponentMouseMove(mouseX, mouseY)) {
+			// If they are not moving a component, draw a selection box
+			drawSelectionBox(mouseX, mouseY)
+		}
 		modulesRenderer.renderHudElements()
+	}
+
+	private fun handleComponentMouseMove(mouseX: Int, mouseY: Int): Boolean {
+		val mouseOffset = componentDragMouseOffset ?: return false
+
+		logger.debug("Starting to move component(s)")
+		var isDragging = false
+		mapIsDragging.cellSet().forEach { cell ->
+			val settings = modulesRenderer.getHudElementSettings(cell.rowKey, cell.columnKey)
+			val currentMousePos = Point(mouseX.toDouble(), mouseY.toDouble())
+			val offset = currentMousePos - mouseOffset
+
+			componentDragMouseOffset = currentMousePos
+
+			settings.position += offset
+			cell.rowKey.hudModSetting.notifyUpdate()
+			modulesRenderer.applyComponentSettings(cell.value, settings)
+			logger.debug("Performed component movement to (${settings.position})")
+			isDragging = true
+			OrionCraft.inGameHudRenderer.destroyAllComponents()
+		}
+		return isDragging
 	}
 
 	private fun drawSelectionBox(mouseX: Int, mouseY: Int) {
@@ -161,15 +171,32 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		}
 	}
 
+	var componentDragMouseOffset: Point? = null
+
+	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
+		handleComponentMouseDown(mouseX, mouseY)
+		selectionBoxFirstPoint = Point(mouseX.toDouble(), mouseY.toDouble())
+		super.handleMouseClick(mouseX, mouseY)
+	}
+
+	private fun handleComponentMouseDown(mouseX: Int, mouseY: Int) {
+		modulesRenderer.doActionIfMouseIsOverHudComponent(mouseX, mouseY) { mod, hudElement, component ->
+			componentDragMouseOffset = Point(mouseX.toDouble(), mouseY.toDouble())
+			mapIsDragging.put(mod, hudElement, component)
+			logger.debug("Started dragging component (mouse down)")
+		}
+	}
+
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
-		isMouseDown = false
+		handleComponentMouseRelease(mouseX, mouseY)
 		selectionBoxFirstPoint = null
 		super.handleMouseRelease(mouseX, mouseY)
 	}
-
-	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
-		isMouseDown = true
-		selectionBoxFirstPoint = Point(mouseX.toDouble(), mouseY.toDouble())
-		super.handleMouseClick(mouseX, mouseY)
+	private fun handleComponentMouseRelease(mouseX: Int, mouseY: Int) {
+		componentDragMouseOffset = null
+		modulesRenderer.doActionIfMouseIsOverHudComponent(mouseX, mouseY) { mod, hudElement, _ ->
+			mapIsDragging.remove(mod, hudElement)
+			logger.debug("Stopped dragging component (mouse up)")
+		}
 	}
 }

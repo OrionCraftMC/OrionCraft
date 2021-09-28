@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.api.gui.hud
 
 import com.google.common.collect.HashBasedTable
+import com.google.common.collect.Table
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.event.impl.HudModComponentRefreshEvent
 import io.github.orioncraftmc.orion.api.gui.ParentComponentHelper
@@ -33,6 +34,7 @@ import io.github.orioncraftmc.orion.api.gui.hud.mod.HudModSettingsModel
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.hud.mod.simple.SingleHudOrionMod
 import io.github.orioncraftmc.orion.api.onEvent
+import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 
 abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false) : ParentComponentHelper() {
 
@@ -43,7 +45,11 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 		}
 	}
 
-	private val modElementComponents = HashBasedTable.create<HudOrionMod<*>, Enum<*>, Component>()
+	val modElementComponents: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create<HudOrionMod<*>, Enum<*>, Component>()
+
+	fun destroyAllComponents() {
+		modElementComponents.clear()
+	}
 
 	fun renderHudElements() {
 		updateParentComponent()
@@ -65,6 +71,20 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 			renderComponent(it.rowKey, it.columnKey, it.value)
 		}
 	}
+
+	inline fun doActionIfMouseIsOverHudComponent(
+		mouseX: Int,
+		mouseY: Int,
+		action: (HudOrionMod<*>, Enum<*>, Component) -> Unit
+	) {
+		modElementComponents.cellSet().forEach { cell ->
+			val isMouseWithinComponent = ComponentUtils.isMouseWithinComponent(mouseX, mouseY, cell.value, true)
+			if (isMouseWithinComponent) {
+				action(cell.rowKey, cell.columnKey, cell.value)
+			}
+		}
+	}
+
 
 	abstract fun renderComponent(mod: HudOrionMod<*>, hudElement: Enum<*>, component: Component)
 
@@ -88,13 +108,20 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 
 		if (component != null) {
 			// Apply component settings
-			component.apply {
-				parent = parentComponent
-				anchor = hudSettings.anchor
-				position = hudSettings.position
-				scale = hudSettings.scale
-			}
+			applyComponentSettings(component, hudSettings)
 			modElementComponents.put(hudMod, hudElement, component)
+		}
+	}
+
+	fun applyComponentSettings(
+		component: Component,
+		hudSettings: HudModSettingsModel
+	) {
+		component.apply {
+			parent = parentComponent
+			anchor = hudSettings.anchor
+			position = hudSettings.position
+			scale = hudSettings.scale
 		}
 	}
 
@@ -102,15 +129,6 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 		hudMod: HudOrionMod<*>,
 		hudElement: Enum<*>
 	) = hudMod.hudSettings[hudElement] ?: HudModSettingsModel()
-
-	fun setHudElementSettings(
-		hudMod: HudOrionMod<*>,
-		hudElement: Enum<*>,
-		settingsModel: HudModSettingsModel
-	) {
-		hudMod.hudSettings[@Suppress("TYPE_MISMATCH") hudElement] = settingsModel
-		hudMod.hudModSetting.notifyUpdate()
-	}
 
 	protected fun removeHudModComponent(mod: HudOrionMod<*>, hudElement: Enum<*>) {
 		modElementComponents.remove(mod, hudElement)
