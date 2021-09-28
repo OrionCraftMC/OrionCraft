@@ -30,14 +30,14 @@ import io.github.orioncraftmc.orion.api.gui.components.impl.containers.Component
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
+import io.github.orioncraftmc.orion.api.utils.BrandingUtils
 
 abstract class MainMenuScreen : ComponentOrionScreen() {
 
 	private val logoContainer = ComponentContainer().apply {
-		addComponent(LabelComponent("OrionCraft").apply {
+		addComponent(BrandingUtils.getBrandingComponent(3.5).apply {
 			anchor = Anchor.BOTTOM_MIDDLE
 			padding = Padding(0.0, 0.0, 0.0, 10.0)
-			scale = 3.5
 		})
 	}
 
