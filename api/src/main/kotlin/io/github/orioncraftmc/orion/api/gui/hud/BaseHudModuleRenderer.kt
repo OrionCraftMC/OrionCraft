@@ -26,16 +26,15 @@ package io.github.orioncraftmc.orion.api.gui.hud
 
 import com.google.common.collect.HashBasedTable
 import io.github.orioncraftmc.orion.api.OrionCraft
-import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.event.impl.HudModComponentRefreshEvent
+import io.github.orioncraftmc.orion.api.gui.ParentComponentHelper
 import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.gui.components.impl.RectangleComponent
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudModSettingsModel
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.hud.mod.simple.SingleHudOrionMod
 import io.github.orioncraftmc.orion.api.onEvent
 
-abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false) {
+abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false) : ParentComponentHelper() {
 
 	init {
 		onEvent<HudModComponentRefreshEvent<*>> {
@@ -45,23 +44,9 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 	}
 
 	private val modElementComponents = HashBasedTable.create<HudOrionMod<*>, Enum<*>, Component>()
-	private val parentComponent = RectangleComponent()
-	private var lastGameWidth = 0
-	private var lastGameHeight = 0
-	private var lastGuiScale = -1
 
 	fun renderHudElements() {
-		if (MinecraftBridge.gameWidth != lastGameWidth || MinecraftBridge.gameHeight != lastGameHeight || MinecraftBridge.gameSettings.guiScale != lastGuiScale) {
-			parentComponent.size.apply {
-				val sr = MinecraftBridge.scaledResolution
-				width = sr.scaledWidthFloat.toDouble()
-				height = sr.scaledHeightFloat.toDouble()
-			}
-		}
-
-		lastGameWidth = MinecraftBridge.gameWidth
-		lastGameHeight = MinecraftBridge.gameHeight
-		lastGuiScale = MinecraftBridge.gameSettings.guiScale
+		updateParentComponent()
 
 		OrionCraft.modManager.mods.values.filterIsInstance<HudOrionMod<*>>().forEach { hudMod ->
 			hudMod.allHudElements.forEach hudElements@{ hudElement ->

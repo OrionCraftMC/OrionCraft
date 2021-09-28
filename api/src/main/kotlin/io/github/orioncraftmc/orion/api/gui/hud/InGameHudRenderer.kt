@@ -29,7 +29,7 @@ import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.event.impl.HudRenderEvent
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
-import io.github.orioncraftmc.orion.api.gui.screens.impl.ModsEditorScreen
+import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
 import io.github.orioncraftmc.orion.api.onEvent
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 

@@ -22,24 +22,28 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.keybinding
+package io.github.orioncraftmc.orion.api.gui
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.event.impl.InputEvent
-import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
-import io.github.orioncraftmc.orion.api.onEvent
+import io.github.orioncraftmc.orion.api.gui.components.impl.RectangleComponent
 
-object KeybindingManager {
+open class ParentComponentHelper {
+	protected val parentComponent = RectangleComponent()
+	private var lastGameWidth = 0
+	private var lastGameHeight = 0
+	private var lastGuiScale = -1
 
-	internal fun initialize() {
-		registerInputEventHandler()
-	}
-
-	private fun registerInputEventHandler() {
-		onEvent<InputEvent> {
-			if (it.isPressed && it.keyCode == KeyboardKeys.KEY_RSHIFT) {
-				MinecraftBridge.openScreen(ModsEditorScreen())
+	protected fun updateParentComponent() {
+		if (MinecraftBridge.gameWidth != lastGameWidth || MinecraftBridge.gameHeight != lastGameHeight || MinecraftBridge.gameSettings.guiScale != lastGuiScale) {
+			parentComponent.size.apply {
+				val sr = MinecraftBridge.scaledResolution
+				width = sr.scaledWidthFloat.toDouble()
+				height = sr.scaledHeightFloat.toDouble()
 			}
 		}
+
+		lastGameWidth = MinecraftBridge.gameWidth
+		lastGameHeight = MinecraftBridge.gameHeight
+		lastGuiScale = MinecraftBridge.gameSettings.guiScale
 	}
 }
