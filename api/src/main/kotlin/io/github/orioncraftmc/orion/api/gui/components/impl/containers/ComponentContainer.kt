@@ -56,7 +56,8 @@ open class ComponentContainer : Component {
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
 		componentsList.forEach {
 			matrix {
-				ComponentUtils.renderComponent(it, mouseX, mouseY)
+				performComponentLayout(it)
+				ComponentUtils.renderComponent(it, mouseX, mouseY, false)
 			}
 		}
 	}
