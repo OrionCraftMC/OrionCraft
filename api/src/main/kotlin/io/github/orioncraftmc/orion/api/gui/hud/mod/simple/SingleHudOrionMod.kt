@@ -30,6 +30,7 @@ import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import java.util.*
 
 abstract class SingleHudOrionMod(id: String, name: String) : HudOrionMod<SingleHudElementType>(id, name) {
+
 	override val allHudElements: EnumSet<SingleHudElementType> =
 		EnumSet.allOf(SingleHudElementType::class.java)
 
@@ -37,11 +38,11 @@ abstract class SingleHudOrionMod(id: String, name: String) : HudOrionMod<SingleH
 
 	abstract fun getDummyHudComponent(anchor: Anchor): Component
 
-	override fun getHudComponent(anchor: Anchor, hudElement: Enum<SingleHudElementType>): Component? {
+	override fun getHudComponent(anchor: Anchor, hudElement: SingleHudElementType): Component? {
 		return getHudComponent(anchor)
 	}
 
-	override fun getDummyHudComponent(anchor: Anchor, hudElement: Enum<SingleHudElementType>): Component {
+	override fun getDummyHudComponent(anchor: Anchor, hudElement: SingleHudElementType): Component {
 		return getDummyHudComponent(anchor)
 	}
 }

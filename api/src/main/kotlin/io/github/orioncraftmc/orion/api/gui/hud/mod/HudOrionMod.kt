@@ -24,6 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.mod
 
+import com.google.common.reflect.TypeToken
 import io.github.orioncraftmc.orion.api.event.EventBus
 import io.github.orioncraftmc.orion.api.event.impl.HudModComponentRefreshEvent
 import io.github.orioncraftmc.orion.api.gui.components.Component
@@ -37,7 +38,8 @@ abstract class HudOrionMod<H : Enum<H>>(id: String, name: String) : OrionMod(id,
 	val hudModSetting = setting().hud<H>()
 	var hudSettings: MutableMap<H, HudModSettingsModel> by hudModSetting
 
-	abstract val allHudElements: EnumSet<*>
+	@Suppress("TYPE_MISMATCH_WARNING", "UNCHECKED_CAST")
+	open val allHudElements: EnumSet<*> = EnumSet.allOf(object : TypeToken<H>(javaClass) {}.rawType as Class<Enum<*>>)
 
 	/**
 	 * Returns the component that is rendered on the gui
@@ -46,7 +48,7 @@ abstract class HudOrionMod<H : Enum<H>>(id: String, name: String) : OrionMod(id,
 	 * Example: Users can decide to anchor components on the right side of their screen
 	 * @param anchor The anchor requested by the user
 	 */
-	abstract fun getHudComponent(anchor: Anchor, hudElement: Enum<H>): Component?
+	abstract fun getHudComponent(anchor: Anchor, hudElement: H): Component?
 
 	/**
 	 * Returns the hud component that is used as a fallback when editing the hud gui
@@ -55,7 +57,7 @@ abstract class HudOrionMod<H : Enum<H>>(id: String, name: String) : OrionMod(id,
 	 * Example: Users can decide to anchor components on the right side of their screen
 	 * @param anchor The anchor requested by the user
 	 */
-	abstract fun getDummyHudComponent(anchor: Anchor, hudElement: Enum<H>): Component
+	abstract fun getDummyHudComponent(anchor: Anchor, hudElement: H): Component
 
 	/**
 	 * Requests OrionCraft to delete the old hud component shown on the hud
