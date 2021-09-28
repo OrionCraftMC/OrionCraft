@@ -43,6 +43,15 @@ import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
 class ModsEditorScreen : ComponentOrionScreen() {
 
+	inner class HudElementSelection(
+		val mod: HudOrionMod<*>,
+		val hudElement: Enum<*>,
+		val component: Component
+	) {
+		val hudSettings
+			get() = modulesRenderer.getHudElementSettings(mod, hudElement)
+	}
+
 	val borderRectangleLineWidth = 2.0
 
 	var selectionBoxFirstPoint: Point? = null
@@ -51,6 +60,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 		override fun renderComponent(mod: HudOrionMod<*>, hudElement: Enum<*>, component: Component) {
 			matrix {
+				handleMouseMovement(mod, hudElement, component)
 				drawComponentRectangle(component)
 				OpenGlBridge.enableBlend()
 				ComponentUtils.renderComponent(component, 0, 0)
@@ -72,7 +82,13 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			)
 
 			var backgroundColor = modComponentBackground
-			if (ComponentUtils.isMouseWithinComponent(mousePosition.x.toInt(), mousePosition.y.toInt(), component, true)) {
+			if (ComponentUtils.isMouseWithinComponent(
+					mousePosition.x.toInt(),
+					mousePosition.y.toInt(),
+					component,
+					true
+				)
+			) {
 				backgroundColor = modComponentBackgroundSelected
 			}
 
@@ -84,6 +100,26 @@ class ModsEditorScreen : ComponentOrionScreen() {
 				backgroundColor,
 				false
 			)
+		}
+	}
+
+	var selectedComponent: HudElementSelection? = null
+
+	var isMouseDown = false
+
+	private fun handleMouseMovement(
+		mod: HudOrionMod<*>,
+		hudElement: Enum<*>,
+		component: Component
+	) {
+		if (selectedComponent == null && isMouseDown && ComponentUtils.isMouseWithinComponent(
+				mousePosition.x.toInt(),
+				mousePosition.y.toInt(),
+				component,
+				true
+			)
+		) {
+			selectedComponent = HudElementSelection(mod, hudElement, component)
 		}
 	}
 
@@ -126,11 +162,13 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	}
 
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
+		isMouseDown = false
 		selectionBoxFirstPoint = null
 		super.handleMouseRelease(mouseX, mouseY)
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
+		isMouseDown = true
 		selectionBoxFirstPoint = Point(mouseX.toDouble(), mouseY.toDouble())
 		super.handleMouseClick(mouseX, mouseY)
 	}

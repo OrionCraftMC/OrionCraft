@@ -51,7 +51,7 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 	private var lastGuiScale = -1
 
 	fun renderHudElements() {
-		if (MinecraftBridge.gameWidth != lastGameWidth ||MinecraftBridge.gameHeight != lastGameHeight || MinecraftBridge.gameSettings.guiScale != lastGuiScale) {
+		if (MinecraftBridge.gameWidth != lastGameWidth || MinecraftBridge.gameHeight != lastGameHeight || MinecraftBridge.gameSettings.guiScale != lastGuiScale) {
 			parentComponent.size.apply {
 				val sr = MinecraftBridge.scaledResolution
 				width = sr.scaledWidthFloat.toDouble()
@@ -113,10 +113,19 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 		}
 	}
 
-	protected fun getHudElementSettings(
+	fun getHudElementSettings(
 		hudMod: HudOrionMod<*>,
 		hudElement: Enum<*>
 	) = hudMod.hudSettings[hudElement] ?: HudModSettingsModel()
+
+	fun setHudElementSettings(
+		hudMod: HudOrionMod<*>,
+		hudElement: Enum<*>,
+		settingsModel: HudModSettingsModel
+	) {
+		hudMod.hudSettings[@Suppress("TYPE_MISMATCH") hudElement] = settingsModel
+		hudMod.hudModSetting.notifyUpdate()
+	}
 
 	protected fun removeHudModComponent(mod: HudOrionMod<*>, hudElement: Enum<*>) {
 		modElementComponents.remove(mod, hudElement)

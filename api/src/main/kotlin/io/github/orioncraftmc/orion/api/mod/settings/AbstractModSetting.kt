@@ -60,14 +60,19 @@ abstract class AbstractModSetting<T>(val default: T) {
 		}
 	}
 
-	operator fun setValue(mod: OrionMod, property: KProperty<*>, value: T) {
+	operator fun setValue(mod: OrionMod, property: KProperty<*>?, value: T) {
 		cachedValue = value
-		val rawModSettings = getRawModSettings(mod)
 
+		val rawModSettings = getRawModSettings(mod)
 		rawModSettings[name] = mapper.valueToTree(value)
 
+		notifyUpdate()
+	}
+
+	fun notifyUpdate() {
 		OrionCraft.settingsProvider.save()
-		modificationNotificationList.forEach { it.invoke(value) }
+		val value = cachedValue
+		if (value != null) modificationNotificationList.forEach { it.invoke(value) }
 	}
 
 	fun getRawModSettings(mod: OrionMod) =
