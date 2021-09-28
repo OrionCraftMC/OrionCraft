@@ -24,18 +24,33 @@
 
 package io.github.orioncraftmc.orion.mods.hud
 
+import com.github.ajalt.colormath.model.RGB
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
-import io.github.orioncraftmc.orion.api.gui.hud.mod.simple.SingleHudOrionMod
+import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
-object TestHudMod : SingleHudOrionMod("hudtest", "Hud Test") {
+object TestHudMod : HudOrionMod<TestHudMod.Elements>("hudtest", "Hud Test") {
 
-	override fun getHudComponent(anchor: Anchor): Component {
-		return LabelComponent("Test Hud Mod - Hello world!")
+	enum class Elements {
+		TEST_ONE,
+		TEST_TWO
 	}
 
-	override fun getDummyHudComponent(anchor: Anchor): Component {
-		return getHudComponent(anchor)
+	override fun getHudComponent(anchor: Anchor, hudElement: Elements): Component {
+		return when (hudElement) {
+			Elements.TEST_ONE ->
+				LabelComponent("Test Hud Mod - Hello world!").apply {
+					color = RGB("#FF5555")
+				}
+			Elements.TEST_TWO ->
+				LabelComponent("Test Hud Mod - Hello world!").apply {
+					color = RGB("#FFAA00")
+				}
+		}
+	}
+
+	override fun getDummyHudComponent(anchor: Anchor, hudElement: Elements): Component {
+		return getHudComponent(anchor, hudElement)
 	}
 }
