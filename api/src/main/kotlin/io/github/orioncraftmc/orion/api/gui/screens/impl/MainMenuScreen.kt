@@ -70,7 +70,7 @@ abstract class MainMenuScreen : ComponentOrionScreen() {
 			anchor = Anchor.BOTTOM_LEFT
 		})
 
-		addComponent(LabelComponent("Copyright Mojang AB. Do not distribute!").apply {
+		addComponent(LabelComponent("Copyright Mojang Studios. Do not distribute!").apply {
 			anchor = Anchor.BOTTOM_RIGHT
 		})
 	}
