@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UNUSED_PARAMETER")
+
 package io.github.orioncraftmc.orion.api.gui.screens
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
@@ -57,6 +59,8 @@ interface OrionScreen : GuiScreenBridge {
 	fun handleMouseMove(mouseX: Int, mouseY: Int, button: Int) {}
 
 	fun onResize() {}
+
+	fun onClose() {}
 
 	fun drawDefaultBackground() {
 		MinecraftBridge.drawDefaultBackground()
