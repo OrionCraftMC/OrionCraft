@@ -58,7 +58,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 		private fun drawComponentRectangle(component: Component) {
 			val size = component.effectiveSize
-			val position = component.effectivePosition
+			val position = Point()
 			val yPositionOffset = -0.5
 			RectRenderingUtils.drawRectangle(
 				position.x,
