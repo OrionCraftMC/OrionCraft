@@ -45,28 +45,35 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 		}
 	}
 
-	val modElementComponents: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create<HudOrionMod<*>, Enum<*>, Component>()
+	val modElementComponents: Table<HudOrionMod<*>, Enum<*>, Component> =
+		HashBasedTable.create<HudOrionMod<*>, Enum<*>, Component>()
 
 	fun destroyAllComponents() {
+		// Destroy all components in screen and refresh them all next frame
 		modElementComponents.clear()
 	}
 
 	fun renderHudElements() {
+		// First, update our parent information to be synced with the game window size
 		updateParentComponent()
 
+		// Go through all hud mods, find which components are supposed to be added and removed
 		OrionCraft.modManager.mods.values.filterIsInstance<HudOrionMod<*>>().forEach { hudMod ->
 			hudMod.allHudElements.forEach hudElements@{ hudElement ->
+				// Component is not supposed to be visible anymore
 				if (hasElementVisible(hudMod, hudElement) && !hasElementEnabled(hudMod, hudElement)) {
 					removeHudModComponent(hudMod, hudElement)
 					return@forEach
 				}
 
+				// Component is supposed to be visible, but is not on screen
 				if (hasElementEnabled(hudMod, hudElement)) {
 					prepareHudModComponent(hudMod, hudElement)
 				}
 			}
 		}
 
+		// Render all components to the screen
 		modElementComponents.cellSet().forEach {
 			renderComponent(it.rowKey, it.columnKey, it.value)
 		}
