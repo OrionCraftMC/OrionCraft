@@ -46,15 +46,6 @@ import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
 class ModsEditorScreen : ComponentOrionScreen() {
 
-	inner class HudElementSelection(
-		val mod: HudOrionMod<*>,
-		val hudElement: Enum<*>,
-		val component: Component
-	) {
-		val hudSettings
-			get() = modulesRenderer.getHudElementSettings(mod, hudElement)
-	}
-
 	val borderRectangleLineWidth = 2.0
 
 	var selectionBoxFirstPoint: Point? = null
@@ -119,7 +110,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private val modulesRenderer = ModsEditorHudModuleRenderer()
 	val mousePosition = Point(0.0, 0.0)
 
-	val elementsBeingDraggedTable: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
+	private val elementsBeingDraggedTable: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
 
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
 		mousePosition.apply {
