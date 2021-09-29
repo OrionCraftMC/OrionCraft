@@ -119,7 +119,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private val modulesRenderer = ModsEditorHudModuleRenderer()
 	val mousePosition = Point(0.0, 0.0)
 
-	val mapIsDragging: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
+	val elementsBeingDraggedTable: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
 
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
 		mousePosition.apply {
@@ -138,7 +138,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		val mouseOffset = componentDragMouseOffset ?: return false
 
 		var isDragging = false
-		mapIsDragging.cellSet().forEach { cell ->
+		elementsBeingDraggedTable.cellSet().forEach { cell ->
 			val settings = modulesRenderer.getHudElementSettings(cell.rowKey, cell.columnKey)
 			val currentMousePos = Point(mouseX.toDouble(), mouseY.toDouble())
 			val offset = currentMousePos - mouseOffset
@@ -179,7 +179,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private fun handleComponentMouseDown(mouseX: Int, mouseY: Int) {
 		modulesRenderer.doActionIfMouseIsOverHudComponent(mouseX, mouseY) { mod, hudElement, component ->
 			componentDragMouseOffset = Point(mouseX.toDouble(), mouseY.toDouble())
-			mapIsDragging.put(mod, hudElement, component)
+			elementsBeingDraggedTable.put(mod, hudElement, component)
 		}
 	}
 
@@ -191,7 +191,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private fun handleComponentMouseRelease(mouseX: Int, mouseY: Int) {
 		componentDragMouseOffset = null
 		modulesRenderer.doActionIfMouseIsOverHudComponent(mouseX, mouseY) { mod, hudElement, _ ->
-			mapIsDragging.remove(mod, hudElement)
+			elementsBeingDraggedTable.remove(mod, hudElement)
 		}
 	}
 }
