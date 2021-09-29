@@ -46,7 +46,7 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 	}
 
 	val modElementComponents: Table<HudOrionMod<*>, Enum<*>, Component> =
-		HashBasedTable.create<HudOrionMod<*>, Enum<*>, Component>()
+		HashBasedTable.create()
 
 	fun destroyAllComponents() {
 		// Destroy all components in screen and refresh them all next frame

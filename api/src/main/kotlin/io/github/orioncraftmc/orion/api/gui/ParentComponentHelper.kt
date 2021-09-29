@@ -28,7 +28,7 @@ import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.gui.components.impl.RectangleComponent
 
 open class ParentComponentHelper {
-	protected val parentComponent = RectangleComponent()
+	val parentComponent = RectangleComponent()
 	private var lastGameWidth = 0
 	private var lastGameHeight = 0
 	private var lastGuiScale = -1

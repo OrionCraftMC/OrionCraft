@@ -24,10 +24,15 @@
 
 package io.github.orioncraftmc.orion.api.gui.components.impl
 
+import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.gui.components.AbstractComponent
+import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
-class RectangleComponent : AbstractComponent() {
+class RectangleComponent(var borderColor: Color? = null, var borderWidth: Double = 1.0) : AbstractComponent() {
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
-		// Left intentionally blank
+		val color = borderColor
+		if (color != null) {
+			RectRenderingUtils.drawRectangle(0.0, 0.0, size.width, size.height, color, true, borderWidth)
+		}
 	}
 }
