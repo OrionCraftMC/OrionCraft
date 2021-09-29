@@ -75,14 +75,14 @@ object AnchorUtils {
 		return Point(x, y)
 	}
 
-	private fun extractXInformationFromAnchor(anchor: Anchor): Triple<Boolean, Boolean, Boolean> {
+	fun extractXInformationFromAnchor(anchor: Anchor): Triple<Boolean, Boolean, Boolean> {
 		val isXLeft = leftXAnchorSet.contains(anchor)
 		val isXMiddle = middleXAnchorSet.contains(anchor)
 		val isXRight = rightXAnchorSet.contains(anchor)
 		return Triple(isXLeft, isXMiddle, isXRight)
 	}
 
-	private fun extractYInformationFromAnchor(anchor: Anchor): Triple<Boolean, Boolean, Boolean> {
+	fun extractYInformationFromAnchor(anchor: Anchor): Triple<Boolean, Boolean, Boolean> {
 		val isYTop = topYAnchorSet.contains(anchor)
 		val isYMiddle = middleYAnchorSet.contains(anchor)
 		val isYBottom = bottomYAnchorSet.contains(anchor)

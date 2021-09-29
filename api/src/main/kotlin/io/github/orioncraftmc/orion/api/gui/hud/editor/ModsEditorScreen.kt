@@ -37,10 +37,12 @@ import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.orion.api.logger
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackground
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackgroundSelected
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentSelectionBorder
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.rectangleBorder
+import io.github.orioncraftmc.orion.api.utils.gui.AnchorUtils
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 
@@ -60,6 +62,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			val size = component.effectiveSize
 			val position = Point()
 			val yPositionOffset = -0.5
+
 			RectRenderingUtils.drawRectangle(
 				position.x,
 				position.y + yPositionOffset,
@@ -140,10 +143,13 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 			// Compute the current mouse offset with the previous mouse position
 			val offset = currentMousePos - mouseOffset
+			fixOffsetBasedOnAnchor(offset, settings.anchor)
+
 			componentDragMouseOffset = currentMousePos
 
 			// Update the position of this element
-			settings.position += offset
+			settings.position = settings.position + offset
+			logger.debug("Moving component to ${settings.position}")
 
 			// Apply the new position settings on this component
 			modulesRenderer.applyComponentSettings(cell.value, settings)
@@ -153,6 +159,19 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		}
 
 		return elementsBeingDraggedTable.size() > 0
+	}
+
+	private fun fixOffsetBasedOnAnchor(point: Point, anchor: Anchor) {
+
+		val (isXLeft, isXMiddle, _) = AnchorUtils.extractXInformationFromAnchor(anchor)
+		val (isYTop, isYMiddle, _) = AnchorUtils.extractYInformationFromAnchor(anchor)
+
+		if (!isXLeft) point.x *= -1
+		if (!isYTop) point.y *= -1
+
+		if (isXMiddle) point.x *= 2
+		if (isYMiddle) point.y *= 2
+
 	}
 
 	override fun onClose() {
@@ -181,7 +200,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	}
 
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
-		handleComponentMouseRelease(mouseX, mouseY)
+		handleComponentMouseRelease()
 		selectionBoxFirstPoint = null
 		super.handleMouseRelease(mouseX, mouseY)
 	}
@@ -194,11 +213,8 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		}
 	}
 
-	private fun handleComponentMouseRelease(mouseX: Int, mouseY: Int) {
+	private fun handleComponentMouseRelease() {
 		componentDragMouseOffset = null
-		modulesRenderer.doActionIfMouseIsOverHudComponent(mouseX, mouseY) { mod, hudElement, _ ->
-			// Remove element from being dragged
-			elementsBeingDraggedTable.remove(mod, hudElement)
-		}
+		elementsBeingDraggedTable.clear()
 	}
 }
