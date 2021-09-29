@@ -37,7 +37,6 @@ import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.api.logger
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackground
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackgroundSelected
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentSelectionBorder
@@ -138,7 +137,6 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private fun handleComponentMouseMove(mouseX: Int, mouseY: Int): Boolean {
 		val mouseOffset = componentDragMouseOffset ?: return false
 
-		logger.debug("Starting to move component(s)")
 		var isDragging = false
 		mapIsDragging.cellSet().forEach { cell ->
 			val settings = modulesRenderer.getHudElementSettings(cell.rowKey, cell.columnKey)
@@ -150,7 +148,6 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			settings.position += offset
 			cell.rowKey.hudModSetting.notifyUpdate()
 			modulesRenderer.applyComponentSettings(cell.value, settings)
-			logger.debug("Performed component movement to (${settings.position})")
 			isDragging = true
 			OrionCraft.inGameHudRenderer.destroyAllComponents()
 		}
@@ -183,7 +180,6 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		modulesRenderer.doActionIfMouseIsOverHudComponent(mouseX, mouseY) { mod, hudElement, component ->
 			componentDragMouseOffset = Point(mouseX.toDouble(), mouseY.toDouble())
 			mapIsDragging.put(mod, hudElement, component)
-			logger.debug("Started dragging component (mouse down)")
 		}
 	}
 
@@ -196,7 +192,6 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		componentDragMouseOffset = null
 		modulesRenderer.doActionIfMouseIsOverHudComponent(mouseX, mouseY) { mod, hudElement, _ ->
 			mapIsDragging.remove(mod, hudElement)
-			logger.debug("Stopped dragging component (mouse up)")
 		}
 	}
 }
