@@ -79,20 +79,6 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 		}
 	}
 
-	inline fun doActionIfMouseIsOverHudComponent(
-		mouseX: Int,
-		mouseY: Int,
-		action: (HudOrionMod<*>, Enum<*>, Component) -> Unit
-	) {
-		modElementComponents.cellSet().forEach { cell ->
-			val isMouseWithinComponent = ComponentUtils.isMouseWithinComponent(mouseX, mouseY, cell.value, true)
-			if (isMouseWithinComponent) {
-				action(cell.rowKey, cell.columnKey, cell.value)
-			}
-		}
-	}
-
-
 	abstract fun renderComponent(mod: HudOrionMod<*>, hudElement: Enum<*>, component: Component)
 
 	private fun hasElementEnabled(

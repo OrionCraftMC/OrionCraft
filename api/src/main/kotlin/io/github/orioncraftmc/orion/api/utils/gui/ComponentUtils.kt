@@ -77,14 +77,15 @@ object ComponentUtils {
 		mouseX: Int,
 		mouseY: Int,
 		component: Component,
-		isAbsoluteCoordinates: Boolean = false
+		isAbsoluteCoordinates: Boolean = false,
+		bufferSize: Int = 0
 	): Boolean {
 		val componentSize = component.effectiveSize
 		var startingPoint = Point()
 		if (isAbsoluteCoordinates) startingPoint = component.effectivePosition
 
-		return (mouseX >= startingPoint.x && mouseX <= startingPoint.x + (componentSize.width * component.scale)
-				&& mouseY >= startingPoint.y && mouseY <= startingPoint.y + (componentSize.height * component.scale))
+		return (mouseX >= (startingPoint.x - bufferSize) && mouseX <= (startingPoint.x + (componentSize.width * component.scale) + bufferSize)
+				&& mouseY >= (startingPoint.y - bufferSize) && mouseY <= (startingPoint.y + (componentSize.height * component.scale) + bufferSize))
 	}
 
 	fun computeMousePosition(

@@ -50,6 +50,19 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 	inner class ModsEditorHudModuleRenderer : BaseHudModuleRenderer() {
 
+		inline fun doActionIfMouseIsOverHudComponent(
+			mouseX: Int,
+			mouseY: Int,
+			action: (HudOrionMod<*>, Enum<*>, Component) -> Unit
+		) {
+			modElementComponents.cellSet().forEach { cell ->
+				val isMouseWithinComponent = ComponentUtils.isMouseWithinComponent(mouseX, mouseY, cell.value, true, 2)
+				if (isMouseWithinComponent) {
+					action(cell.rowKey, cell.columnKey, cell.value)
+				}
+			}
+		}
+
 		override fun renderComponent(mod: HudOrionMod<*>, hudElement: Enum<*>, component: Component) {
 			OpenGlBridge.enableBlend()
 			matrix {
@@ -78,7 +91,8 @@ class ModsEditorScreen : ComponentOrionScreen() {
 					mousePosition.x.toInt(),
 					mousePosition.y.toInt(),
 					component,
-					true
+					true,
+					2
 				)
 			) {
 				backgroundColor = modComponentBackgroundSelected
