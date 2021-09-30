@@ -25,20 +25,22 @@
 package io.github.orioncraftmc.orion.api.gui
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.minecraft.ScaledResolutionBridge
 import io.github.orioncraftmc.orion.api.gui.components.impl.RectangleComponent
 
 open class ParentComponentHelper {
 	val parentComponent = RectangleComponent()
-	private var lastGameWidth = 0
-	private var lastGameHeight = 0
-	private var lastGuiScale = -1
+	var lastGameWidth = 0
+	var lastGameHeight = 0
+	var lastGuiScale = -1
+	lateinit var lastScaledResolution: ScaledResolutionBridge
 
 	protected fun updateParentComponent() {
 		if (MinecraftBridge.gameWidth != lastGameWidth || MinecraftBridge.gameHeight != lastGameHeight || MinecraftBridge.gameSettings.guiScale != lastGuiScale) {
 			parentComponent.size.apply {
-				val sr = MinecraftBridge.scaledResolution
-				width = sr.scaledWidthFloat.toDouble()
-				height = sr.scaledHeightFloat.toDouble()
+				lastScaledResolution = MinecraftBridge.scaledResolution
+				width = lastScaledResolution.scaledWidthFloat.toDouble()
+				height = lastScaledResolution.scaledHeightFloat.toDouble()
 			}
 		}
 

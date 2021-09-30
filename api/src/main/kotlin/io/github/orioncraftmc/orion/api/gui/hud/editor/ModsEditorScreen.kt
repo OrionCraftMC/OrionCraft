@@ -27,7 +27,6 @@ package io.github.orioncraftmc.orion.api.gui.hud.editor
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import io.github.orioncraftmc.orion.api.OrionCraft
-import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.components.Component
@@ -38,7 +37,6 @@ import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.api.logger
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackground
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackgroundSelected
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentSelectionBorder
@@ -145,14 +143,6 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			drawSelectionBox(mouseX, mouseY)
 		}
 
-		val resultAnchor = getAnchorForPoint(mouseX.toDouble(), mouseY.toDouble())
-		MinecraftBridge.fontRenderer.drawString(
-			resultAnchor.name,
-			mouseX,
-			mouseY - MinecraftBridge.fontRenderer.fontHeight,
-			-1,
-			true
-		)
 		modulesRenderer.renderHudElements()
 	}
 
@@ -193,13 +183,15 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 			// Compute the current mouse offset with the previous mouse position
 			val offset = currentMousePos - mouseOffset
-			logger.debug("offset: $offset")
 			AnchorUtils.convertGlobalAndLocalPositioning(offset, settings.anchor, true)
-			logger.debug("offsetFixed: $offset")
 
+			// Update the mouse offset for the next frame
 			componentDragMouseOffset = currentMousePos
+
+			// Compute final position based on the original anchor
 			settings.position = settings.position + offset
 
+			// Compute the new position with coordinates based on the top left anchor
 			val resultPosition = component.run {
 				AnchorUtils.computePosition(
 					settings.position,
@@ -212,41 +204,21 @@ class ModsEditorScreen : ComponentOrionScreen() {
 				)
 			}
 
-			// Update the position of this element
-			//logger.debug("Moving component to ${settings.position}")
-			logger.debug("----")
-
+			// Properly update the position of this element
+			// Calculate the new anchor for this element based on the final position
 			val newAnchor = getAnchorForPoint(resultPosition.x, resultPosition.y)
-			//val oldAnchor = getAnchorForPoint(componentEffectivePosition.x, componentEffectivePosition.y)
 
+			// Some maths to calculate the position based on the new anchor
 			val anchorScreenCornerPoint = AnchorUtils.computeAnchorOffset(component.parent!!.size, newAnchor)
 			val componentCornerPoint = resultPosition + AnchorUtils.computeAnchorOffset(component.size, newAnchor)
-			//logger.debug("anchorScreenCornerPoint: $anchorScreenCornerPoint")
-			//logger.debug("componentEffectivePosition: $componentEffectivePosition")
-			//logger.debug("anchorScreenCornerPoint - componentEffectivePosition: ${anchorScreenCornerPoint - componentEffectivePosition}")
-			//logger.debug("componentCornerPoint: $componentCornerPoint")
-			//logger.debug("anchorScreenCornerPoint: $anchorScreenCornerPoint")
-			val point = anchorScreenCornerPoint - componentCornerPoint
-			logger.debug("anchorScreenCornerPoint - componentCornerPoint: $point")
-			AnchorUtils.convertGlobalAndLocalPositioning(point, newAnchor, false)
-			logger.debug("point: $point")
 
+			val point = anchorScreenCornerPoint - componentCornerPoint
+			AnchorUtils.convertGlobalAndLocalPositioning(point, newAnchor, false)
+
+			// Properly change the settings with the new data
 			settings.anchor = newAnchor
 			settings.position = point
 
-			/*
-			val shadowEffectivePosition2 = AnchorUtils.computePosition(component.position, Size(), settings.anchor, component.parent!!.size, component.padding, component.parent!!.padding, settings.scale)
-			val originPoint = AnchorUtils.computePosition(Point(), Size(), settings.anchor, component.parent!!.size, component.padding, component.parent!!.padding, settings.scale)
-			//AnchorUtils.convertGlobalAndLocalPositioning(shadowEffectivePosition, settings.anchor, true)
-			AnchorUtils.convertGlobalAndLocalPositioning(originPoint, settings.anchor, true)
-			AnchorUtils.convertGlobalAndLocalPositioning(shadowEffectivePosition2, newAnchor, true)
-			AnchorUtils.convertGlobalAndLocalPositioning(oldEffectivePosition, newAnchor, true)
-
-			logger.debug("Shadow origin point $originPoint")
-			logger.debug("Shadow effective position $oldEffectivePosition")
-			logger.debug("Shadow effective position2 $shadowEffectivePosition2")
-			logger.debug("Shadow2 moving component to ${shadowEffectivePosition2 + originPoint}")
-*/
 			// Apply the new position settings on this component
 			modulesRenderer.applyComponentSettings(component, settings)
 

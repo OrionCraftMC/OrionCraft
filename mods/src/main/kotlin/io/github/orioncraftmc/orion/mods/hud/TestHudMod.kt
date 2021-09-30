@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.mods.hud
 
 import com.github.ajalt.colormath.model.RGB
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
@@ -40,7 +41,11 @@ object TestHudMod : HudOrionMod<TestHudMod.Elements>("hudtest", "Hud Test") {
 	override fun getHudComponent(anchor: Anchor, hudElement: Elements): Component {
 		return when (hudElement) {
 			Elements.TEST_ONE ->
-				LabelComponent("Test Hud Mod - Hello world!").apply {
+				object : LabelComponent("Test Hud Mod - Hello world!") {
+					override var text: String
+						get() = "${MinecraftBridge.gameWidth}x${MinecraftBridge.gameHeight}"
+						set(value) {}
+				}.apply {
 					color = RGB("#FF5555")
 				}
 			Elements.TEST_TWO ->
