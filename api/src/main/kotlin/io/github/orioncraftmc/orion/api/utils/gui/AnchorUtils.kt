@@ -40,6 +40,33 @@ object AnchorUtils {
 	private val middleXAnchorSet = EnumSet.of(Anchor.TOP_MIDDLE, Anchor.MIDDLE, Anchor.BOTTOM_MIDDLE)
 	private val rightXAnchorSet = EnumSet.of(Anchor.TOP_RIGHT, Anchor.MIDDLE_RIGHT, Anchor.BOTTOM_RIGHT)
 
+	// Global positioning is the normal positioning used in Minecraft
+	// Local positioning is the positioning respective to the anchor
+	fun convertGlobalAndLocalPositioning(point: Point, anchor: Anchor, toLocalPositioning: Boolean) {
+		val (isXLeft, isXMiddle, _) = extractXInformationFromAnchor(anchor)
+		val (isYTop, isYMiddle, _) = extractYInformationFromAnchor(anchor)
+
+		if (isXLeft != toLocalPositioning) point.x *= -1
+		if (isYTop != toLocalPositioning) point.y *= -1
+
+		val middleFactor = if (toLocalPositioning) 2.0 else 0.5
+		if (isXMiddle) point.x *= middleFactor
+		if (isYMiddle) point.y *= middleFactor
+	}
+
+	fun computeAnchorOffset(
+		size: Size,
+		anchor: Anchor
+	): Point {
+		val (isXLeft, isXMiddle, _) = extractXInformationFromAnchor(anchor)
+		val (isYTop, isYMiddle, _) = extractYInformationFromAnchor(anchor)
+
+		val x = if (isXLeft) 0.0 else if (isXMiddle) size.width / 2.0 else size.width
+		val y = if (isYTop) 0.0 else if (isYMiddle) size.height / 2.0 else size.height
+
+		return Point(x, y)
+	}
+
 	fun computePosition(
 		position: Point,
 		size: Size,

@@ -27,6 +27,7 @@ package io.github.orioncraftmc.orion.api.gui.hud.editor
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import io.github.orioncraftmc.orion.api.OrionCraft
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.components.Component
@@ -45,6 +46,7 @@ import io.github.orioncraftmc.orion.api.utils.ColorConstants.rectangleBorder
 import io.github.orioncraftmc.orion.api.utils.gui.AnchorUtils
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
+import kotlin.math.floor
 
 class ModsEditorScreen : ComponentOrionScreen() {
 
@@ -142,7 +144,40 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			// If they are not moving a component, draw a selection box
 			drawSelectionBox(mouseX, mouseY)
 		}
+
+		val resultAnchor = getAnchorForPoint(mouseX.toDouble(), mouseY.toDouble())
+		MinecraftBridge.fontRenderer.drawString(
+			resultAnchor.name,
+			mouseX,
+			mouseY - MinecraftBridge.fontRenderer.fontHeight,
+			-1,
+			true
+		)
 		modulesRenderer.renderHudElements()
+	}
+
+	private val anchorForPointArray =
+		arrayOf(
+			arrayOf(
+				Anchor.TOP_LEFT, Anchor.TOP_MIDDLE, Anchor.TOP_RIGHT
+			),
+			arrayOf(
+				Anchor.MIDDLE_LEFT, Anchor.MIDDLE, Anchor.MIDDLE_RIGHT
+			),
+			arrayOf(
+				Anchor.BOTTOM_LEFT, Anchor.BOTTOM_MIDDLE, Anchor.BOTTOM_RIGHT
+			)
+		)
+
+	fun getAnchorForPoint(x: Double, y: Double): Anchor {
+		val parentSize = modulesRenderer.parentComponent.size
+		val dividedWidth = parentSize.width / 3
+		val dividedHeight = parentSize.height / 3
+
+		val xBucket = floor(x / dividedWidth).toInt()
+		val yBucket = floor(y / dividedHeight).toInt()
+
+		return anchorForPointArray[yBucket.coerceIn(0, 2)][xBucket.coerceIn(0, 2)]
 	}
 
 	private fun handleComponentMouseMove(mouseX: Int, mouseY: Int): Boolean {
@@ -154,38 +189,72 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			// Get all relevant settings for the current component we are moving
 			val settings = modulesRenderer.getHudElementSettings(cell.rowKey, cell.columnKey)
 			val currentMousePos = Point(mouseX.toDouble(), mouseY.toDouble())
+			val component = cell.value
 
 			// Compute the current mouse offset with the previous mouse position
 			val offset = currentMousePos - mouseOffset
-			fixOffsetBasedOnAnchor(offset, settings.anchor)
+			logger.debug("offset: $offset")
+			AnchorUtils.convertGlobalAndLocalPositioning(offset, settings.anchor, true)
+			logger.debug("offset: $offset")
 
 			componentDragMouseOffset = currentMousePos
+			settings.position = settings.position + offset
+
+			val resultPosition = component.run {
+				AnchorUtils.computePosition(
+					settings.position,
+					this.size,
+					this.anchor,
+					parent!!.size,
+					this.padding,
+					parent!!.padding,
+					this.scale
+				)
+			}
 
 			// Update the position of this element
-			settings.position = settings.position + offset
-			logger.debug("Moving component to ${settings.position}")
+			//logger.debug("Moving component to ${settings.position}")
+			logger.debug("----")
 
+			val newAnchor = getAnchorForPoint(mousePosition.x, mousePosition.y)
+			//val oldAnchor = getAnchorForPoint(componentEffectivePosition.x, componentEffectivePosition.y)
+
+			val anchorScreenCornerPoint = AnchorUtils.computeAnchorOffset(component.parent!!.size, newAnchor)
+			val componentCornerPoint = resultPosition + AnchorUtils.computeAnchorOffset(component.size, newAnchor)
+			//logger.debug("anchorScreenCornerPoint: $anchorScreenCornerPoint")
+			//logger.debug("componentEffectivePosition: $componentEffectivePosition")
+			//logger.debug("anchorScreenCornerPoint - componentEffectivePosition: ${anchorScreenCornerPoint - componentEffectivePosition}")
+			//logger.debug("componentCornerPoint: $componentCornerPoint")
+			//logger.debug("anchorScreenCornerPoint: $anchorScreenCornerPoint")
+			val point = anchorScreenCornerPoint - componentCornerPoint
+			logger.debug("anchorScreenCornerPoint - componentCornerPoint: $point")
+			AnchorUtils.convertGlobalAndLocalPositioning(point, newAnchor, false)
+			logger.debug("point: $point")
+
+			settings.anchor = newAnchor
+			settings.position = point
+
+			/*
+			val shadowEffectivePosition2 = AnchorUtils.computePosition(component.position, Size(), settings.anchor, component.parent!!.size, component.padding, component.parent!!.padding, settings.scale)
+			val originPoint = AnchorUtils.computePosition(Point(), Size(), settings.anchor, component.parent!!.size, component.padding, component.parent!!.padding, settings.scale)
+			//AnchorUtils.convertGlobalAndLocalPositioning(shadowEffectivePosition, settings.anchor, true)
+			AnchorUtils.convertGlobalAndLocalPositioning(originPoint, settings.anchor, true)
+			AnchorUtils.convertGlobalAndLocalPositioning(shadowEffectivePosition2, newAnchor, true)
+			AnchorUtils.convertGlobalAndLocalPositioning(oldEffectivePosition, newAnchor, true)
+
+			logger.debug("Shadow origin point $originPoint")
+			logger.debug("Shadow effective position $oldEffectivePosition")
+			logger.debug("Shadow effective position2 $shadowEffectivePosition2")
+			logger.debug("Shadow2 moving component to ${shadowEffectivePosition2 + originPoint}")
+*/
 			// Apply the new position settings on this component
-			modulesRenderer.applyComponentSettings(cell.value, settings)
+			modulesRenderer.applyComponentSettings(component, settings)
 
 			// Notify Orion settings that we updated the hud mod settings
 			cell.rowKey.hudModSetting.notifyUpdate()
 		}
 
 		return elementsBeingDraggedTable.size() > 0
-	}
-
-	private fun fixOffsetBasedOnAnchor(point: Point, anchor: Anchor) {
-
-		val (isXLeft, isXMiddle, _) = AnchorUtils.extractXInformationFromAnchor(anchor)
-		val (isYTop, isYMiddle, _) = AnchorUtils.extractYInformationFromAnchor(anchor)
-
-		if (!isXLeft) point.x *= -1
-		if (!isYTop) point.y *= -1
-
-		if (isXMiddle) point.x *= 2
-		if (isYMiddle) point.y *= 2
-
 	}
 
 	override fun onClose() {
