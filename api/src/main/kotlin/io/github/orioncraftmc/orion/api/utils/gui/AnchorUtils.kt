@@ -49,9 +49,8 @@ object AnchorUtils {
 		if (isXLeft != toLocalPositioning) point.x *= -1
 		if (isYTop != toLocalPositioning) point.y *= -1
 
-		val middleFactor = if (toLocalPositioning) 2.0 else 0.5
-		if (isXMiddle) point.x *= middleFactor
-		if (isYMiddle) point.y *= middleFactor
+		if (isXMiddle) point.x *= 2.0
+		if (isYMiddle) point.y *= 2.0
 	}
 
 	fun computeAnchorOffset(

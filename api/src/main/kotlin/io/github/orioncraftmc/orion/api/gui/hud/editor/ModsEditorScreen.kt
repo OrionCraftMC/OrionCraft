@@ -195,7 +195,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			val offset = currentMousePos - mouseOffset
 			logger.debug("offset: $offset")
 			AnchorUtils.convertGlobalAndLocalPositioning(offset, settings.anchor, true)
-			logger.debug("offset: $offset")
+			logger.debug("offsetFixed: $offset")
 
 			componentDragMouseOffset = currentMousePos
 			settings.position = settings.position + offset
@@ -204,7 +204,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 				AnchorUtils.computePosition(
 					settings.position,
 					this.size,
-					this.anchor,
+					settings.anchor,
 					parent!!.size,
 					this.padding,
 					parent!!.padding,
@@ -216,7 +216,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			//logger.debug("Moving component to ${settings.position}")
 			logger.debug("----")
 
-			val newAnchor = getAnchorForPoint(mousePosition.x, mousePosition.y)
+			val newAnchor = getAnchorForPoint(resultPosition.x, resultPosition.y)
 			//val oldAnchor = getAnchorForPoint(componentEffectivePosition.x, componentEffectivePosition.y)
 
 			val anchorScreenCornerPoint = AnchorUtils.computeAnchorOffset(component.parent!!.size, newAnchor)
