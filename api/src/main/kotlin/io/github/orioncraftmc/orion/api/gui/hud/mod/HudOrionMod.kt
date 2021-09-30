@@ -35,7 +35,7 @@ import java.util.*
 
 abstract class HudOrionMod<H : Enum<H>>(id: String, name: String) : OrionMod(id, name, ModCategory.HUD) {
 
-	val hudModSetting = setting().hud<H>()
+	var hudModSetting = setting().hud<H>()
 	var hudSettings: MutableMap<H, HudModSettingsModel> by hudModSetting
 
 	@Suppress("TYPE_MISMATCH_WARNING", "UNCHECKED_CAST")

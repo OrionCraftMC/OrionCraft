@@ -69,10 +69,13 @@ abstract class AbstractModSetting<T>(val default: T) {
 		notifyUpdate()
 	}
 
-	fun notifyUpdate() {
+	fun notifyUpdate(mod: OrionMod? = null) {
 		OrionCraft.settingsProvider.save()
 		val value = cachedValue
-		if (value != null) modificationNotificationList.forEach { it.invoke(value) }
+		if (value != null) {
+			if (mod != null) setValue(mod, null, value)
+			modificationNotificationList.forEach { it.invoke(value) }
+		}
 	}
 
 	fun getRawModSettings(mod: OrionMod) =

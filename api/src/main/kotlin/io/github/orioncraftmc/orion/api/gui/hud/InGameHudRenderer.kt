@@ -28,8 +28,8 @@ import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.event.impl.HudRenderEvent
 import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
+import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.onEvent
 import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 
@@ -38,7 +38,10 @@ class InGameHudRenderer : BaseHudModuleRenderer() {
 	init {
 		onEvent<HudRenderEvent> {
 			if (MinecraftBridge.currentOpenedScreen is ModsEditorScreen) return@onEvent
+			val oldZLevel = it.hud.zLevel
+			it.hud.zLevel = 1000f
 			renderHudElements()
+			it.hud.zLevel = oldZLevel
 		}
 	}
 

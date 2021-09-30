@@ -225,15 +225,16 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 			// Apply the new position settings on this component
 			modulesRenderer.applyComponentSettings(component, settings)
-
-			// Notify Orion settings that we updated the hud mod settings
-			cell.rowKey.hudModSetting.notifyUpdate()
 		}
 
 		return elementsBeingDraggedTable.size() > 0
 	}
 
 	override fun onClose() {
+		// Notify Orion settings that we updated the hud mod settings
+		modulesRenderer.modElementComponents.rowKeySet().forEach {
+			it.hudModSetting.notifyUpdate(it)
+		}
 		// Destroy all in-game hud components to refresh everything
 		OrionCraft.inGameHudRenderer.destroyAllComponents()
 	}

@@ -34,7 +34,6 @@ import io.github.orioncraftmc.orion.api.gui.hud.mod.HudModSettingsModel
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.hud.mod.simple.SingleHudOrionMod
 import io.github.orioncraftmc.orion.api.onEvent
-import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
 
 abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false) : ParentComponentHelper() {
 
