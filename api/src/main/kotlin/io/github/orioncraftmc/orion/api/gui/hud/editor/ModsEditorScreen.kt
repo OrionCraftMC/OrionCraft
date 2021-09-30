@@ -202,6 +202,10 @@ class ModsEditorScreen : ComponentOrionScreen() {
 					parent!!.padding,
 					this.scale
 				)
+			}.apply {
+				val size = component.effectiveSize
+				x = x.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble() - size.width)
+				y = y.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble() - size.height)
 			}
 
 			// Properly update the position of this element
