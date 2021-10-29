@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("unused")
+
 package io.github.orioncraftmc.orion.api
 
 object OrionCraftConstants {
@@ -29,8 +31,13 @@ object OrionCraftConstants {
 	val isDevEnvironment
 		get() = System.getProperty("lightcraft.launch.dev") != null
 
+	private val clientName: String
+		get() = "OrionCraft${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
+
 	val clientTitle: String
-		get() = "OrionCraft (${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"})"
+		get() {
+			return "$clientName (${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"})"
+		}
 
 	val clientBrand: String
 		get() = "orioncraft"
