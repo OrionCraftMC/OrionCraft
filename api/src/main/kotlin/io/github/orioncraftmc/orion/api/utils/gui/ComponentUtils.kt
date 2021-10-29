@@ -29,6 +29,7 @@ import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
+import kotlin.math.roundToInt
 
 object ComponentUtils {
 	fun renderComponent(
@@ -45,7 +46,17 @@ object ComponentUtils {
 
 	fun translateComponent(component: Component) {
 		val newPos = component.effectivePosition
-		OpenGlBridge.translate(newPos.x, newPos.y, 0.0)
+		OpenGlBridge.translate(valueToDevicePixelsIfNeeded(component, newPos.x), valueToDevicePixelsIfNeeded(component, newPos.y), 0.0)
+	}
+
+	private fun valueToDevicePixelsIfNeeded(
+		component: Component,
+		value: Double
+	): Double {
+		if (component.snapToDevicePixels) {
+			return value.roundToInt().toDouble()
+		}
+		return value
 	}
 
 	fun performComponentLayout(component: Component) {

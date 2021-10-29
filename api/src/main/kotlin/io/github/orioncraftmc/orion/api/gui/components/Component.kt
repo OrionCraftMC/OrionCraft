@@ -54,6 +54,8 @@ interface Component {
 
 	var scale: Double
 
+	var snapToDevicePixels: Boolean
+
 	val effectiveSize: Size
 		get() = (size + padding) * scale
 

@@ -36,7 +36,8 @@ abstract class AbstractComponent(
 	override var size: Size = Size(),
 	override var padding: Padding = Padding(0.0),
 	override var backgroundColor: Color? = null,
-	override var scale: Double = 1.0
+	override var scale: Double = 1.0,
+	override var snapToDevicePixels: Boolean = false,
 ) : Component {
 	override var parent: Component? = null
 
