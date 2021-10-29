@@ -31,6 +31,7 @@ import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScr
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.utils.BrandingUtils
+import io.github.orioncraftmc.orion.api.utils.OrionDiscordIntegration
 
 abstract class MainMenuScreen : ComponentOrionScreen() {
 
@@ -42,6 +43,7 @@ abstract class MainMenuScreen : ComponentOrionScreen() {
 	}
 
 	init {
+		OrionDiscordIntegration.updateStateActivity("Idling on main menu..")
 		padding = Padding(5.0)
 		addLabels()
 		addOrionCraftLogo()

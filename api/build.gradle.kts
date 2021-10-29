@@ -18,4 +18,7 @@ dependencies {
 
     // Json I/O
     api("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.+")
+
+    /* Discord SDK Integration */
+    implementation("com.github.JnCrMx:discord-game-sdk4j:2b5a903204")
 }

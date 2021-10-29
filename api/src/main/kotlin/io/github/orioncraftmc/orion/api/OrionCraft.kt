@@ -32,6 +32,7 @@ import io.github.orioncraftmc.orion.api.keybinding.KeybindingManager
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.mod.ModManager
 import io.github.orioncraftmc.orion.api.mod.settings.SettingsProvider
+import io.github.orioncraftmc.orion.api.utils.OrionDiscordIntegration
 import kotlin.system.measureTimeMillis
 
 object OrionCraft {
@@ -60,6 +61,9 @@ object OrionCraft {
 	}
 
 	private fun doInit() {
+		OrionDiscordIntegration.initIntegration()
+		OrionDiscordIntegration.updateStateActivity("Initializing..")
+
 		initializeSettings()
 		initializeKeybindings()
 		initializeMods()
@@ -87,6 +91,7 @@ object OrionCraft {
 	}
 
 	private fun initializeMods() {
+		OrionDiscordIntegration.updateStateActivity("Loading mods..")
 		logger.info("Initializing OrionCraft Mod Manager")
 		modManager = ModManager()
 		logger.info("Initialized OrionCraft Mod Manager")

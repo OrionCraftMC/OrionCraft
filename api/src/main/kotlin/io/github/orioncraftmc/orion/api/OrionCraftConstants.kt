@@ -26,6 +26,8 @@
 
 package io.github.orioncraftmc.orion.api
 
+import java.io.File
+
 object OrionCraftConstants {
 
 	val isDevEnvironment
@@ -34,18 +36,26 @@ object OrionCraftConstants {
 	private val clientName: String
 		get() = "OrionCraft${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
 
+	val clientVersionString get() = "${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"}"
+
 	val clientTitle: String
 		get() {
-			return "$clientName (${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"})"
+			return "$clientName ($clientVersionString)"
 		}
 
 	val clientBrand: String
 		get() = "orioncraft"
+
+	val orionCraftDirectory get() = File(".orioncraft")
 
 	const val ORION_RESOURCE_LOCATION_NS = "orion"
 
 	const val MINECRAFT_RESOURCE_LOCATION_NS = "minecraft"
 
 	const val DEFAULT_PROFILE_NAME = "Default"
+
+
+	const val orionCraftDiscordClientId = 903702295282343936
+	const val orionCraftNostalgiaDiscordClientId = 903714432264314950
 
 }
