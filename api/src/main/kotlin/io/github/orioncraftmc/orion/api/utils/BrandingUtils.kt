@@ -24,13 +24,28 @@
 
 package io.github.orioncraftmc.orion.api.utils
 
+import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutDirection
+import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
 object BrandingUtils {
 	fun getBrandingComponent(mainTextScale: Double): Component {
-		return LabelComponent("OrionCraft").apply {
+		val mainLabelComponent = LabelComponent("OrionCraft").apply {
 			scale = mainTextScale
 		}
+		if (OrionCraft.clientVersion.isNostalgiaVersion) {
+			return FlowLayoutContainer(FlowLayoutDirection.VERTICAL).apply {
+				snapToDevicePixels = true
+				addComponent(mainLabelComponent)
+				addComponent(LabelComponent("Nostalgia").apply {
+					anchor = Anchor.TOP_RIGHT
+					snapToDevicePixels = true
+				})
+			}
+		}
+		return mainLabelComponent
 	}
 }
