@@ -27,6 +27,7 @@ package io.github.orioncraftmc.orion.api.utils
 import de.jcm.discordgamesdk.Core
 import de.jcm.discordgamesdk.CreateParams
 import de.jcm.discordgamesdk.activity.Activity
+import de.jcm.discordgamesdk.activity.ActivityType
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.OrionCraftConstants
 import io.github.orioncraftmc.orion.api.OrionCraftConstants.orionCraftDiscordClientId
@@ -48,15 +49,18 @@ object OrionDiscordIntegration {
 		if (discordSdkCore == null) return
 		updateActivity(Activity().apply {
 			this.state = state
+			this.type = ActivityType.PLAYING
 			this.details = "Playing ${OrionCraftConstants.clientVersionString}"
 			this.timestamps().start = Instant.now()
+			this.assets().largeImage = "rpc_logo"
 		})
 	}
 
 	fun updateActivity(activity: Activity) {
-		val manager = discordSdkCore?.activityManager() ?: return
-
-		manager.updateActivity(activity)
+		activity.use {
+			val manager = discordSdkCore?.activityManager() ?: return
+			manager.updateActivity(activity)
+		}
 	}
 
 	fun initIntegration(): Boolean {
