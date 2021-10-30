@@ -22,8 +22,27 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.hud.mod.simple
+package io.github.orioncraftmc.orion.api.gui.hud.mod.single
 
-enum class SingleHudElementType {
-	SINGLE
+import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
+import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import java.util.*
+
+abstract class SingleHudOrionMod(id: String, name: String) : HudOrionMod<SingleHudElementType>(id, name) {
+
+	override val allHudElements: EnumSet<SingleHudElementType> =
+		EnumSet.allOf(SingleHudElementType::class.java)
+
+	abstract fun getHudComponent(anchor: Anchor): Component?
+
+	abstract fun getDummyHudComponent(anchor: Anchor): Component
+
+	override fun getHudComponent(anchor: Anchor, hudElement: SingleHudElementType): Component? {
+		return getHudComponent(anchor)
+	}
+
+	override fun getDummyHudComponent(anchor: Anchor, hudElement: SingleHudElementType): Component {
+		return getDummyHudComponent(anchor)
+	}
 }
