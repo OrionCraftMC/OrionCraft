@@ -27,7 +27,9 @@ package io.github.orioncraftmc.orion.api.bridge.rendering
 interface FontRendererBridge {
 	val fontHeight: Int
 
-	fun drawString(value: String, x: Int, y: Int, color: Int, hasShadow: Boolean = false)
+	@Suppress("INAPPLICABLE_JVM_NAME")
+	@JvmName("drawString")
+	fun drawString(value: String, x: Int, y: Int, color: UInt, hasShadow: Boolean = false)
 
 	fun getStringWidth(value: String): Int
 }
