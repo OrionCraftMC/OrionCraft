@@ -29,7 +29,8 @@ import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
-open class FlowLayoutContainer(var direction: FlowLayoutDirection = FlowLayoutDirection.HORIZONTAL) : ComponentContainer() {
+open class FlowLayoutContainer(var direction: FlowLayoutDirection = FlowLayoutDirection.HORIZONTAL) :
+	ComponentContainer() {
 	override var size: Size
 		get() = computeLayoutSize()
 		set(value) {}

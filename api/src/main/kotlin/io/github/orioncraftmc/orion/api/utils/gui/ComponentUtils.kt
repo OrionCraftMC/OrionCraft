@@ -46,7 +46,11 @@ object ComponentUtils {
 
 	fun translateComponent(component: Component) {
 		val newPos = component.effectivePosition
-		OpenGlBridge.translate(valueToDevicePixelsIfNeeded(component, newPos.x), valueToDevicePixelsIfNeeded(component, newPos.y), 0.0)
+		OpenGlBridge.translate(
+			valueToDevicePixelsIfNeeded(component, newPos.x),
+			valueToDevicePixelsIfNeeded(component, newPos.y),
+			0.0
+		)
 	}
 
 	private fun valueToDevicePixelsIfNeeded(

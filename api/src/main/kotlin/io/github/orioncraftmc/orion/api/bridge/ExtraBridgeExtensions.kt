@@ -33,12 +33,12 @@ fun FontRendererBridge.drawString(value: String, x: Int, y: Int, color: Color, h
 	drawString(value, x, y, color.toSRGB().toRGBInt().argb, hasShadow)
 }
 
- fun TessellatorBridge.setColor(color: Color) {
+fun TessellatorBridge.setColor(color: Color) {
 	val rgb = color.toSRGB()
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
 }
 
- fun OpenGlBridge.setColor(color: Color) {
+fun OpenGlBridge.setColor(color: Color) {
 	val rgb = color.toSRGB()
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
 }

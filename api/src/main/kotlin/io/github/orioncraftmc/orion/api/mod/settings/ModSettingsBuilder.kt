@@ -32,7 +32,7 @@ object ModSettingsBuilder {
 		return BooleanSetting(default)
 	}
 
-	fun <H: Enum<H>> hud(): HudModSetting<H> {
+	fun <H : Enum<H>> hud(): HudModSetting<H> {
 		return HudModSetting()
 	}
 }
