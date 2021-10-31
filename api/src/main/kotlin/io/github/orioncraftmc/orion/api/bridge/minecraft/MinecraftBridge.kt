@@ -24,10 +24,8 @@
 
 package io.github.orioncraftmc.orion.api.bridge.minecraft
 
-import io.github.orioncraftmc.orion.api.bridge.minecraft.entity.EntityPlayerBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.gui.GuiScreenBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.item.RenderItemBridge
 import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
 import java.io.File
 
@@ -43,10 +41,6 @@ interface MinecraftBridge {
 	val gameAppDirectory: File
 
 	val gameSettings: GameSettingsBridge
-
-	val player: EntityPlayerBridge
-
-	val defaultRenderItem: RenderItemBridge
 
 	val currentOpenedScreen: GuiScreenBridge?
 

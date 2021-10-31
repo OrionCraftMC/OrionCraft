@@ -30,7 +30,7 @@ import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
 
 fun FontRendererBridge.drawString(value: String, x: Int, y: Int, color: Color, hasShadow: Boolean = false) {
-	drawString(value, x, y, color.toSRGB().toRGBInt().argb.toInt(), hasShadow)
+	drawString(value, x, y, color.toSRGB().toRGBInt().argb, hasShadow)
 }
 
  fun TessellatorBridge.setColor(color: Color) {
