@@ -54,7 +54,7 @@ class ComponentFlattenerRenderer(private val hasShadow: Boolean = true, private 
 	private var color: TextColor = NamedTextColor.WHITE
 	private val decorations: MutableSet<TextDecoration> = EnumSet.noneOf(TextDecoration::class.java)
 
-	private val decorationsAsString get() = decorations.joinToString { "$sectionSign${decorationsLegacyMap[it]!!}" }
+	private val decorationsAsString get() = decorations.joinToString("") { "$sectionSign${decorationsLegacyMap[it]!!}" }
 
 	override fun pushStyle(style: Style) {
 		style.color()?.also { color = it }
@@ -65,19 +65,20 @@ class ComponentFlattenerRenderer(private val hasShadow: Boolean = true, private 
 	private fun getDecorationsWithState(style: Style, state: TextDecoration.State) =
 		style.decorations().filterValues { it == state }.keys
 
-	val lineHeight = FontRendererBridge.fontHeight
+	private val lineHeight = FontRendererBridge.fontHeight
 	override fun component(text: String) {
 		val lines = text.lines()
 		val linesCount = lines.count()
 
 		lines.forEach {
-			val width = FontRendererBridge.getStringWidth(it)
+			val finalText = decorationsAsString + it
+			val width = FontRendererBridge.getStringWidth(finalText)
 			if (linesCount > 1) {
 				x = startingX
 				y += lineHeight
 			}
 
-			FontRendererBridge.drawString(decorationsAsString + it, x, y, color.toColor(), hasShadow)
+			FontRendererBridge.drawString(finalText, x, y, color.toColor(), hasShadow)
 			x += width
 		}
 	}
