@@ -38,3 +38,5 @@ val TessellatorBridge
 val ResourceLocationUtils
 	get() = OrionCraft.bridges.resourceLocationUtils
 
+val FontRendererBridge
+	get() = OrionCraft.bridges.minecraftBridge.fontRenderer
