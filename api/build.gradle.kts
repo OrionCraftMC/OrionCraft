@@ -24,5 +24,7 @@ dependencies {
 
     /* Adventure - Chat Components */
     implementation("net.kyori:adventure-api:4.9.2")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.9.2")
+    implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
 }
 
