@@ -25,20 +25,24 @@
 package io.github.orioncraftmc.orion.api.bridge
 
 import com.github.ajalt.colormath.Color
+import com.github.ajalt.colormath.model.HSV
+import com.github.ajalt.colormath.model.RGBInt
 import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
+import net.kyori.adventure.util.HSVLike
+import net.kyori.adventure.util.RGBLike
 
 fun FontRendererBridge.drawString(value: String, x: Int, y: Int, color: Color, hasShadow: Boolean = false) {
-	drawString(value, x, y, color.toSRGB().toRGBInt().argb.toInt(), hasShadow)
+	drawString(value, x, y, color.toSRGB().toRGBInt().argb, hasShadow)
 }
 
- fun TessellatorBridge.setColor(color: Color) {
+fun TessellatorBridge.setColor(color: Color) {
 	val rgb = color.toSRGB()
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
 }
 
- fun OpenGlBridge.setColor(color: Color) {
+fun OpenGlBridge.setColor(color: Color) {
 	val rgb = color.toSRGB()
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
 }
@@ -58,4 +62,12 @@ inline fun basicShapesRendering(code: () -> Unit) {
 		OpenGlBridge.enableTexture2D()
 		OpenGlBridge.disableBlend()
 	}
+}
+
+fun RGBLike.toColor(): Color {
+	return RGBInt(this.red(), this.green(), this.blue())
+}
+
+fun HSVLike.toColor(): Color {
+	return HSV(this.h(), this.s(), this.v())
 }
