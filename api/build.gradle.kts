@@ -21,4 +21,8 @@ dependencies {
 
     /* Discord SDK Integration */
     implementation("com.github.JnCrMx:discord-game-sdk4j:2b5a903204")
+
+    /* Adventure - Chat Components */
+    implementation("net.kyori:adventure-api:4.9.2")
 }
+
