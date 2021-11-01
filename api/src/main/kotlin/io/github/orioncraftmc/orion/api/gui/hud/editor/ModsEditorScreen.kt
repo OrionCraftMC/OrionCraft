@@ -28,11 +28,16 @@ import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
+import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
+import io.github.orioncraftmc.orion.api.bridge.basicShapesRendering
 import io.github.orioncraftmc.orion.api.bridge.matrix
+import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
+import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.ComponentSnapEngine
+import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnapAxis
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
@@ -87,6 +92,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 				borderRectangleLineWidth
 			)
 
+
 			var backgroundColor = modComponentBackground
 			if (ComponentUtils.isMouseWithinComponent(
 					mousePosition.x.toInt(),
@@ -119,6 +125,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private val mousePosition = Point(0.0, 0.0)
 	private val elementsBeingDraggedTable: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
 	private var componentDragMouseOffset: Point? = null
+	private var componentSnappingLines: Map<SnapAxis, List<Double>> = emptyMap()
 
 	// Button used to display the mods list
 	private val modsButton = ButtonComponent("Mods").apply {
@@ -143,8 +150,53 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			// If they are not moving a component, draw a selection box
 			drawSelectionBox(mouseX, mouseY)
 		}
+		updateSnappingLines()
 
+		// One or many components got moved, update the hud
 		modulesRenderer.renderHudElements()
+		drawSnappingLines()
+	}
+
+	private fun updateSnappingLines() {
+		componentSnappingLines = ComponentSnapEngine.computeSnappingPositions(
+			modulesRenderer.modElementComponents.cellSet()
+				.filterNot { elementsBeingDraggedTable.contains(it.rowKey, it.columnKey) }
+				.map { it.value }
+		)
+	}
+
+	private fun drawSnappingLines() {
+		val maxX = modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble()
+		val maxY = modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble()
+		componentSnappingLines.forEach { (axis, values) ->
+			values.forEach { value ->
+				var x = 0.0
+				var y = 0.0
+				val finalX: Double
+				val finalY: Double
+				if (axis == SnapAxis.HORIZONTAL) {
+					x = value
+					finalX = x
+					finalY = maxY
+				} else {
+					y = value
+					finalX = maxX
+					finalY = y
+				}
+
+				val tessellator = TessellatorBridge
+
+				basicShapesRendering {
+					OpenGlBridge.setLineWidth(2f)
+					tessellator.start(DrawMode.LINE_LOOP)
+					tessellator.addVertex(x, y, 0.0)
+					tessellator.addVertex(finalX, finalY, 0.0)
+					tessellator.setColor(255, 0, 0, 255)
+					tessellator.draw()
+				}
+
+			}
+		}
 	}
 
 	private val anchorForPointArray =
@@ -160,7 +212,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			)
 		)
 
-	fun getAnchorForPoint(x: Double, y: Double): Anchor {
+	private fun getAnchorForPoint(x: Double, y: Double): Anchor {
 		val parentSize = modulesRenderer.parentComponent.size
 		val dividedWidth = parentSize.width / 3
 		val dividedHeight = parentSize.height / 3

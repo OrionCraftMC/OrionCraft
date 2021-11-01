@@ -74,6 +74,18 @@ interface Component {
 			)
 		}
 
+	val effectiveLeft: Double
+		get() = effectivePosition.x
+
+	val effectiveTop: Double
+		get() = effectivePosition.y
+
+	val effectiveRight: Double
+		get() = effectiveLeft + effectiveSize.width
+
+	val effectiveBottom: Double
+		get() = effectiveTop + effectiveSize.height
+
 	var parent: Component?
 
 	var backgroundColor: Color?

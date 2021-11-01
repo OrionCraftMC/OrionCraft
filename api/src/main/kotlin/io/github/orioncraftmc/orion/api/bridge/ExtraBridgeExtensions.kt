@@ -38,6 +38,10 @@ fun TessellatorBridge.setColor(color: Color) {
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
 }
 
+fun OpenGlBridge.resetColor() {
+	setColor(255, 255, 255,255)
+}
+
 fun OpenGlBridge.setColor(color: Color) {
 	val rgb = color.toSRGB()
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)

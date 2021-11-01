@@ -25,11 +25,8 @@
 package io.github.orioncraftmc.orion.api.utils.rendering
 
 import com.github.ajalt.colormath.Color
-import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
-import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
-import io.github.orioncraftmc.orion.api.bridge.basicShapesRendering
+import io.github.orioncraftmc.orion.api.bridge.*
 import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
-import io.github.orioncraftmc.orion.api.bridge.setColor
 
 object RectRenderingUtils {
 
@@ -69,6 +66,7 @@ object RectRenderingUtils {
 
 			tessellator.draw()
 		}
+		OpenGlBridge.resetColor()
 	}
 
 }
