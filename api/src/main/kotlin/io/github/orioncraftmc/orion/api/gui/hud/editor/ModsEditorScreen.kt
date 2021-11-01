@@ -48,7 +48,7 @@ import kotlin.math.floor
 
 class ModsEditorScreen : ComponentOrionScreen() {
 
-	inner class ModsEditorHudModuleRenderer : BaseHudModuleRenderer() {
+	inner class ModsEditorHudModuleRenderer : BaseHudModuleRenderer(true) {
 
 		inline fun doActionIfMouseIsOverHudComponent(
 			mouseX: Int,
