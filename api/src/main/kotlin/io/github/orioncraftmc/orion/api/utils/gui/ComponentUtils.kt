@@ -32,6 +32,10 @@ import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
 import kotlin.math.roundToInt
 
 object ComponentUtils {
+
+	fun getComponentOriginPosition(component: Component) =
+		Point(-component.padding.left, -component.padding.top)
+
 	fun renderComponent(
 		component: Component,
 		mouseX: Int,
@@ -97,8 +101,8 @@ object ComponentUtils {
 		bufferSize: Int = 0
 	): Boolean {
 		val componentSize = component.effectiveSize
-		var startingPoint = Point()
-		if (isAbsoluteCoordinates) startingPoint = component.effectivePosition
+		var startingPoint = getComponentOriginPosition(component)
+		if (isAbsoluteCoordinates) startingPoint = component.effectivePosition + getComponentOriginPosition(component)
 
 		return (mouseX >= (startingPoint.x - bufferSize) && mouseX <= (startingPoint.x + (componentSize.width * component.scale) + bufferSize)
 				&& mouseY >= (startingPoint.y - bufferSize) && mouseY <= (startingPoint.y + (componentSize.height * component.scale) + bufferSize))

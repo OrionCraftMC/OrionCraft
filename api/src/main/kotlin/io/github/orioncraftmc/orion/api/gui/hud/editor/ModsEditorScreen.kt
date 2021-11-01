@@ -35,6 +35,7 @@ import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScr
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackground
@@ -73,7 +74,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 		private fun drawComponentRectangle(component: Component) {
 			val size = component.effectiveSize
-			val position = Point()
+			val position = ComponentUtils.getComponentOriginPosition(component)
 			val yPositionOffset = -0.5
 
 			RectRenderingUtils.drawRectangle(
@@ -198,12 +199,12 @@ class ModsEditorScreen : ComponentOrionScreen() {
 					this.size,
 					settings.anchor,
 					parent!!.size,
-					this.padding,
+					Padding(0.0),
 					parent!!.padding,
 					this.scale
 				)
 			}.apply {
-				val size = component.effectiveSize
+				val size = component.size
 				x = x.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble() - size.width)
 				y = y.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble() - size.height)
 			}

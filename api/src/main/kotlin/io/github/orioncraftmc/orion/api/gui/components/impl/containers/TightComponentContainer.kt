@@ -27,7 +27,6 @@ package io.github.orioncraftmc.orion.api.gui.components.impl.containers
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
-//TODO: This is a workaround. Figure out why everything breaks when it has a background + padding
 class TightComponentContainer(private val inner: Component) : ComponentContainer() {
 	init {
 	    addComponent(inner)
