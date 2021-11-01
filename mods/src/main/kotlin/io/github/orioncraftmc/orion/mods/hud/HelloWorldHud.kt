@@ -22,19 +22,12 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.mods
+package io.github.orioncraftmc.orion.mods.hud
 
-import io.github.orioncraftmc.orion.api.OrionCraftModsEntrypoint
-import io.github.orioncraftmc.orion.mods.fullbright.FullBrightMod
-import io.github.orioncraftmc.orion.mods.hud.FpsHudMod
-import io.github.orioncraftmc.orion.mods.hud.HelloWorldHud
+import io.github.orioncraftmc.orion.api.gui.hud.mod.single.simple.SimpleTextHudOrionMod
 
-object ModsEntrypoint : OrionCraftModsEntrypoint {
-	override fun initializeMods() {
-		registerMod(FullBrightMod)
-		//registerMod(TestHudMod)
-		registerMod(FpsHudMod)
-		registerMod(HelloWorldHud)
-	}
+object HelloWorldHud : SimpleTextHudOrionMod("helloworld", "Hello World") {
+	override val value: String
+		get() = "Hello World"
 
 }
