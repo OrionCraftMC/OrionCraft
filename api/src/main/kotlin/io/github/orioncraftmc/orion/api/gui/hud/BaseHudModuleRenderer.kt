@@ -120,7 +120,7 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 	fun getHudElementSettings(
 		hudMod: HudOrionMod<*>,
 		hudElement: Enum<*>
-	) = hudMod.hudSettings[hudElement] ?: HudModSettingsModel()
+	) = hudMod.hudSettings[hudElement] ?: HudModSettingsModel().also { hudMod.hudSettings[@Suppress("TYPE_MISMATCH") hudElement] = it }
 
 	protected fun removeHudModComponent(mod: HudOrionMod<*>, hudElement: Enum<*>) {
 		modElementComponents.remove(mod, hudElement)
