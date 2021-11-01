@@ -35,7 +35,7 @@ import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod
 import io.github.orioncraftmc.orion.api.onEvent
 
-abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false) : ParentComponentHelper() {
+abstract class BaseHudModuleRenderer(val showDummyComponents: Boolean = false) : ParentComponentHelper() {
 
 	init {
 		onEvent<HudModComponentRefreshEvent<*>> {
@@ -92,10 +92,10 @@ abstract class BaseHudModuleRenderer(val includeDummyComponents: Boolean = false
 	private fun prepareHudModComponent(hudMod: HudOrionMod<*>, hudElement: Enum<*>) {
 		if (hasElementVisible(hudMod, hudElement)) return
 		val hudSettings = getHudElementSettings(hudMod, hudElement)
-		var component = hudMod.getHudComponent(hudSettings.anchor, @Suppress("TYPE_MISMATCH") hudElement)
-
-		if (component == null && includeDummyComponents) {
-			component = hudMod.getDummyHudComponent(hudSettings.anchor, @Suppress("TYPE_MISMATCH") hudElement)
+		val component = if (showDummyComponents) {
+			hudMod.getDummyHudComponent(hudSettings.anchor, @Suppress("TYPE_MISMATCH") hudElement)
+		} else {
+			hudMod.getHudComponent(hudSettings.anchor, @Suppress("TYPE_MISMATCH") hudElement)
 		}
 
 		if (component != null) {
