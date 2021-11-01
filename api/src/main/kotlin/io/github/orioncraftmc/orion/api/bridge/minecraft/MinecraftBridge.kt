@@ -44,6 +44,8 @@ interface MinecraftBridge {
 
 	val currentOpenedScreen: GuiScreenBridge?
 
+	val currentFps: Int
+
 	fun drawDefaultBackground()
 
 	fun openScreen(screen: OrionScreen)
