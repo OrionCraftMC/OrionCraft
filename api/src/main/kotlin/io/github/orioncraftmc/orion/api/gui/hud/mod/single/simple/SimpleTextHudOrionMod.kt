@@ -24,10 +24,13 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.mod.single.simple
 
+import com.github.ajalt.colormath.model.RGBInt
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LiveLabelComponent
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.TightComponentContainer
 import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.model.Padding
 
 abstract class SimpleTextHudOrionMod(id: String, name: String) : SingleHudOrionMod(id, name) {
 	abstract val value: String
@@ -35,10 +38,15 @@ abstract class SimpleTextHudOrionMod(id: String, name: String) : SingleHudOrionM
 		get() = value
 
 	override fun getHudComponent(anchor: Anchor): Component? {
-		return LiveLabelComponent { value }
+		return createLabel { value }
 	}
 
+	private fun createLabel(function: () -> String) = TightComponentContainer(LiveLabelComponent(function).apply {
+		padding = Padding(5.0, 6.0, 5.0, 5.0)
+		backgroundColor = RGBInt(0, 0, 0, 100)
+	}
+)
 	override fun getDummyHudComponent(anchor: Anchor): Component {
-		return LiveLabelComponent { dummyValue }
+		return createLabel { dummyValue }
 	}
 }

@@ -22,28 +22,19 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components.impl
+package io.github.orioncraftmc.orion.api.gui.components.impl.containers
 
-import com.github.ajalt.colormath.Color
-import com.github.ajalt.colormath.model.RGBInt
-import io.github.orioncraftmc.orion.api.bridge.FontRendererBridge
-import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
-import io.github.orioncraftmc.orion.api.bridge.drawString
-import io.github.orioncraftmc.orion.api.gui.components.AbstractComponent
+import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
-open class LabelComponent(open var text: String = "", var color: Color = RGBInt(255, 255, 255)) : AbstractComponent() {
-
-	var hasDropShadow: Boolean = true
+//TODO: This is a workaround. Figure out why everything breaks when it has a background + padding
+class TightComponentContainer(private val inner: Component) : ComponentContainer() {
+	init {
+	    addComponent(inner)
+	}
 
 	override var size: Size
-		get() = super.size.apply {
-			width = FontRendererBridge.getStringWidth(text).toDouble()
-			height = FontRendererBridge.fontHeight.toDouble()
-		}
+		get() = inner.effectiveSize
 		set(value) {}
 
-	override fun renderComponent(mouseX: Int, mouseY: Int) {
-		FontRendererBridge.drawString(text, 0, 0, color, hasDropShadow)
-	}
 }

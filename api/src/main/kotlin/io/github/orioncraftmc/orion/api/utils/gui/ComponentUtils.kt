@@ -41,6 +41,7 @@ object ComponentUtils {
 		if (doLayout) performComponentLayout(component)
 		renderBackgroundColor(component, component.backgroundColor)
 		val (finalMouseX, finalMouseY) = computeMousePosition(component, mouseX, mouseY)
+		OpenGlBridge.enableBlend()
 		component.renderComponent(finalMouseX, finalMouseY)
 	}
 
