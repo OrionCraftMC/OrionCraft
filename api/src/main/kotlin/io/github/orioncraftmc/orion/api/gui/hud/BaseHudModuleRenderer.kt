@@ -92,10 +92,10 @@ abstract class BaseHudModuleRenderer(val showDummyComponents: Boolean = false) :
 	private fun prepareHudModComponent(hudMod: HudOrionMod<*>, hudElement: Enum<*>) {
 		if (hasElementVisible(hudMod, hudElement)) return
 		val hudSettings = getHudElementSettings(hudMod, hudElement)
-		val component = if (showDummyComponents) {
-			hudMod.getDummyHudComponent(hudSettings.anchor, @Suppress("TYPE_MISMATCH") hudElement)
-		} else {
-			hudMod.getHudComponent(hudSettings.anchor, @Suppress("TYPE_MISMATCH") hudElement)
+		var component = hudMod.getHudComponent(hudSettings.anchor, @Suppress("TYPE_MISMATCH") hudElement)
+
+		if (component == null && showDummyComponents) {
+			component = hudMod.getDummyHudComponent(hudSettings.anchor, @Suppress("TYPE_MISMATCH") hudElement)
 		}
 
 		if (component != null) {
