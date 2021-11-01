@@ -22,18 +22,19 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.mods
+package io.github.orioncraftmc.orion.mods.hud
 
-import io.github.orioncraftmc.orion.api.OrionCraftModsEntrypoint
-import io.github.orioncraftmc.orion.mods.fullbright.FullBrightMod
-import io.github.orioncraftmc.orion.mods.hud.FpsHudMod
-import io.github.orioncraftmc.orion.mods.hud.TestHudMod
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.gui.hud.mod.single.simple.SimpleTextHudOrionMod
 
-object ModsEntrypoint : OrionCraftModsEntrypoint {
-	override fun initializeMods() {
-		registerMod(FullBrightMod)
-		registerMod(TestHudMod)
-		registerMod(FpsHudMod)
-	}
+object FpsHudMod : SimpleTextHudOrionMod("fps", "FPS Mod") {
 
+	override val value: String
+		get() = formatFps(MinecraftBridge.currentFps)
+
+	override val dummyValue: String
+		get() = formatFps(100)
+
+	private fun formatFps(fps: Int) = "$fps FPS"
 }
+
