@@ -63,12 +63,12 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		inline fun doActionIfMouseIsOverHudComponent(
 			mouseX: Int, mouseY: Int, action: (HudOrionMod<*>, Enum<*>, Component) -> Unit
 		) {
-			modElementComponents.cellSet().forEach { cell ->
-				val isMouseWithinComponent = ComponentUtils.isMouseWithinComponent(mouseX, mouseY, cell.value, true, 2)
-				if (isMouseWithinComponent) {
+			modElementComponents.cellSet()
+				.filter { cell -> ComponentUtils.isMouseWithinComponent(mouseX, mouseY, cell.value, true, 2) }
+				.take(1)
+				.forEach { cell ->
 					action(cell.rowKey, cell.columnKey, cell.value)
 				}
-			}
 		}
 
 		override fun renderComponent(mod: HudOrionMod<*>, hudElement: Enum<*>, component: Component) {
