@@ -41,11 +41,11 @@ object ComponentSnapEngine {
 		}
 	}
 
-	fun computeSnappingPositions(componentList: List<Component>): Map<SnapAxis, List<Double>> {
+	fun computeSnappingPositions(componentList: List<Component>): Map<SnapAxis, MutableList<Double>> {
 		return SnapAxis.values().associateWith { axis ->
 			componentList.flatMap { component ->
 				getSnappingPositionsForComponent(component, axis)
-			}.distinct()
+			}.distinct().toMutableList()
 		}
 	}
 

@@ -124,7 +124,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private val elementsBeingDraggedTable: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
 	private val snappedElementsData = SnappedComponentData()
 	private var componentDragMouseOffset: Point? = null
-	private var componentSnappingLines: Map<SnapAxis, List<Double>> = emptyMap()
+	private var componentSnappingLines: Map<SnapAxis, MutableList<Double>> = emptyMap()
 
 	// Button used to display the mods list
 	private val modsButton = ButtonComponent("Mods").apply {
@@ -148,10 +148,10 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			// If they are not moving a component, draw a selection box
 			drawSelectionBox(mouseX, mouseY)
 		}
-		updateSnappingLines()
 
 		// One or many components got moved, update the hud
 		modulesRenderer.renderHudElements()
+		updateSnappingLines()
 		drawSnappingLines()
 	}
 
@@ -159,6 +159,17 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		componentSnappingLines =
 			ComponentSnapEngine.computeSnappingPositions(modulesRenderer.modElementComponents.cellSet()
 				.filterNot { elementsBeingDraggedTable.contains(it.rowKey, it.columnKey) }.map { it.value })
+
+		val maxX = modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble()
+		val maxY = modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble()
+		val sizePoint = Point(maxX, maxY)
+
+		SnapAxis.values().forEach { v ->
+			componentSnappingLines[v]?.run {
+				add(axisBorderDistance)
+				add(v.getValueFromPoint(sizePoint) - axisBorderDistance)
+			}
+		}
 	}
 
 	private fun drawSnappingLines() {
@@ -254,8 +265,10 @@ class ModsEditorScreen : ComponentOrionScreen() {
 				y = y.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble() - size.height)
 
 				val shouldSnapNextAxis = AtomicBoolean(true)
-				if (shouldSnapNextAxis.get()) x = handlePositionSnapAxis(SnapAxis.HORIZONTAL, x, x + size.width, mousePosition, shouldSnapNextAxis)
-				if (shouldSnapNextAxis.get()) y = handlePositionSnapAxis(SnapAxis.VERTICAL, y, y + size.height, mousePosition, shouldSnapNextAxis)
+				if (shouldSnapNextAxis.get()) x =
+					handlePositionSnapAxis(SnapAxis.HORIZONTAL, x, x + size.width, mousePosition, shouldSnapNextAxis)
+				if (shouldSnapNextAxis.get()) y =
+					handlePositionSnapAxis(SnapAxis.VERTICAL, y, y + size.height, mousePosition, shouldSnapNextAxis)
 			}
 
 			// Properly update the position of this element
@@ -280,7 +293,13 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		return elementsBeingDraggedTable.size() > 0
 	}
 
-	private fun handlePositionSnapAxis(axis: SnapAxis, value: Double, secondValue: Double, mousePos: Point, shouldSnapNextAxis: AtomicBoolean): Double {
+	private fun handlePositionSnapAxis(
+		axis: SnapAxis,
+		value: Double,
+		secondValue: Double,
+		mousePos: Point,
+		shouldSnapNextAxis: AtomicBoolean
+	): Double {
 		shouldSnapNextAxis.set(false)
 		val axisSnapValues = componentSnappingLines[axis] ?: return value
 		axisSnapValues.forEach { snapValue ->
@@ -388,5 +407,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		private const val snappingDistance = 4.0
 		private const val exitSnappingDistance = 10.0
 		private const val finalSnappingDistance = 15
+
+		private const val axisBorderDistance = 5.0
 	}
 }
