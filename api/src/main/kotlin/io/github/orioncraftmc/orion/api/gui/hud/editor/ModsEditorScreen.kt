@@ -45,6 +45,7 @@ import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.api.logger
+import io.github.orioncraftmc.orion.api.utils.BrandingUtils
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackground
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackgroundSelected
 import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentSelectionBorder
@@ -133,9 +134,15 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		onClick = { }
 	}
 
+	private val branding = BrandingUtils.getBrandingComponent(2.5).apply {
+		anchor = Anchor.TOP_MIDDLE
+		padding = Padding(0.0, 25.0, 0.0, 0.0)
+	}
+
 	init {
 		// Add button to our screen
 		addComponent(modsButton)
+		addComponent(branding)
 	}
 
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
