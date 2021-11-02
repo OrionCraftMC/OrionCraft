@@ -295,62 +295,100 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 	private fun handlePositionSnapAxis(
 		axis: SnapAxis,
-		value: Double,
+		firstValue: Double,
 		secondValue: Double,
 		mousePos: Point,
 		shouldSnapNextAxis: AtomicBoolean
 	): Double {
-		shouldSnapNextAxis.set(false)
-		val axisSnapValues = componentSnappingLines[axis] ?: return value
+		shouldSnapNextAxis.set(true)
+		val firstSkipCurrentSnapping = AtomicBoolean(false)
+		val secondSkipCurrentSnapping = AtomicBoolean(false)
+		val axisSnapValues = componentSnappingLines[axis] ?: return firstValue
 		axisSnapValues.forEach { snapValue ->
-			// Measure our current distance to the snapping guideline
-			val snapValueComparison = abs(value - snapValue)
-			//Are we too far? If so, skip this guideline
-			if (snapValueComparison > finalSnappingDistance) return@forEach
-
-			// Check if we are previously snapped
-			val isSnapped = snappedElementsData.isSnapped(axis)
-			// Calculate the mouse distance to the snapping guideline of our current snap
-			val snapMouseDistance = snappedElementsData.getSnapMouseDistance(axis) ?: 0.0
-			logger.debug("isSnapped[${axis}]= $isSnapped")
-
-			val snapMousePos = axis.getValueFromPoint(mousePos)
-			// Calculate the distance of our mouse to the point where we snapped
-			val mouseDistance = abs(snapMousePos - snapValue - snapMouseDistance)
-
-			// Check what we should do
-			// In order to snap, we need to be within the "Snapping Distance"
-			// In order to unsnap, we need to be snapped andour mouse needs to be further than the "Exiting Snapping Distance"
-			val shouldSnap = snapValueComparison <= snappingDistance
-			val shouldUnsnap = isSnapped && mouseDistance >= exitSnappingDistance
-
-			logger.debug("$snapValue: Unsnapping: isSnapped=$isSnapped mouseDistance=$mouseDistance snapMouseDistance=$snapMouseDistance shouldUnsnap=$shouldUnsnap")
-			if (shouldSnap && !shouldUnsnap) {
-				// If we are not previously snapped, store some helpful values
-				// that will help us check when to unsnap
-				logger.debug("$snapValue: Should've snapped on first value to [$value -> ${snapValue}]; [$mouseDistance] ")
-				if (!isSnapped) snappedElementsData.setSnapped(axis, mouseDistance, snapMousePos)
-				return snapValue
-			}
-
-			if (shouldUnsnap) {
-				// In case we should unsnap, we need to "teleport" the component to be offset with
-				// the mouse movement, otherwise the component would snap again
-				val originalMousePos = snappedElementsData.getSnapMousePosition(axis) ?: 0.0
-
-				// Clear the current snapping data since we unsnapped
-				snappedElementsData.setUnsnapped(axis)
-				logger.debug("Clearing snapping data for $axis")
-				return value + ((axis.getValueFromPoint(mousePos) - originalMousePos) / 2.0)
-			}
+			val firstSnappingResult = snapValueToAxis(
+				firstValue,
+				axis,
+				snapValue,
+				mousePos,
+				0.0,
+				firstSkipCurrentSnapping
+			)
+			val secondSnappingResult = snapValueToAxis(
+				secondValue,
+				axis,
+				snapValue,
+				mousePos,
+				secondValue - firstValue,
+				secondSkipCurrentSnapping
+			)
+			(firstSnappingResult ?: secondSnappingResult)?.let { return it }
+			if (firstSkipCurrentSnapping.get() || secondSkipCurrentSnapping.get()) return@forEach
 		}
 
 		shouldSnapNextAxis.set(true)
-		// We are not snapped anywhere, clear the snapping data
 
-		logger.debug("Clearing snapping data for all axis")
+		// We are not snapped anywhere, clear the snapping data
+		logger.debug("Clearing snapping data for current axis")
 		snappedElementsData.setUnsnapped(axis)
-		return value
+
+		return firstValue
+	}
+
+	private fun snapValueToAxis(
+		value: Double,
+		axis: SnapAxis,
+		snapValue: Double,
+		mousePos: Point,
+		secondValueOffset: Double,
+		skipCurrentSnapping: AtomicBoolean
+	): Double? {
+		// Measure our current distance to the snapping guideline
+		val finalSnapValue = snapValue - secondValueOffset
+		val finalValue = value - secondValueOffset
+		val snapValueComparison = abs(finalValue - finalSnapValue)
+		//Are we too far? If so, skip this guideline
+		if (snapValueComparison > finalSnappingDistance) {
+			skipCurrentSnapping.set(true)
+			return null
+		}
+
+		// Check if we are previously snapped
+		val isSnapped = snappedElementsData.isSnapped(axis)
+		// Calculate the mouse distance to the snapping guideline of our current snap
+		val snapMouseDistance = snappedElementsData.getSnapMouseDistance(axis) ?: 0.0
+		logger.debug("isSnapped[${axis}]= $isSnapped")
+
+		val snapMousePos = axis.getValueFromPoint(mousePos)
+		// Calculate the distance of our mouse to the point where we snapped
+		val mouseDistance = abs(snapMousePos - finalSnapValue - snapMouseDistance)
+
+		// Check what we should do
+		// In order to snap, we need to be within the "Snapping Distance"
+		// In order to unsnap, we need to be snapped and our mouse needs to be
+		// further than the "Exiting Snapping Distance"
+		val shouldSnap = snapValueComparison <= snappingDistance
+		val shouldUnsnap = isSnapped && mouseDistance >= exitSnappingDistance
+
+		logger.debug("$finalSnapValue: Unsnapping: isSnapped=$isSnapped mouseDistance=$mouseDistance snapMouseDistance=$snapMouseDistance shouldUnsnap=$shouldUnsnap")
+		if (shouldSnap && !shouldUnsnap) {
+			// If we are not previously snapped, store some helpful values
+			// that will help us check when to unsnap
+			logger.debug("$finalSnapValue: Should've snapped on first value to [$finalValue -> $finalSnapValue]; [$mouseDistance] ")
+			if (!isSnapped) snappedElementsData.setSnapped(axis, mouseDistance, snapMousePos)
+			return finalSnapValue
+		}
+
+		if (shouldUnsnap) {
+			// In case we should unsnap, we need to "teleport" the component to be offset with
+			// the mouse movement, otherwise the component would snap again
+			val originalMousePos = snappedElementsData.getSnapMousePosition(axis) ?: 0.0
+
+			// Clear the current snapping data since we unsnapped
+			snappedElementsData.setUnsnapped(axis)
+			logger.debug("Clearing snapping data for $axis")
+			return (finalValue + ((axis.getValueFromPoint(mousePos) - originalMousePos) / 2.0))
+		}
+		return null
 	}
 
 	override fun onClose() {

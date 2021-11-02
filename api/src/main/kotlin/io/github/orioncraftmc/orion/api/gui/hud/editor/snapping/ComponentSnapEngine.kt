@@ -31,12 +31,12 @@ object ComponentSnapEngine {
 	private fun getSnappingPositionsForComponent(component: Component, axis: SnapAxis): List<Double> {
 		return when (axis) {
 			SnapAxis.HORIZONTAL -> listOf(
-				kotlin.math.ceil(component.effectiveLeft),
-				kotlin.math.ceil(component.effectiveRight)
+				kotlin.math.ceil(component.effectiveLeft - 1),
+				kotlin.math.ceil(component.effectiveRight + 1)
 			)
 			SnapAxis.VERTICAL -> listOf(
-				kotlin.math.ceil(component.effectiveTop),
-				kotlin.math.ceil(component.effectiveBottom)
+				kotlin.math.ceil(component.effectiveTop - 1),
+				kotlin.math.ceil(component.effectiveBottom + 1)
 			)
 		}
 	}
