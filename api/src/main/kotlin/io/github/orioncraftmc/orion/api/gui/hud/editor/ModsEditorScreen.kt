@@ -38,6 +38,7 @@ import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScr
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.ComponentSnapEngine
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnapAxis
+import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnappedComponentData
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
@@ -120,6 +121,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private val modulesRenderer = ModsEditorHudModuleRenderer()
 	private val mousePosition = Point(0.0, 0.0)
 	private val elementsBeingDraggedTable: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
+	private val snappedElementsData = SnappedComponentData()
 	private var componentDragMouseOffset: Point? = null
 	private var componentSnappingLines: Map<SnapAxis, List<Double>> = emptyMap()
 
@@ -250,7 +252,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 				x = x.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble() - size.width)
 				y = y.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble() - size.height)
 
-				x = handlePositionSnapAxis(SnapAxis.HORIZONTAL, x, x + size.width, offset)
+				x = handlePositionSnapAxis(SnapAxis.HORIZONTAL, x, x + size.width, mousePosition)
 			}
 
 			// Properly update the position of this element
@@ -275,25 +277,32 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		return elementsBeingDraggedTable.size() > 0
 	}
 
-	private val mouseOffsetTracker = Point()
-	private fun handlePositionSnapAxis(axis: SnapAxis, value: Double, secondValue: Double, mouseOffset: Point): Double {
-		val snapLeaveAttemptMin = 5
+	private fun handlePositionSnapAxis(axis: SnapAxis, value: Double, secondValue: Double, mousePos: Point): Double {
 		val axisSnapValues = componentSnappingLines[axis] ?: return value
 		axisSnapValues.forEach { snapValue ->
 			val snapValueComparison = abs(value - snapValue)
-			val wasSnappedAlready = snapValueComparison in 0.0..exitSnappingDistance
-			val shouldSnap = snapValueComparison == snappingDistance
+			val isSnapped = snappedElementsData.isSnapped(axis)
+			val snapMouseDistance = snappedElementsData.getSnapMouseDistance(axis) ?: 0.0
+			val snapMousePos = axis.getValueFromPoint(mousePos)
+			val mouseDistance = abs(snapMousePos - snapValue - snapMouseDistance)
+			val shouldSnap = snapValueComparison <= snappingDistance
+			val shouldUnsnap = isSnapped && mouseDistance >= exitSnappingDistance
 
-			/*if (abs((if (axis == SnapAxis.HORIZONTAL) mouseOffsetTracker.x else mouseOffsetTracker.y)) >= snapLeaveAttemptMin) {
-				return value
-			}*/
-
-
-			if (shouldSnap) {
-				logger.debug("Should've snapped on first value to [$value -> ${snapValue}] $wasSnappedAlready")
+			if (shouldSnap && !shouldUnsnap) {
+				logger.debug("Should've snapped on first value to [$value -> ${snapValue}]; [$mouseDistance] ")
+				if (!isSnapped) snappedElementsData.setSnapped(axis, mouseDistance, snapMousePos)
 				return snapValue
 			}
+
+			if (shouldUnsnap) {
+				logger.debug("Unsnapping: isSnapped=$isSnapped mouseDistance=$mouseDistance snapMouseDistance=$snapMouseDistance shouldUnsnap=$shouldUnsnap")
+				val originalMousePos = snappedElementsData.getSnapMousePosition(axis) ?: 0.0
+				snappedElementsData.clear()
+				return value + ((axis.getValueFromPoint(mousePos) - originalMousePos) / 2.0)
+			}
 		}
+
+		snappedElementsData.clear()
 		return value
 	}
 
@@ -333,6 +342,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
 		handleComponentMouseRelease()
 		selectionBoxFirstPoint = null
+		snappedElementsData.clear()
 		super.handleMouseRelease(mouseX, mouseY)
 	}
 
@@ -351,6 +361,6 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 	companion object {
 		private const val snappingDistance = 4.0
-		private const val exitSnappingDistance = 2.0
+		private const val exitSnappingDistance = 10.0
 	}
 }

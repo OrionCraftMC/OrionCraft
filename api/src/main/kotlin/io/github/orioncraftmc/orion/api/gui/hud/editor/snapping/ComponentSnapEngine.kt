@@ -30,8 +30,8 @@ object ComponentSnapEngine {
 
 	private fun getSnappingPositionsForComponent(component: Component, axis: SnapAxis): List<Double> {
 		return when (axis) {
-			SnapAxis.HORIZONTAL -> listOf(component.effectiveLeft, component.effectiveRight)
-			SnapAxis.VERTICAL -> listOf(component.effectiveTop, component.effectiveBottom)
+			SnapAxis.HORIZONTAL -> listOf(component.effectiveRight)
+			SnapAxis.VERTICAL -> listOf(component.effectiveBottom)
 		}
 	}
 

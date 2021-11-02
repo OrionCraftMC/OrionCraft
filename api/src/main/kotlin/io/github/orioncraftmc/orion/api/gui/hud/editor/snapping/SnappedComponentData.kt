@@ -24,16 +24,31 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.editor.snapping
 
-import io.github.orioncraftmc.orion.api.gui.model.Point
+data class SnappedComponentData(
+	private var snappedAxisMouseDistance: MutableMap<SnapAxis, Pair<Double, Double>> = mutableMapOf()
+) {
 
-enum class SnapAxis {
-	HORIZONTAL,
-	VERTICAL;
+	fun clear() {
+		snappedAxisMouseDistance.clear()
+	}
 
-	fun getValueFromPoint(point: Point): Double {
-		return when (this) {
-			HORIZONTAL -> point.x
-			VERTICAL -> point.y
-		}
+	fun isSnapped(axis: SnapAxis): Boolean {
+		return snappedAxisMouseDistance.containsKey(axis)
+	}
+
+	fun setSnapped(axis: SnapAxis, mouseDistance: Double, mousePosition: Double) {
+		snappedAxisMouseDistance[axis] = mouseDistance to mousePosition
+	}
+
+	fun setUnsnapped(axis: SnapAxis) {
+		snappedAxisMouseDistance.remove(axis)
+	}
+
+	fun getSnapMouseDistance(axis: SnapAxis): Double? {
+		return snappedAxisMouseDistance[axis]?.first
+	}
+
+	fun getSnapMousePosition(axis: SnapAxis): Double? {
+		return snappedAxisMouseDistance[axis]?.second
 	}
 }
