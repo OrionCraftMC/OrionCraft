@@ -449,6 +449,6 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		private const val exitSnappingDistance = 8.0
 		private const val finalSnappingDistance = 15.0
 
-		private const val axisBorderDistance = 5.0
+		private const val axisBorderDistance = 15.0
 	}
 }
