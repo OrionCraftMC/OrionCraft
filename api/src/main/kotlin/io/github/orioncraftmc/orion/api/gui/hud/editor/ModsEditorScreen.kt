@@ -306,13 +306,13 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			// Measure our current distance to the snapping guideline
 			val snapValueComparison = abs(value - snapValue)
 			//Are we too far? If so, skip this guideline
-			logger.debug("$snapValue: snapValueComparison=$snapValueComparison")
 			if (snapValueComparison > finalSnappingDistance) return@forEach
 
 			// Check if we are previously snapped
 			val isSnapped = snappedElementsData.isSnapped(axis)
 			// Calculate the mouse distance to the snapping guideline of our current snap
 			val snapMouseDistance = snappedElementsData.getSnapMouseDistance(axis) ?: 0.0
+			logger.debug("isSnapped[${axis}]= $isSnapped")
 
 			val snapMousePos = axis.getValueFromPoint(mousePos)
 			// Calculate the distance of our mouse to the point where we snapped
@@ -324,6 +324,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			val shouldSnap = snapValueComparison <= snappingDistance
 			val shouldUnsnap = isSnapped && mouseDistance >= exitSnappingDistance
 
+			logger.debug("$snapValue: Unsnapping: isSnapped=$isSnapped mouseDistance=$mouseDistance snapMouseDistance=$snapMouseDistance shouldUnsnap=$shouldUnsnap")
 			if (shouldSnap && !shouldUnsnap) {
 				// If we are not previously snapped, store some helpful values
 				// that will help us check when to unsnap
@@ -332,21 +333,23 @@ class ModsEditorScreen : ComponentOrionScreen() {
 				return snapValue
 			}
 
-			logger.debug("$snapValue: Unsnapping: isSnapped=$isSnapped mouseDistance=$mouseDistance snapMouseDistance=$snapMouseDistance shouldUnsnap=$shouldUnsnap")
 			if (shouldUnsnap) {
 				// In case we should unsnap, we need to "teleport" the component to be offset with
 				// the mouse movement, otherwise the component would snap again
 				val originalMousePos = snappedElementsData.getSnapMousePosition(axis) ?: 0.0
 
 				// Clear the current snapping data since we unsnapped
-				snappedElementsData.clear()
+				snappedElementsData.setUnsnapped(axis)
+				logger.debug("Clearing snapping data for $axis")
 				return value + ((axis.getValueFromPoint(mousePos) - originalMousePos) / 2.0)
 			}
 		}
 
 		shouldSnapNextAxis.set(true)
 		// We are not snapped anywhere, clear the snapping data
-		snappedElementsData.clear()
+
+		logger.debug("Clearing snapping data for all axis")
+		snappedElementsData.setUnsnapped(axis)
 		return value
 	}
 
@@ -405,8 +408,8 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 	companion object {
 		private const val snappingDistance = 4.0
-		private const val exitSnappingDistance = 10.0
-		private const val finalSnappingDistance = 15
+		private const val exitSnappingDistance = 8.0
+		private const val finalSnappingDistance = 15.0
 
 		private const val axisBorderDistance = 5.0
 	}
