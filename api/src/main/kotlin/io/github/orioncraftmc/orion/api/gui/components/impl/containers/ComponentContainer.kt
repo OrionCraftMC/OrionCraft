@@ -31,9 +31,9 @@ import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
-import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils.computeMousePosition
-import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils.isMouseWithinComponent
+import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
+import io.github.orioncraftmc.orion.utils.gui.ComponentUtils.computeMousePosition
+import io.github.orioncraftmc.orion.utils.gui.ComponentUtils.isMouseWithinComponent
 import java.util.*
 
 open class ComponentContainer : Component {

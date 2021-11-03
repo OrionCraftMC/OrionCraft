@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.utils
+package io.github.orioncraftmc.orion.utils
 
 import de.jcm.discordgamesdk.Core
 import de.jcm.discordgamesdk.CreateParams

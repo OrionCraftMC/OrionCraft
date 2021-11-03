@@ -28,8 +28,8 @@ import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.ParentComponentHelper
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.utils.BrandingUtils
-import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
+import io.github.orioncraftmc.orion.utils.BrandingUtils
+import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 
 class GuiScreenOrionBrandingScreen : ParentComponentHelper() {
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.utils.rendering
+package io.github.orioncraftmc.orion.utils.rendering
 
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.*

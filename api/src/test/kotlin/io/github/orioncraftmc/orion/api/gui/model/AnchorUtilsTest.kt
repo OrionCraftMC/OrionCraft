@@ -24,7 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.gui.model
 
-import io.github.orioncraftmc.orion.api.utils.gui.AnchorUtils
+import io.github.orioncraftmc.orion.utils.gui.AnchorUtils
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

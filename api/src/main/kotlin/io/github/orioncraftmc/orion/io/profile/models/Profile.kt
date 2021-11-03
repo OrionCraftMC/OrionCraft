@@ -22,19 +22,24 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.utils
+package io.github.orioncraftmc.orion.io.profile.models
 
-import com.github.ajalt.colormath.model.RGBInt
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.*
 
-object ColorConstants {
 
-	val rectangleBorder = RGBInt(255, 255, 255, 127)
+data class Profile(
+    val code: Int?,
+    val uuid: UUID?,
+    @JsonProperty("username") val name: String?,
+    val textures: ProfileTextures?
+) {
+    val id: UUID?
+        get() = uuid
 
-	val buttonBackground = RGBInt(0, 0, 0, 90)
-	val buttonPressedBackground = RGBInt(255, 255, 255, 90)
+    val isError: Boolean
+        get() = code != null
 
-	val modComponentBackground = RGBInt(255, 255, 255, 40)
-	val modComponentBackgroundSelected = RGBInt(255, 255, 255, 100)
-	val modComponentSelectionBorder = RGBInt(200, 200, 200)
-
+    val uniqueId: UUID?
+        get() = uuid
 }

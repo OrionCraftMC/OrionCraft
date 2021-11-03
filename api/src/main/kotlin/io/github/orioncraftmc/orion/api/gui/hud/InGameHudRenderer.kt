@@ -31,7 +31,7 @@ import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.onEvent
-import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
+import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 
 class InGameHudRenderer : BaseHudModuleRenderer() {
 

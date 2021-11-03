@@ -22,7 +22,21 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.io.profile.models
+package io.github.orioncraftmc.orion.backport.hooks
 
-data class RawTexture(val value: String, val signature: String)
+import io.github.orioncraftmc.orion.io.profile.ProfileApi
+import java.util.*
 
+object PlayerTexturesHook {
+
+	fun getPlayerSkin(name: String): ByteArray? {
+		return ProfileApi.getProfileByName(name)?.textures?.skin?.data?.let {
+			Base64.getDecoder().decode(it)
+		}
+	}
+
+	fun getPlayerCloak(name: String): ByteArray? {
+		return null
+	}
+
+}

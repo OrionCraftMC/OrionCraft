@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.utils.gui
+package io.github.orioncraftmc.orion.utils.gui
 
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
+import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
 import kotlin.math.roundToInt
 
 object ComponentUtils {

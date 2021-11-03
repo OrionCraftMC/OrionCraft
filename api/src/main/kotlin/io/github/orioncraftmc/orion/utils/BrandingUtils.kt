@@ -22,18 +22,30 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.io.profile
+package io.github.orioncraftmc.orion.utils
 
-import io.github.orioncraftmc.orion.api.io.profile.models.Profile
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import java.util.*
+import io.github.orioncraftmc.orion.api.OrionCraft
+import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutDirection
+import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
-interface ProfileService {
-    @GET("user/{id}")
-    fun findById(@Path("id") id: UUID?): Call<Profile>?
-
-    @GET("user/{name}")
-    fun findByName(@Path("name") name: String?): Call<Profile>?
+object BrandingUtils {
+	fun getBrandingComponent(mainTextScale: Double): Component {
+		val mainLabelComponent = LabelComponent("OrionCraft").apply {
+			scale = mainTextScale
+		}
+		if (OrionCraft.clientVersion.isNostalgiaVersion) {
+			return FlowLayoutContainer(FlowLayoutDirection.VERTICAL).apply {
+				snapToDevicePixels = true
+				addComponent(mainLabelComponent)
+				addComponent(LabelComponent("Nostalgia").apply {
+					anchor = Anchor.TOP_RIGHT
+					snapToDevicePixels = true
+				})
+			}
+		}
+		return mainLabelComponent
+	}
 }

@@ -32,7 +32,7 @@ import io.github.orioncraftmc.orion.api.keybinding.KeybindingManager
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.mod.ModManager
 import io.github.orioncraftmc.orion.api.mod.settings.SettingsProvider
-import io.github.orioncraftmc.orion.api.utils.OrionDiscordIntegration
+import io.github.orioncraftmc.orion.utils.OrionDiscordIntegration
 import kotlin.system.measureTimeMillis
 
 object OrionCraft {

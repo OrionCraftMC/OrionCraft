@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.io.profile.models
+package io.github.orioncraftmc.orion.io.profile.models
 
 class ProfileTextures {
     val isCustom = false

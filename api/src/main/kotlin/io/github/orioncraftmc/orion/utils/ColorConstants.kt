@@ -22,30 +22,19 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.utils
+package io.github.orioncraftmc.orion.utils
 
-import io.github.orioncraftmc.orion.api.OrionCraft
-import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutDirection
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import com.github.ajalt.colormath.model.RGBInt
 
-object BrandingUtils {
-	fun getBrandingComponent(mainTextScale: Double): Component {
-		val mainLabelComponent = LabelComponent("OrionCraft").apply {
-			scale = mainTextScale
-		}
-		if (OrionCraft.clientVersion.isNostalgiaVersion) {
-			return FlowLayoutContainer(FlowLayoutDirection.VERTICAL).apply {
-				snapToDevicePixels = true
-				addComponent(mainLabelComponent)
-				addComponent(LabelComponent("Nostalgia").apply {
-					anchor = Anchor.TOP_RIGHT
-					snapToDevicePixels = true
-				})
-			}
-		}
-		return mainLabelComponent
-	}
+object ColorConstants {
+
+	val rectangleBorder = RGBInt(255, 255, 255, 127)
+
+	val buttonBackground = RGBInt(0, 0, 0, 90)
+	val buttonPressedBackground = RGBInt(255, 255, 255, 90)
+
+	val modComponentBackground = RGBInt(255, 255, 255, 40)
+	val modComponentBackgroundSelected = RGBInt(255, 255, 255, 100)
+	val modComponentSelectionBorder = RGBInt(200, 200, 200)
+
 }

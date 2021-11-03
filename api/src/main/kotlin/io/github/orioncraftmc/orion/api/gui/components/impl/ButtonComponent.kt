@@ -28,11 +28,11 @@ import com.github.ajalt.colormath.Color
 import com.github.ajalt.colormath.model.RGBInt
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.buttonBackground
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.buttonPressedBackground
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.rectangleBorder
-import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
-import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
+import io.github.orioncraftmc.orion.utils.ColorConstants.buttonBackground
+import io.github.orioncraftmc.orion.utils.ColorConstants.buttonPressedBackground
+import io.github.orioncraftmc.orion.utils.ColorConstants.rectangleBorder
+import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
+import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
 
 class ButtonComponent(
 	text: String,

@@ -22,21 +22,18 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.backport.hooks
+package io.github.orioncraftmc.orion.io.profile
 
-import io.github.orioncraftmc.orion.api.io.profile.ProfileApi
+import io.github.orioncraftmc.orion.io.profile.models.Profile
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
 import java.util.*
 
-object PlayerTexturesHook {
+interface ProfileService {
+    @GET("user/{id}")
+    fun findById(@Path("id") id: UUID?): Call<Profile>?
 
-	fun getPlayerSkin(name: String): ByteArray? {
-		return ProfileApi.getProfileByName(name)?.textures?.skin?.data?.let {
-			Base64.getDecoder().decode(it)
-		}
-	}
-
-	fun getPlayerCloak(name: String): ByteArray? {
-		return null
-	}
-
+    @GET("user/{name}")
+    fun findByName(@Path("name") name: String?): Call<Profile>?
 }
