@@ -24,20 +24,68 @@
 
 package io.github.orioncraftmc.orion.backport.hooks
 
+import io.github.orioncraftmc.orion.api.logger
+import io.github.orioncraftmc.orion.backport.skins.CapeImageHelper
 import io.github.orioncraftmc.orion.io.capes.CapesApi
 import io.github.orioncraftmc.orion.io.profile.ProfileApi
+import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
+import java.io.IOException
 import java.net.URL
 import java.util.*
+import java.util.function.Consumer
+import javax.imageio.ImageIO
 
 object PlayerTexturesHook {
 
-	fun getPlayerSkin(name: String): ByteArray? {
+	fun fetchPlayerTexture(location: String, cancel: Runnable, imageHandler: Consumer<BufferedImage>) {
+		if (!location.startsWith("orion_")) {
+			return
+		}
+		val downloadData: List<String>
+		try {
+			downloadData = location.split('_', limit = 3)
+			if (downloadData.size != 3) {
+				return
+			}
+		} catch (e: Exception) {
+			e.printStackTrace()
+			return
+		}
+		cancel.run()
+
+		val part = downloadData[1]
+		val name = downloadData[2]
+		var result: ByteArray? = null
+
+		logger.debug("Downloading part $part for name $name")
+		val isCloak = part == "cloak"
+		when (part) {
+			"skin" -> result = getPlayerSkin(name)
+			"cloak" -> result = getPlayerCloak(name)
+		}
+
+		if (result != null) {
+			try {
+				ByteArrayInputStream(result).use { byteStream ->
+					var image = ImageIO.read(byteStream)
+					if (isCloak) image = CapeImageHelper.parseCapeImage(image)
+					imageHandler.accept(image)
+				}
+			} catch (e: IOException) {
+				e.printStackTrace()
+			}
+		}
+
+	}
+
+	private fun getPlayerSkin(name: String): ByteArray? {
 		return ProfileApi.getProfileByName(name)?.textures?.skin?.data?.let {
 			Base64.getDecoder().decode(it)
 		}
 	}
 
-	fun getPlayerCloak(name: String): ByteArray? {
+	private fun getPlayerCloak(name: String): ByteArray? {
 		return CapesApi.getCapeForPlayer(name)?.imageUrl?.let { URL(it).readBytes() }
 	}
 
