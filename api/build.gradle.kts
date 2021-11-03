@@ -21,4 +21,8 @@ dependencies {
 
     /* Discord SDK Integration */
     implementation("com.github.JnCrMx:discord-game-sdk4j:2b5a903204")
+
+    /* HTTP I/O */
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
 }
