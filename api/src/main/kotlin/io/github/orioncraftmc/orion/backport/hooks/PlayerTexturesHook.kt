@@ -24,6 +24,8 @@
 
 package io.github.orioncraftmc.orion.backport.hooks
 
+import io.github.orioncraftmc.orion.api.bridge.ResourceLocationUtils
+import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationBridge
 import io.github.orioncraftmc.orion.api.logger
 import io.github.orioncraftmc.orion.backport.skins.CapeImageHelper
 import io.github.orioncraftmc.orion.io.capes.CapesApi
@@ -37,6 +39,10 @@ import java.util.function.Consumer
 import javax.imageio.ImageIO
 
 object PlayerTexturesHook {
+
+	fun getPlayerDefaultSkinResourceLocation(): ResourceLocationBridge {
+		return ResourceLocationUtils.createNewOrionResourceLocation("textures/entity/steve.png")
+	}
 
 	fun fetchPlayerTexture(location: String, cancel: Runnable, imageHandler: Consumer<BufferedImage>) {
 		if (!location.startsWith("orion_")) {
