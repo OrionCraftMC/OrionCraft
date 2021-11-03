@@ -44,7 +44,7 @@ object PlayerTexturesHook {
 		return ResourceLocationUtils.createNewOrionResourceLocation("textures/entity/steve.png")
 	}
 
-	fun fetchPlayerTexture(location: String, cancel: Runnable, imageHandler: Consumer<BufferedImage>, slimSkinHandler: Consumer<Boolean>?) {
+	fun fetchPlayerTexture(location: String, cancel: Runnable, imageHandler: Consumer<BufferedImage>, slimSkinHandler: Consumer<Boolean>?, oldModelHandler: Consumer<Boolean>?) {
 		if (!location.startsWith("orion_")) {
 			return
 		}
@@ -79,6 +79,10 @@ object PlayerTexturesHook {
 				ByteArrayInputStream(result).use { byteStream ->
 					var image = ImageIO.read(byteStream)
 					if (isCloak) image = CapeImageHelper.parseCapeImage(image)
+					if (!isCloak) {
+						val ratio = image.width / image.height.toDouble()
+						oldModelHandler?.accept(ratio != 1.0)
+					}
 					imageHandler.accept(image)
 				}
 			} catch (e: IOException) {
