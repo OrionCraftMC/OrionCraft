@@ -22,23 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.backport.hooks
+package io.github.orioncraftmc.orion.io.capes.models
 
-import io.github.orioncraftmc.orion.io.capes.CapesApi
-import io.github.orioncraftmc.orion.io.profile.ProfileApi
-import java.net.URL
-import java.util.*
+data class Cape(
+	val exists: Boolean,
+	val imageUrl: String?
+)
 
-object PlayerTexturesHook {
-
-	fun getPlayerSkin(name: String): ByteArray? {
-		return ProfileApi.getProfileByName(name)?.textures?.skin?.data?.let {
-			Base64.getDecoder().decode(it)
-		}
-	}
-
-	fun getPlayerCloak(name: String): ByteArray? {
-		return CapesApi.getCapeForPlayer(name)?.imageUrl?.let { URL(it).readBytes() }
-	}
-
-}

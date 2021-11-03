@@ -22,23 +22,14 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.backport.hooks
+package io.github.orioncraftmc.orion.io.capes
 
-import io.github.orioncraftmc.orion.io.capes.CapesApi
-import io.github.orioncraftmc.orion.io.profile.ProfileApi
-import java.net.URL
-import java.util.*
+import io.github.orioncraftmc.orion.io.capes.models.Cape
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-object PlayerTexturesHook {
-
-	fun getPlayerSkin(name: String): ByteArray? {
-		return ProfileApi.getProfileByName(name)?.textures?.skin?.data?.let {
-			Base64.getDecoder().decode(it)
-		}
-	}
-
-	fun getPlayerCloak(name: String): ByteArray? {
-		return CapesApi.getCapeForPlayer(name)?.imageUrl?.let { URL(it).readBytes() }
-	}
-
+interface CapeService {
+    @GET("load/{name}")
+    fun getCapes(@Path("name") name: String?): Call<Map<String, Cape>>?
 }
