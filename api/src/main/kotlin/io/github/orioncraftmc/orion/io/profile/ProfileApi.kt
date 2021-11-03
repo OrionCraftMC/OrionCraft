@@ -61,7 +61,7 @@ object ProfileApi {
 	}
 
 	fun getProfileByName(name: String): Profile? {
-		return profileNameCache.getIfPresent(name) ?: getProfileService().findByName(name)?.execute()?.body()
+		return profileNameCache.getIfPresent(name) ?: runCatching { getProfileService().findByName(name)?.execute() }.getOrNull()?.body()
 			?.takeIf { !it.isError }?.also {
 				profileNameCache.put(it.name!!, it)
 				profileCache.put(it.uuid!!, it)

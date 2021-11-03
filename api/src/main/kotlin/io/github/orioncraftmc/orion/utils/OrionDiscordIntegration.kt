@@ -64,7 +64,7 @@ object OrionDiscordIntegration {
 	}
 
 	fun initIntegration(): Boolean {
-		val discordLibrary = downloadDiscordLibrary()
+		val discordLibrary = runCatching { downloadDiscordLibrary() }.getOrNull()
 		if (discordLibrary == null) {
 			logger.error("Unable to download Discord SDK's natives. No Discord integration will be done.")
 			return false

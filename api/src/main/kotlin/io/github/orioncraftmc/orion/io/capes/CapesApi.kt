@@ -51,7 +51,7 @@ object CapesApi {
 
 
 	fun getCapeForPlayer(name: String): Cape? {
-		return capeCache.getIfPresent(name) ?: getCapeService().getCapes(name)?.execute()?.body()?.let { capeMap ->
+		return capeCache.getIfPresent(name) ?: runCatching { getCapeService().getCapes(name)?.execute() }.getOrNull()?.body()?.let { capeMap ->
 				capeMap.values.firstOrNull { it.exists }?.also { capeCache.put(name, it) }
 			}
 	}
