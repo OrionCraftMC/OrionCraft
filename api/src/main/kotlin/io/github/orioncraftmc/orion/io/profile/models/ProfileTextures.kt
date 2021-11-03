@@ -25,8 +25,8 @@
 package io.github.orioncraftmc.orion.io.profile.models
 
 class ProfileTextures {
-    val isCustom = false
-    val isSlim = false
+    val custom = false
+    val slim = false
     val skin: Texture? = null
     val raw: RawTexture? = null
 }

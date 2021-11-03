@@ -44,7 +44,7 @@ object PlayerTexturesHook {
 		return ResourceLocationUtils.createNewOrionResourceLocation("textures/entity/steve.png")
 	}
 
-	fun fetchPlayerTexture(location: String, cancel: Runnable, imageHandler: Consumer<BufferedImage>) {
+	fun fetchPlayerTexture(location: String, cancel: Runnable, imageHandler: Consumer<BufferedImage>, slimSkinHandler: Consumer<Boolean>?) {
 		if (!location.startsWith("orion_")) {
 			return
 		}
@@ -67,7 +67,10 @@ object PlayerTexturesHook {
 		logger.debug("Downloading part $part for name $name")
 		val isCloak = part == "cloak"
 		when (part) {
-			"skin" -> result = getPlayerSkin(name)
+			"skin" -> {
+				result = getPlayerSkin(name)
+				slimSkinHandler?.accept(isPlayerUsingSlimSkin(name))
+			}
 			"cloak" -> result = getPlayerCloak(name)
 		}
 
@@ -89,6 +92,10 @@ object PlayerTexturesHook {
 		return ProfileApi.getProfileByName(name)?.textures?.skin?.data?.let {
 			Base64.getDecoder().decode(it)
 		}
+	}
+
+	private fun isPlayerUsingSlimSkin(name: String): Boolean {
+		return ProfileApi.getProfileByName(name)?.textures?.slim == true
 	}
 
 	private fun getPlayerCloak(name: String): ByteArray? {
