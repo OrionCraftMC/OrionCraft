@@ -27,7 +27,7 @@
 package io.github.orioncraftmc.orion.api.gui.screens
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.gui.GuiScreenBridge
+import io.github.orioncraftmc.orion.api.bridge.gui.GuiScreenBridge
 
 interface OrionScreen : GuiScreenBridge {
 

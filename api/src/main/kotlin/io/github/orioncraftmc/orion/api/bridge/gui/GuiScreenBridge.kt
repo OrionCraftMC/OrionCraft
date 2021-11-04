@@ -22,6 +22,6 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering.gui
+package io.github.orioncraftmc.orion.api.bridge.gui
 
-interface GuiIngameBridge : GuiBridge
+interface GuiScreenBridge : GuiBridge

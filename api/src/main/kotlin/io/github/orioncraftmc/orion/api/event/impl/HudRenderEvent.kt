@@ -24,7 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.event.impl
 
-import io.github.orioncraftmc.orion.api.bridge.rendering.gui.GuiIngameBridge
+import io.github.orioncraftmc.orion.api.bridge.gui.GuiIngameBridge
 import io.github.orioncraftmc.orion.api.event.Event
 
 data class HudRenderEvent(val tickDelta: Float, val hud: GuiIngameBridge) : Event

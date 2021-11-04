@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering.gui
+package io.github.orioncraftmc.orion.api.bridge.gui
 
-interface GuiScreenBridge : GuiBridge
+interface GuiBridge {
+	var zLevel: Float
+}
