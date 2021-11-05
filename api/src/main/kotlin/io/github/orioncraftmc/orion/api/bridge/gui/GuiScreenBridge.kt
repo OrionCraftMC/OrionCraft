@@ -24,4 +24,8 @@
 
 package io.github.orioncraftmc.orion.api.bridge.gui
 
-interface GuiScreenBridge : GuiBridge
+interface GuiScreenBridge : GuiBridge {
+	val width: Int
+
+	val height: Int
+}

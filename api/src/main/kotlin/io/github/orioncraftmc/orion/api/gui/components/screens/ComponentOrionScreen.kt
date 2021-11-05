@@ -32,6 +32,7 @@ import io.github.orioncraftmc.orion.api.gui.components.impl.containers.Component
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
+import kotlin.math.roundToInt
 
 open class ComponentOrionScreen : ComponentContainer(), OrionScreen {
 	private val zeroPoint = Point()
@@ -81,5 +82,11 @@ open class ComponentOrionScreen : ComponentContainer(), OrionScreen {
 
 		super.onResize()
 	}
+
+	override val width: Int
+		get() = size.width.roundToInt()
+
+	override val height: Int
+		get() = size.height.roundToInt()
 
 }
