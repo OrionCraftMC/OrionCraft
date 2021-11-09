@@ -32,6 +32,7 @@ import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.OrionCraftConstants
 import io.github.orioncraftmc.orion.api.OrionCraftConstants.orionCraftDiscordClientId
 import io.github.orioncraftmc.orion.api.OrionCraftConstants.orionCraftNostalgiaDiscordClientId
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.logger
 import java.io.File
 import java.io.IOException
@@ -91,6 +92,8 @@ object OrionDiscordIntegration {
 	}
 
 	private fun downloadDiscordLibrary(): File? {
+		val cachedLibraryFile = File(MinecraftBridge.gameAppDirectory, "discord_game_sdk-natives.zip")
+
 		// Find out which name Discord's library has (.dll for Windows, .so for Linux)
 		val name = "discord_game_sdk"
 		val suffix: String
@@ -115,7 +118,10 @@ object OrionDiscordIntegration {
 
 		// Open the URL as a ZipInputStream
 		val downloadUrl = URL("https://dl-game-sdk.discordapp.net/2.5.6/discord_game_sdk.zip")
-		val zin = ZipInputStream(downloadUrl.openStream())
+		if (!cachedLibraryFile.exists()) {
+			cachedLibraryFile.writeBytes(downloadUrl.readBytes())
+		}
+		val zin = ZipInputStream(cachedLibraryFile.inputStream())
 
 		// Search for the right file inside the ZIP
 		var entry: ZipEntry?
