@@ -28,13 +28,19 @@ package io.github.orioncraftmc.orion.api.gui.components.screens
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
+import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 import kotlin.math.roundToInt
 
-open class ComponentOrionScreen : ComponentContainer(), OrionScreen {
+open class ComponentOrionScreen(isFlex: Boolean = false) : ComponentContainer(), OrionScreen {
+	init {
+		if (isFlex) flex {}
+	}
+
 	private val zeroPoint = Point()
 
 	// We are at the root of the parent tree
@@ -79,6 +85,8 @@ open class ComponentOrionScreen : ComponentContainer(), OrionScreen {
 			width = sr.scaledWidthFloat.toDouble()
 			height = sr.scaledHeightFloat.toDouble()
 		}
+
+		ComponentUtils.performRootComponentLayout(this, true)
 
 		super.onResize()
 	}

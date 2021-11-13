@@ -26,6 +26,8 @@ package io.github.orioncraftmc.orion.api.gui.hud.editor
 
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
+import io.github.orioncraftmc.meditate.enums.YogaAlign
+import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
@@ -33,8 +35,10 @@ import io.github.orioncraftmc.orion.api.bridge.basicShapesRendering
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
 import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
+import io.github.orioncraftmc.orion.api.gui.components.size
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.ComponentSnapEngine
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnapAxis
@@ -57,7 +61,13 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs
 import kotlin.math.floor
 
-class ModsEditorScreen : ComponentOrionScreen() {
+class ModsEditorScreen : ComponentOrionScreen(true) {
+
+	init {
+	    flex {
+			justifyContent = YogaJustify.CENTER
+		}
+	}
 
 	inner class ModsEditorHudModuleRenderer : BaseHudModuleRenderer(true) {
 
@@ -129,9 +139,11 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 	// Button used to display the mods list
 	private val modsButton = ButtonComponent("Mods").apply {
-		size = Size(85.0, 27.0)
-		anchor = Anchor.MIDDLE
 		onClick = { }
+		flex {
+			size = Size(85.0, 27.0)
+			alignSelf = YogaAlign.CENTER
+		}
 	}
 
 	private val branding = BrandingUtils.getBrandingComponent(2.5).apply {

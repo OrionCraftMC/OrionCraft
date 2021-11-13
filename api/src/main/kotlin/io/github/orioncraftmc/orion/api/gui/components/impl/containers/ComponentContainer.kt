@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.api.gui.components.impl.containers
 
 import com.github.ajalt.colormath.Color
+import io.github.orioncraftmc.meditate.YogaNode
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
@@ -48,13 +49,21 @@ open class ComponentContainer : Component {
 	override var backgroundColor: Color? = null
 	override var scale: Double = 1.0
 	override var snapToDevicePixels: Boolean = false
+	override var flexLayoutNode: YogaNode? = null
 
 	fun addComponent(component: Component) {
 		component.parent = this
 		componentsList.add(component)
+
+		val childFlexLayoutNode = component.flexLayoutNode ?: return
+
+		flexLayoutNode?.apply {
+			addChildAt(childFlexLayoutNode, childCount)
+		}
 	}
 
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
+		ComponentUtils.performRootComponentLayout(this)
 		componentsList.forEach {
 			matrix {
 				performComponentLayout(it)

@@ -25,4 +25,7 @@ dependencies {
     /* HTTP I/O */
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
+
+    /* Meditate Layout */
+    implementation("io.github.orioncraftmc:meditate-layout:1.0.0")
 }

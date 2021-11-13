@@ -16,6 +16,7 @@ subprojects {
     repositories {
         mavenCentral()
         maven("https://jitpack.io")
+        maven("https://raw.githubusercontent.com/NickAcPT/LightCraftMaven/main/")
     }
 
     tasks {

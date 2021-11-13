@@ -68,8 +68,8 @@ class ButtonComponent(
 	}
 
 	private fun renderButtonBorder() {
-		val ourPadding = padding
-		val ourSize = size
+		val (ourSize, ourPadding) = ComponentUtils.computeEffectiveProperties(this)
+
 		RectRenderingUtils.drawRectangle(
 			-ourPadding.left,
 			-ourPadding.top,
