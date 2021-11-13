@@ -48,7 +48,7 @@ open class ComponentContainer : Component {
 	override var parent: Component? = null
 	override var backgroundColor: Color? = null
 	override var scale: Double = 1.0
-	override var snapToDevicePixels: Boolean = false
+	final override var snapToDevicePixels: Boolean = false
 	override var flexLayoutNode: YogaNode? = null
 
 	fun addComponent(component: Component) {

@@ -46,7 +46,7 @@ import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.api.logger
-import io.github.orioncraftmc.orion.screens.ModMenuScreen
+import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
 import io.github.orioncraftmc.orion.utils.BrandingUtils
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackground
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundSelected

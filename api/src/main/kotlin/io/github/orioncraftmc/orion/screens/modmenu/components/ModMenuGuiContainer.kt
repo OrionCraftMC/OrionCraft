@@ -22,19 +22,30 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.screens
+package io.github.orioncraftmc.orion.screens.modmenu.components
 
-import io.github.orioncraftmc.meditate.enums.YogaAlign
-import io.github.orioncraftmc.meditate.enums.YogaJustify
+import io.github.orioncraftmc.meditate.enums.YogaEdge
 import io.github.orioncraftmc.orion.api.gui.components.flex
-import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
+import io.github.orioncraftmc.orion.api.gui.components.nodeSize
+import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.orion.utils.ColorConstants
 
-class ModMenuScreen : ComponentOrionScreen(true) {
+class ModMenuGuiContainer : ComponentContainer() {
 	init {
-	    flex {
-			justifyContent = YogaJustify.CENTER
-			alignItems = YogaAlign.CENTER
+		flex {
+			setWidthPercent(70f)
+			setHeightAuto()
+			aspectRatio = 1.75f
 		}
-		addComponent(ModMenuGuiContainer())
+
+		addComponent(ModMenuCloseButtonComponent { println("TODO: Implement closing") }.flex {
+			nodeSize = Size(10.0)
+			setMarginAuto(YogaEdge.LEFT)
+			setMargin(YogaEdge.TOP, 5f)
+			setMargin(YogaEdge.RIGHT, 5f)
+		})
+
+		backgroundColor = ColorConstants.modLabelBackgroundColor
 	}
 }

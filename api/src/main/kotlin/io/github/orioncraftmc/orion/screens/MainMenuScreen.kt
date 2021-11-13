@@ -24,12 +24,15 @@
 
 package io.github.orioncraftmc.orion.screens
 
-import io.github.orioncraftmc.orion.api.OrionCraft
+import io.github.orioncraftmc.orion.api.OrionCraftConstants
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
+import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
 import io.github.orioncraftmc.orion.utils.BrandingUtils
 import io.github.orioncraftmc.orion.utils.OrionDiscordIntegration
 
@@ -68,7 +71,15 @@ abstract class MainMenuScreen : ComponentOrionScreen() {
 	}
 
 	private fun addLabels() {
-		addComponent(LabelComponent("OrionCraft ${OrionCraft.clientVersion}").apply {
+		addComponent(ButtonComponent("Mods", onClick = {
+			MinecraftBridge.openScreen(ModMenuScreen(true))
+		}).also {
+			it.isAutomaticSize = true
+			it.anchor = Anchor.MIDDLE
+			it.padding = Padding(5.0, 15.0, 5.0, 0.0)
+		})
+
+		addComponent(LabelComponent(OrionCraftConstants.mainMenuClientName).apply {
 			anchor = Anchor.BOTTOM_LEFT
 		})
 
@@ -99,5 +110,6 @@ abstract class MainMenuScreen : ComponentOrionScreen() {
 	override fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {
 		//call to super.mouseClicked to handle clicks on vanilla buttons
 		superHandleMouseClick(mouseX, mouseY, clickedButtonId)
+		super.handleMouseClick(mouseX, mouseY, clickedButtonId)
 	}
 }

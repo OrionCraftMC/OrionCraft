@@ -22,42 +22,27 @@
  * SOFTWARE.
  */
 
-@file:Suppress("unused")
+package io.github.orioncraftmc.orion.screens.modmenu.components
 
-package io.github.orioncraftmc.orion.api
+import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
+import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
+import io.github.orioncraftmc.orion.api.gui.model.Padding
+import io.github.orioncraftmc.orion.api.gui.model.Point
 
-import java.io.File
+class ModMenuCloseButtonComponent(onClick: () -> Unit) : ButtonComponent("", onClick = onClick) {
+	var innerPadding = Padding(5.0)
+	override fun renderComponent(mouseX: Int, mouseY: Int) {
+		super.renderComponent(mouseX, mouseY)
 
-object OrionCraftConstants {
+		val size = effectiveSize
+		val topLeft = Point(innerPadding.left, innerPadding.top)
+		val bottomRight = Point(size.width - innerPadding.right, size.height - innerPadding.bottom)
+		val tesselator = TessellatorBridge
 
-	val isDevEnvironment
-		get() = System.getProperty("lightcraft.launch.dev") != null
-
-	private val clientName: String
-		get() = "OrionCraft${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
-
-	val clientVersionString get() = "${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"}"
-
-	val clientTitle: String
-		get() {
-			return "$clientName ($clientVersionString)"
-		}
-
-	val clientBrand: String
-		get() = "orioncraft"
-
-	val orionCraftDirectory get() = File(".orioncraft")
-
-	const val ORION_RESOURCE_LOCATION_NS = "orion"
-
-	const val MINECRAFT_RESOURCE_LOCATION_NS = "minecraft"
-
-	const val DEFAULT_PROFILE_NAME = "Default"
-
-	val mainMenuClientName
-		get() = "OrionCraft ${OrionCraft.clientVersion}"
-
-	const val orionCraftDiscordClientId = 903702295282343936
-	const val orionCraftNostalgiaDiscordClientId = 903714432264314950
-
+		tesselator.start(DrawMode.LINES)
+		tesselator.addVertex(topLeft.x, topLeft.y, 0.0)
+		tesselator.addVertex(bottomRight.x, bottomRight.y, 0.0)
+		tesselator.draw()
+	}
 }

@@ -26,15 +26,17 @@ package io.github.orioncraftmc.orion.api.gui.components.impl
 
 import com.github.ajalt.colormath.Color
 import com.github.ajalt.colormath.model.RGBInt
+import io.github.orioncraftmc.orion.api.bridge.FontRendererBridge
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.utils.ColorConstants.buttonBackground
 import io.github.orioncraftmc.orion.utils.ColorConstants.buttonPressedBackground
 import io.github.orioncraftmc.orion.utils.ColorConstants.rectangleBorder
 import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
 
-class ButtonComponent(
+open class ButtonComponent(
 	text: String,
 	var color: Color = RGBInt(255, 255, 255),
 	var onClick: () -> Unit = {}
@@ -44,9 +46,19 @@ class ButtonComponent(
 		snapToDevicePixels = true
 	}
 
+	var isAutomaticSize = false
 	var borderColor = rectangleBorder
 	var pressedBackground = buttonPressedBackground
 	var unpressedBackground = buttonBackground
+
+	override var size: Size = Size()
+		get() {
+			if (isAutomaticSize) {
+				field.width = FontRendererBridge.getStringWidth(text).toDouble()
+				field.height = FontRendererBridge.fontHeight.toDouble()
+			}
+			return field
+		}
 
 	var text = text
 		set(value) {
@@ -84,7 +96,6 @@ class ButtonComponent(
 			true,
 			2.0
 		)
-
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {

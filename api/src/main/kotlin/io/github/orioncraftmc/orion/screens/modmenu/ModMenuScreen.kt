@@ -22,42 +22,29 @@
  * SOFTWARE.
  */
 
-@file:Suppress("unused")
+package io.github.orioncraftmc.orion.screens.modmenu
 
-package io.github.orioncraftmc.orion.api
+import io.github.orioncraftmc.meditate.enums.YogaAlign
+import io.github.orioncraftmc.meditate.enums.YogaJustify
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.blend
+import io.github.orioncraftmc.orion.api.gui.components.flex
+import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
+import io.github.orioncraftmc.orion.screens.modmenu.components.ModMenuGuiContainer
 
-import java.io.File
-
-object OrionCraftConstants {
-
-	val isDevEnvironment
-		get() = System.getProperty("lightcraft.launch.dev") != null
-
-	private val clientName: String
-		get() = "OrionCraft${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
-
-	val clientVersionString get() = "${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"}"
-
-	val clientTitle: String
-		get() {
-			return "$clientName ($clientVersionString)"
+class ModMenuScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScreen(true) {
+	init {
+	    flex {
+			justifyContent = YogaJustify.CENTER
+			alignItems = YogaAlign.CENTER
 		}
+		addComponent(ModMenuGuiContainer())
+	}
 
-	val clientBrand: String
-		get() = "orioncraft"
-
-	val orionCraftDirectory get() = File(".orioncraft")
-
-	const val ORION_RESOURCE_LOCATION_NS = "orion"
-
-	const val MINECRAFT_RESOURCE_LOCATION_NS = "minecraft"
-
-	const val DEFAULT_PROFILE_NAME = "Default"
-
-	val mainMenuClientName
-		get() = "OrionCraft ${OrionCraft.clientVersion}"
-
-	const val orionCraftDiscordClientId = 903702295282343936
-	const val orionCraftNostalgiaDiscordClientId = 903714432264314950
-
+	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
+		if (isFromMainMenu) MinecraftBridge.drawDefaultBackground()
+		blend {
+			super.drawScreen(mouseX, mouseY, renderPartialTicks)
+		}
+	}
 }
