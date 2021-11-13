@@ -25,6 +25,8 @@
 package io.github.orioncraftmc.orion.api.gui.model
 
 data class Size(var width: Double = 0.0, var height: Double = 0.0) {
+	constructor(all: Double = 0.0) : this(all, all)
+
 	operator fun plus(padding: Padding): Size {
 		return Size(width + padding.left + padding.right, height + padding.top + padding.bottom)
 	}

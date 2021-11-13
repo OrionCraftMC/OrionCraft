@@ -31,6 +31,8 @@ import io.github.orioncraftmc.orion.api.bridge.gui.GuiScreenBridge
 
 interface OrionScreen : GuiScreenBridge {
 
+	var parentScreen: OrionScreen?
+
 	override var zLevel: Float
 		get() = 0.0f
 		set(value) {}
@@ -60,7 +62,9 @@ interface OrionScreen : GuiScreenBridge {
 
 	fun onResize() {}
 
-	fun onClose() {}
+	fun onClose() {
+		parentScreen?.let { MinecraftBridge.openScreen(it) }
+	}
 
 	fun drawDefaultBackground() {
 		MinecraftBridge.drawDefaultBackground()

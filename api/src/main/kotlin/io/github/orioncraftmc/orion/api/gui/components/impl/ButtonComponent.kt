@@ -40,6 +40,10 @@ class ButtonComponent(
 	var onClick: () -> Unit = {}
 ) : ComponentContainer() {
 
+	init {
+		snapToDevicePixels = true
+	}
+
 	var borderColor = rectangleBorder
 	var pressedBackground = buttonPressedBackground
 	var unpressedBackground = buttonBackground
@@ -57,6 +61,7 @@ class ButtonComponent(
 	private fun createLabelComponent() {
 		componentsList.clear()
 		addComponent(LabelComponent(text, color).apply {
+			snapToDevicePixels = true
 			anchor = Anchor.MIDDLE
 		})
 	}

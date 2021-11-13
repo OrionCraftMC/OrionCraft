@@ -22,14 +22,19 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components
+package io.github.orioncraftmc.orion.screens
 
-import io.github.orioncraftmc.meditate.YogaNode
-import io.github.orioncraftmc.meditate.YogaNodeFactory
+import io.github.orioncraftmc.meditate.enums.YogaAlign
+import io.github.orioncraftmc.meditate.enums.YogaJustify
+import io.github.orioncraftmc.orion.api.gui.components.flex
+import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 
-inline fun Component.flex(builder: YogaNode.() -> Unit): Component {
-	val node = flexLayoutNode ?: YogaNodeFactory.create()
-	node.builder()
-	flexLayoutNode = node
-	return this
+class ModMenuScreen : ComponentOrionScreen(true) {
+	init {
+	    flex {
+			justifyContent = YogaJustify.CENTER
+			alignItems = YogaAlign.CENTER
+		}
+		addComponent(ModMenuGuiContainer())
+	}
 }

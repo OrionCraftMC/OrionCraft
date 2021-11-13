@@ -41,6 +41,8 @@ open class ComponentOrionScreen(isFlex: Boolean = false) : ComponentContainer(),
 		if (isFlex) flex {}
 	}
 
+	override var parentScreen: OrionScreen? = null
+
 	private val zeroPoint = Point()
 
 	// We are at the root of the parent tree

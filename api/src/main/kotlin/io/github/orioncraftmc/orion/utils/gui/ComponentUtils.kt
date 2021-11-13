@@ -135,7 +135,7 @@ object ComponentUtils {
 		val flexLayoutNode = component.flexLayoutNode
 		val parent = component.parent ?: throw UnsupportedOperationException("Component is always known to have Parent")
 		if (flexLayoutNode != null && parent is ComponentContainer) {
-			performRootComponentLayout(parent)
+ 			performRootComponentLayout(parent)
 			return Point(flexLayoutNode.layoutX.toDouble(), flexLayoutNode.layoutY.toDouble())
 		}
 
@@ -164,8 +164,8 @@ object ComponentUtils {
 	}
 
 	fun performRootComponentLayout(container: ComponentContainer, force: Boolean = false) {
-		// Perform layout of the upmost component
-		(container.parent as? ComponentContainer)?.let { performRootComponentLayout(it); return }
+		// Perform layout of the upper components
+		(container.parent as? ComponentContainer)?.let { performRootComponentLayout(it); }
 
 		val flexLayoutNode = container.flexLayoutNode ?: return
 

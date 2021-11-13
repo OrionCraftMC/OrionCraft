@@ -27,7 +27,7 @@ package io.github.orioncraftmc.orion.api.gui.components
 import io.github.orioncraftmc.meditate.YogaNode
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
-var YogaNode.size: Size
+var YogaNode.nodeSize: Size
 	get() {
 		return Size(width.value.toDouble(), height.value.toDouble())
 	}

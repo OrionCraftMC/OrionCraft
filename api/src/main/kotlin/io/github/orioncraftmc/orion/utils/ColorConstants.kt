@@ -28,6 +28,8 @@ import com.github.ajalt.colormath.model.RGBInt
 
 object ColorConstants {
 
+	val modLabelBackgroundColor = RGBInt(0, 0, 0, 111)
+
 	val rectangleBorder = RGBInt(255, 255, 255, 127)
 
 	val buttonBackground = RGBInt(0, 0, 0, 90)

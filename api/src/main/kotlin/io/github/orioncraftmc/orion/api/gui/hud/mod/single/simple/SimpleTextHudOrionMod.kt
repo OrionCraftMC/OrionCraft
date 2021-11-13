@@ -24,13 +24,13 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.mod.single.simple
 
-import com.github.ajalt.colormath.model.RGBInt
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LiveLabelComponent
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.orion.utils.ColorConstants
 
 abstract class SimpleTextHudOrionMod(id: String, name: String) : SingleHudOrionMod(id, name) {
 	abstract val value: String
@@ -46,7 +46,7 @@ abstract class SimpleTextHudOrionMod(id: String, name: String) : SingleHudOrionM
 			anchor = Anchor.MIDDLE
 		})
 		size = Size(58.0, 19.0)
-		backgroundColor = RGBInt(0, 0, 0, 111)
+		backgroundColor = ColorConstants.modLabelBackgroundColor
 	}
 
 	override fun getDummyHudComponent(anchor: Anchor): Component {
