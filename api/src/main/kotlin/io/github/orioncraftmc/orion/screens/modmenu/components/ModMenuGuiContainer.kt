@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.screens.modmenu.components
 
 import io.github.orioncraftmc.meditate.enums.YogaEdge
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.components.nodeSize
@@ -39,7 +40,7 @@ class ModMenuGuiContainer : ComponentContainer() {
 			aspectRatio = 1.75f
 		}
 
-		addComponent(ModMenuCloseButtonComponent { println("TODO: Implement closing") }.flex {
+		addComponent(ModMenuCloseButtonComponent { MinecraftBridge.openScreen(null) }.flex {
 			nodeSize = Size(10.0)
 			setMarginAuto(YogaEdge.LEFT)
 			setMargin(YogaEdge.TOP, 5f)
