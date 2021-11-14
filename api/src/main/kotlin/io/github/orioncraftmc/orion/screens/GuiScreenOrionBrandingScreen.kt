@@ -24,8 +24,10 @@
 
 package io.github.orioncraftmc.orion.screens
 
+import io.github.orioncraftmc.orion.api.OrionCraftConstants
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.ParentComponentHelper
+import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.utils.BrandingUtils
@@ -39,10 +41,20 @@ class GuiScreenOrionBrandingScreen : ParentComponentHelper() {
 		anchor = Anchor.BOTTOM_RIGHT
 	}
 
+	private val clientName = (LabelComponent(OrionCraftConstants.mainMenuClientName).apply {
+		parent = parentComponent
+		padding = Padding(2.0)
+		anchor = Anchor.BOTTOM_LEFT
+	})
+
+
 	fun drawScreen() {
 		updateParentComponent()
 		matrix {
 			ComponentUtils.renderComponent(brandingComponent, 0, 0)
+		}
+		matrix {
+			ComponentUtils.renderComponent(clientName, 0, 0)
 		}
 	}
 }
