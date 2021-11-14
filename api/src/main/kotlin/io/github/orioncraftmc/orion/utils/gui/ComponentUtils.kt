@@ -124,7 +124,7 @@ object ComponentUtils {
 
 	private val emptyPadding = Padding(0.0)
 	fun computeEffectiveProperties(component: Component): Pair<Size, Padding> {
-		if (component.flexLayoutNode != null) {
+		if (component.parent != null && component.flexLayoutNode != null) {
 			return component.effectiveSize to emptyPadding
 		}
 

@@ -36,7 +36,7 @@ import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
 import io.github.orioncraftmc.orion.utils.BrandingUtils
 import io.github.orioncraftmc.orion.utils.OrionDiscordIntegration
 
-abstract class MainMenuScreen : ComponentOrionScreen() {
+abstract class MainMenuScreen : ComponentOrionScreen(true) {
 
 	private val logoContainer = ComponentContainer().apply {
 		addComponent(BrandingUtils.getBrandingComponent(3.5).apply {

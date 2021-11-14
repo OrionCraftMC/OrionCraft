@@ -22,9 +22,18 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main
+package io.github.orioncraftmc.orion.screens.menu.main.components
 
-interface MainMenuUtils {
-	fun executeMainMenuAction(action: MainMenuAction)
-	fun getTranslationForMainMenuAction(action: MainMenuAction): String
+import io.github.orioncraftmc.orion.api.bridge.MainMenuUtils
+import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuAction
+import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
+import io.github.orioncraftmc.orion.api.gui.model.Size
+
+class MainMenuButtonComponent(val action: MainMenuAction) :
+	ButtonComponent(MainMenuUtils.getTranslationForMainMenuAction(action)) {
+
+	init {
+		onClick = { MainMenuUtils.executeMainMenuAction(action) }
+		size = Size(200.0, 20.0)
+	}
 }
