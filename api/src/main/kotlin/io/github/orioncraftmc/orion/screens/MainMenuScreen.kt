@@ -84,14 +84,9 @@ abstract class MainMenuScreen : ComponentOrionScreen(true) {
 		renderSkybox(mouseX, mouseY, renderPartialTicks)
 
 		super.drawScreen(mouseX, mouseY, renderPartialTicks)
-
-		//call to super.drawScreen to render vanilla buttons
-		//superDrawScreen(mouseX, mouseY, renderPartialTicks)
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {
-		//call to super.mouseClicked to handle clicks on vanilla buttons
-		//superHandleMouseClick(mouseX, mouseY, clickedButtonId)
 		super.handleMouseClick(mouseX, mouseY, clickedButtonId)
 	}
 }
