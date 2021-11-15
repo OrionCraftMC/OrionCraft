@@ -25,39 +25,34 @@
 package io.github.orioncraftmc.orion.screens.menu.main.components
 
 import io.github.orioncraftmc.meditate.enums.YogaEdge
-import io.github.orioncraftmc.orion.api.bridge.MainMenuUtils
-import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.meditate.enums.YogaFlexDirection
 import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuAction
 import io.github.orioncraftmc.orion.api.gui.components.flex
-import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.nodeSize
+import io.github.orioncraftmc.orion.api.gui.components.useOrionMeasureForFlex
+import io.github.orioncraftmc.orion.screens.buttonGapDoubleSize
 import io.github.orioncraftmc.orion.screens.buttonGapSize
 import io.github.orioncraftmc.orion.screens.menuButtonSize
-import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
+import io.github.orioncraftmc.orion.utils.BrandingUtils
 
-class MainMenuButtonComponent(val action: MainMenuAction) :
-	ButtonComponent(getTranslationForAction(action)) {
-
+class MainMenuButtonContainerComponent : MainMenuButtonSubContainerComponent(YogaFlexDirection.COLUMN) {
 	init {
-		flex {
-			nodeSize = menuButtonSize
-			setMargin(YogaEdge.BOTTOM, buttonGapSize)
-		}
-		onClick = { executeMainMenuAction() }
-	}
+		addComponent(BrandingUtils.getBrandingComponent(3.5).useOrionMeasureForFlex().flex {
+			setMargin(YogaEdge.BOTTOM, buttonGapDoubleSize)
+		})
 
-	private fun executeMainMenuAction() {
-		if (action == MainMenuAction.ORIONCRAFT_SETTINGS) {
-			MinecraftBridge.openScreen(ModMenuScreen(true))
-			return
-		}
-		MainMenuUtils.executeMainMenuAction(action)
+		addButton(MainMenuAction.SINGLEPLAYER)
+		addButton(MainMenuAction.MULTIPLAYER)
+		addButton(MainMenuAction.ORIONCRAFT_SETTINGS)
+
+		addComponent(MainMenuButtonSubContainerComponent(YogaFlexDirection.ROW).apply {
+			flex {
+				nodeSize = menuButtonSize
+				setMargin(YogaEdge.TOP, buttonGapSize / 2)
+			}
+			addButtonWithFlexGrowthAndMargin(MainMenuAction.OPTIONS, 2f, YogaEdge.RIGHT)
+			addButtonWithFlexGrowthAndMargin(MainMenuAction.EXIT_GAME, 1f, YogaEdge.LEFT)
+		})
 	}
 }
 
-private fun getTranslationForAction(action: MainMenuAction): String {
-	if (action == MainMenuAction.ORIONCRAFT_SETTINGS) {
-		return "OrionCraft Settings"
-	}
-	return MainMenuUtils.getTranslationForMainMenuAction(action)
-}

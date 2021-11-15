@@ -24,24 +24,5 @@
 
 package io.github.orioncraftmc.orion.api.gui.components
 
-import io.github.orioncraftmc.meditate.YogaNode
-import io.github.orioncraftmc.meditate.YogaNodeFactory
-import io.github.orioncraftmc.meditate.internal.YGSize
-
-@FlexMarker
-inline fun Component.flex(builder: YogaNode.() -> Unit): Component {
-	val node = flexLayoutNode ?: YogaNodeFactory.create()
-	node.builder()
-	flexLayoutNode = node
-	return this
-}
-
-@FlexMarker
-fun Component.useOrionMeasureForFlex(): Component {
-	return flex {
-		setMeasureFunction { _, _, _, _, _ ->
-			val size = this@useOrionMeasureForFlex.size
-			return@setMeasureFunction YGSize(size.width.toFloat(), size.height.toFloat())
-		}
-	}
-}
+@DslMarker
+annotation class FlexMarker

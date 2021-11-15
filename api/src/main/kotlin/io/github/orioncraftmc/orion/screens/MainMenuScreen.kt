@@ -24,61 +24,41 @@
 
 package io.github.orioncraftmc.orion.screens
 
+import io.github.orioncraftmc.meditate.enums.YogaAlign
+import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraftConstants
-import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
+import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
-import io.github.orioncraftmc.orion.utils.BrandingUtils
+import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.orion.screens.menu.main.components.MainMenuButtonContainerComponent
 import io.github.orioncraftmc.orion.utils.OrionDiscordIntegration
+
+const val buttonGapSize = 7.5f
+const val buttonGapDoubleSize = buttonGapSize * 2
+val menuButtonSize = Size(215.0, 20.0)
 
 abstract class MainMenuScreen : ComponentOrionScreen(true) {
 
-	private val logoContainer = ComponentContainer().apply {
-		addComponent(BrandingUtils.getBrandingComponent(3.5).apply {
-			anchor = Anchor.BOTTOM_MIDDLE
-			padding = Padding(0.0, 0.0, 0.0, 10.0)
-		})
-	}
+	private val menuButtonContainer = MainMenuButtonContainerComponent()
 
 	init {
+		flex {
+			justifyContent = YogaJustify.CENTER
+			alignItems = YogaAlign.CENTER
+		}
 		OrionDiscordIntegration.updateStateActivity("Idling on main menu..")
 		padding = Padding(5.0)
 		addLabels()
-		addOrionCraftLogo()
-	}
-
-	private fun addOrionCraftLogo() {
-		addComponent(logoContainer)
-	}
-
-	private fun updateOrionLogoContainerSize() {
-		logoContainer.apply {
-			size.apply {
-				width = this@MainMenuScreen.size.width
-				height = this@MainMenuScreen.size.height / 4 + 48
-			}
-		}
 	}
 
 	override fun onResize() {
 		super.onResize()
-		updateOrionLogoContainerSize()
 	}
 
 	private fun addLabels() {
-		addComponent(ButtonComponent("Mods", onClick = {
-			MinecraftBridge.openScreen(ModMenuScreen(true))
-		}).also {
-			it.isAutomaticSize = true
-			it.anchor = Anchor.MIDDLE
-			it.padding = Padding(5.0, 15.0, 5.0, 0.0)
-		})
-
 		addComponent(LabelComponent(OrionCraftConstants.mainMenuClientName).apply {
 			anchor = Anchor.BOTTOM_LEFT
 		})
@@ -86,6 +66,8 @@ abstract class MainMenuScreen : ComponentOrionScreen(true) {
 		addComponent(LabelComponent("Copyright Mojang Studios. Do not distribute!").apply {
 			anchor = Anchor.BOTTOM_RIGHT
 		})
+
+		addComponent(menuButtonContainer)
 	}
 
 
@@ -104,12 +86,12 @@ abstract class MainMenuScreen : ComponentOrionScreen(true) {
 		super.drawScreen(mouseX, mouseY, renderPartialTicks)
 
 		//call to super.drawScreen to render vanilla buttons
-		superDrawScreen(mouseX, mouseY, renderPartialTicks)
+		//superDrawScreen(mouseX, mouseY, renderPartialTicks)
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int, clickedButtonId: Int) {
 		//call to super.mouseClicked to handle clicks on vanilla buttons
-		superHandleMouseClick(mouseX, mouseY, clickedButtonId)
+		//superHandleMouseClick(mouseX, mouseY, clickedButtonId)
 		super.handleMouseClick(mouseX, mouseY, clickedButtonId)
 	}
 }
