@@ -42,6 +42,8 @@ open class ParentComponentHelper {
 				width = lastScaledResolution.scaledWidthFloat.toDouble()
 				height = lastScaledResolution.scaledHeightFloat.toDouble()
 			}
+			//TODO: Check if this is valid
+			// OrionCraft.ultralightManager.resize(MinecraftBridge.gameWidth, MinecraftBridge.gameHeight)
 		}
 
 		lastGameWidth = MinecraftBridge.gameWidth

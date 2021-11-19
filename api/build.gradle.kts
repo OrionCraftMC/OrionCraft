@@ -28,4 +28,7 @@ dependencies {
 
     /* Meditate Layout */
     implementation("io.github.orioncraftmc:meditate-layout:1.0.0")
+
+    /* Ultralight */
+    implementation("com.labymedia:ultralight-java-base:0.4.12")
 }

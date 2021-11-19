@@ -22,29 +22,20 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.ui.ultralight
 
-interface OpenGlBridge {
-	fun enableBlend()
-	fun disableBlend()
+import com.labymedia.ultralight.plugin.logging.UltralightLogLevel
+import com.labymedia.ultralight.plugin.logging.UltralightLogger
+import io.github.orioncraftmc.orion.api.logger
 
-	fun enableTexture2D()
-	fun disableTexture2D()
-
-	fun enableBlendAlphaMinusSrcAlpha()
-
-	fun pushMatrix()
-	fun popMatrix()
-
-	fun translate(x: Double, y: Double, z: Double)
-	fun scale(x: Double, y: Double, z: Double)
-
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
-
-	fun setLineWidth(width: Float)
-
-	fun generateNewTextureId(): Int
-	fun bind2dTextureWithId(id: Int)
-
-	fun setTexture2dParameter(parameter: TextureParameter, value: TextureParameterValue)
+object OrionUltralightLogger : UltralightLogger {
+	override fun logMessage(level: UltralightLogLevel, message: String?) {
+		val msg = message ?: ""
+		val method = when (level) {
+			UltralightLogLevel.ERROR -> logger::error
+			UltralightLogLevel.WARNING -> logger::warn
+			UltralightLogLevel.INFO -> logger::info
+		}
+		method(msg, emptyArray())
+	}
 }

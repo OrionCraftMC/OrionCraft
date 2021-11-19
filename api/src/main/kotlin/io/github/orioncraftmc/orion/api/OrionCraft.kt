@@ -32,6 +32,7 @@ import io.github.orioncraftmc.orion.api.keybinding.KeybindingManager
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.mod.ModManager
 import io.github.orioncraftmc.orion.api.mod.settings.SettingsProvider
+import io.github.orioncraftmc.orion.ui.ultralight.OrionUltralightManager
 import io.github.orioncraftmc.orion.utils.OrionDiscordIntegration
 import kotlin.system.measureTimeMillis
 
@@ -44,9 +45,11 @@ object OrionCraft {
 		private set
 
 	lateinit var modManager: ModManager
-
 	lateinit var settingsProvider: SettingsProvider
+
 	lateinit var inGameHudRenderer: InGameHudRenderer
+
+	lateinit var ultralightManager: OrionUltralightManager
 
 	fun startGameEntrypoint(version: ClientVersion) {
 		logger.info("Initializing OrionCraft on Minecraft $version")
@@ -64,10 +67,15 @@ object OrionCraft {
 		OrionDiscordIntegration.initIntegration()
 		OrionDiscordIntegration.updateStateActivity("Initializing..")
 
+		initializeUltralightManager()
 		initializeSettings()
 		initializeKeybindings()
 		initializeMods()
 		initializeHudRendererManager()
+	}
+
+	private fun initializeUltralightManager() {
+		ultralightManager = OrionUltralightManager()
 	}
 
 	private fun initializeKeybindings() {

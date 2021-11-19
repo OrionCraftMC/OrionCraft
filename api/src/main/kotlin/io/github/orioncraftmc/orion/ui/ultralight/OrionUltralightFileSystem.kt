@@ -22,29 +22,33 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.ui.ultralight
 
-interface OpenGlBridge {
-	fun enableBlend()
-	fun disableBlend()
+import com.labymedia.ultralight.plugin.filesystem.UltralightFileSystem
+import java.nio.ByteBuffer
 
-	fun enableTexture2D()
-	fun disableTexture2D()
+object OrionUltralightFileSystem : UltralightFileSystem {
+	override fun fileExists(path: String?): Boolean {
+		TODO("Not yet implemented")
+	}
 
-	fun enableBlendAlphaMinusSrcAlpha()
+	override fun getFileSize(handle: Long): Long {
+		TODO("Not yet implemented")
+	}
 
-	fun pushMatrix()
-	fun popMatrix()
+	override fun getFileMimeType(path: String?): String {
+		TODO("Not yet implemented")
+	}
 
-	fun translate(x: Double, y: Double, z: Double)
-	fun scale(x: Double, y: Double, z: Double)
+	override fun openFile(path: String?, openForWriting: Boolean): Long {
+		TODO("Not yet implemented")
+	}
 
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
+	override fun closeFile(handle: Long) {
+		TODO("Not yet implemented")
+	}
 
-	fun setLineWidth(width: Float)
-
-	fun generateNewTextureId(): Int
-	fun bind2dTextureWithId(id: Int)
-
-	fun setTexture2dParameter(parameter: TextureParameter, value: TextureParameterValue)
+	override fun readFromFile(handle: Long, data: ByteBuffer?, length: Long): Long {
+		TODO("Not yet implemented")
+	}
 }

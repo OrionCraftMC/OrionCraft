@@ -24,27 +24,12 @@
 
 package io.github.orioncraftmc.orion.api.bridge.rendering
 
-interface OpenGlBridge {
-	fun enableBlend()
-	fun disableBlend()
-
-	fun enableTexture2D()
-	fun disableTexture2D()
-
-	fun enableBlendAlphaMinusSrcAlpha()
-
-	fun pushMatrix()
-	fun popMatrix()
-
-	fun translate(x: Double, y: Double, z: Double)
-	fun scale(x: Double, y: Double, z: Double)
-
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
-
-	fun setLineWidth(width: Float)
-
-	fun generateNewTextureId(): Int
-	fun bind2dTextureWithId(id: Int)
-
-	fun setTexture2dParameter(parameter: TextureParameter, value: TextureParameterValue)
+enum class TextureParameterValue {
+	GL_NEAREST,
+	GL_LINEAR,
+	GL_NEAREST_MIPMAP_NEAREST,
+	GL_LINEAR_MIPMAP_NEAREST,
+	GL_NEAREST_MIPMAP_LINEAR,
+	GL_LINEAR_MIPMAP_LINEAR,
+	GL_CLAMP_TO_EDGE
 }

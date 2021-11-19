@@ -22,29 +22,21 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.ui.ultralight
 
-interface OpenGlBridge {
-	fun enableBlend()
-	fun disableBlend()
+import com.labymedia.ultralight.plugin.clipboard.UltralightClipboard
+import io.github.orioncraftmc.orion.api.logger
 
-	fun enableTexture2D()
-	fun disableTexture2D()
+object OrionUltralightClipboard : UltralightClipboard {
+	override fun clear() {
+		logger.debug("Got request to clear clipboard")
+	}
 
-	fun enableBlendAlphaMinusSrcAlpha()
+	override fun readPlainText(): String {
+		return ""
+	}
 
-	fun pushMatrix()
-	fun popMatrix()
-
-	fun translate(x: Double, y: Double, z: Double)
-	fun scale(x: Double, y: Double, z: Double)
-
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
-
-	fun setLineWidth(width: Float)
-
-	fun generateNewTextureId(): Int
-	fun bind2dTextureWithId(id: Int)
-
-	fun setTexture2dParameter(parameter: TextureParameter, value: TextureParameterValue)
+	override fun writePlainText(text: String?) {
+		logger.debug("Got clipboard writeText call with value ${text ?: "<null>"}")
+	}
 }
