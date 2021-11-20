@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.api.bridge.rendering.ultralight
 
-enum class TextureParameter {
-	GL_TEXTURE_MIN_FILTER,
-	GL_TEXTURE_MAG_FILTER,
-	GL_TEXTURE_WRAP_S,
-	GL_TEXTURE_WRAP_T,
+import io.github.orioncraftmc.orion.ui.ultralight.OrionUltralightManager
+
+interface UltralightUtils {
+	var lastJavascriptGarbageCollections: Long
+
+	fun render(manager: OrionUltralightManager)
 }

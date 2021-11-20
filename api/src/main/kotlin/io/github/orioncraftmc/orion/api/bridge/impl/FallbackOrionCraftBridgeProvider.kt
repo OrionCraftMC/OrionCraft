@@ -30,6 +30,7 @@ import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuUtils
 import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationUtils
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.ultralight.UltralightUtils
 import io.github.orioncraftmc.orion.api.logging.FallbackLogger
 import io.github.orioncraftmc.orion.api.logging.Logger
 
@@ -47,6 +48,9 @@ internal object FallbackOrionCraftBridgeProvider : OrionCraftBridgeProvider {
 		get() = bridgeNotImplemented()
 
 	override val mainMenuUtils: MainMenuUtils
+		get() = bridgeNotImplemented()
+
+	override val ultralightUtils: UltralightUtils
 		get() = bridgeNotImplemented()
 
 	override val logger: Logger

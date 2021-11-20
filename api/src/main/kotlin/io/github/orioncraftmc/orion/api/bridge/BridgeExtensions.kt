@@ -43,3 +43,6 @@ val FontRendererBridge
 
 val MainMenuUtils
 	get() = OrionCraft.bridges.mainMenuUtils
+
+val UltralightUtils
+	get() = OrionCraft.bridges.ultralightUtils

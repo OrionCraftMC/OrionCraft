@@ -24,27 +24,31 @@
 
 package io.github.orioncraftmc.orion.ui.ultralight
 
+import com.labymedia.ultralight.UltralightJava
 import com.labymedia.ultralight.UltralightPlatform
 import com.labymedia.ultralight.UltralightRenderer
 import com.labymedia.ultralight.UltralightView
 import com.labymedia.ultralight.config.FontHinting
 import com.labymedia.ultralight.config.UltralightConfig
 import com.labymedia.ultralight.config.UltralightViewConfig
-import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.TextureParameter
-import io.github.orioncraftmc.orion.api.bridge.rendering.TextureParameterValue
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.UltralightUtils
+import io.github.orioncraftmc.orion.api.logger
+import java.io.File
 
 
 class OrionUltralightManager {
 
-	private val platform: UltralightPlatform = UltralightPlatform.instance()
-	private val renderer: UltralightRenderer
-	private val view: UltralightView
-
-	private var glTexture = -1
-	private val lastJavascriptGarbageCollections: Long = 0
+	val platform: UltralightPlatform
+	val renderer: UltralightRenderer
+	val view: UltralightView
 
 	init {
+		val nativesDir = File(MinecraftBridge.gameAppDirectory, ".orioncraft${File.separatorChar}natives").toPath()
+		UltralightJava.extractNativeLibrary(nativesDir)
+		UltralightJava.load(nativesDir)
+
+		platform = UltralightPlatform.instance()
 
 		platform.setConfig(
 			UltralightConfig().forceRepaint(false).fontHinting(FontHinting.SMOOTH)
@@ -74,23 +78,21 @@ class OrionUltralightManager {
 	}
 
 	fun render() {
-		if (glTexture == -1) {
-			createGLTexture()
-		}
+		UltralightUtils.render(this)
 	}
 
-	private fun createGLTexture() {
-		OpenGlBridge.enableTexture2D()
-
-		glTexture = OpenGlBridge.generateNewTextureId()
-		OpenGlBridge.bind2dTextureWithId(glTexture)
-
-		OpenGlBridge.setTexture2dParameter(TextureParameter.GL_TEXTURE_MIN_FILTER, TextureParameterValue.GL_NEAREST)
-		OpenGlBridge.setTexture2dParameter(TextureParameter.GL_TEXTURE_MAG_FILTER, TextureParameterValue.GL_NEAREST)
-		OpenGlBridge.setTexture2dParameter(TextureParameter.GL_TEXTURE_WRAP_T, TextureParameterValue.GL_CLAMP_TO_EDGE)
-		OpenGlBridge.setTexture2dParameter(TextureParameter.GL_TEXTURE_WRAP_S, TextureParameterValue.GL_CLAMP_TO_EDGE)
-
-		OpenGlBridge.bind2dTextureWithId(0)
-		OpenGlBridge.disableTexture2D()
+	/**
+	 * Updates and renders the renderer
+	 */
+	fun update() {
+		renderer.update()
+		renderer.render()
+		if (UltralightUtils.lastJavascriptGarbageCollections == 0L) {
+			UltralightUtils.lastJavascriptGarbageCollections = System.currentTimeMillis()
+		} else if (System.currentTimeMillis() - UltralightUtils.lastJavascriptGarbageCollections > 1000) {
+			logger.debug("Garbage collecting Javascript...")
+			view.lockJavascriptContext().use { lock -> lock.context.garbageCollect() }
+			UltralightUtils.lastJavascriptGarbageCollections = System.currentTimeMillis()
+		}
 	}
 }
