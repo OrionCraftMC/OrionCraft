@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.api.bridge
 
 import io.github.orioncraftmc.orion.api.bridge.minecraft.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuUtils
 import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationUtils
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
@@ -38,6 +39,8 @@ interface OrionCraftBridgeProvider {
 	val tessellator: TessellatorBridge
 
 	val resourceLocationUtils: ResourceLocationUtils
+
+	val mainMenuUtils: MainMenuUtils
 
 	val logger: Logger
 }

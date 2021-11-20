@@ -22,25 +22,31 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components
+package io.github.orioncraftmc.orion.screens.modmenu.components
 
-import com.github.ajalt.colormath.Color
-import io.github.orioncraftmc.meditate.YogaNode
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Point
+import io.github.orioncraftmc.meditate.enums.YogaEdge
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.gui.components.flex
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
+import io.github.orioncraftmc.orion.api.gui.components.nodeSize
 import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.orion.utils.ColorConstants
 
-abstract class AbstractComponent(
-	override var anchor: Anchor = Anchor.TOP_LEFT,
-	override var position: Point = Point(),
-	override var size: Size = Size(),
-	override var padding: Padding = Padding(0.0),
-	override var backgroundColor: Color? = null,
-	override var scale: Double = 1.0,
-	override var snapToDevicePixels: Boolean = false,
-	override var flexLayoutNode: YogaNode? = null
-) : Component {
-	override var parent: Component? = null
+class ModMenuGuiContainer : ComponentContainer() {
+	init {
+		flex {
+			setWidthPercent(70f)
+			setHeightAuto()
+			aspectRatio = 1.75f
+		}
 
+		addComponent(ModMenuCloseButtonComponent { MinecraftBridge.openScreen(null) }.flex {
+			nodeSize = Size(10.0)
+			setMarginAuto(YogaEdge.LEFT)
+			setMargin(YogaEdge.TOP, 5f)
+			setMargin(YogaEdge.RIGHT, 5f)
+		})
+
+		backgroundColor = ColorConstants.modLabelBackgroundColor
+	}
 }

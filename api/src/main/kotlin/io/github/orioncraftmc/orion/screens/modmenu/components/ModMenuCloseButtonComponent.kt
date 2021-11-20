@@ -22,25 +22,27 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components
+package io.github.orioncraftmc.orion.screens.modmenu.components
 
-import com.github.ajalt.colormath.Color
-import io.github.orioncraftmc.meditate.YogaNode
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
+import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
 
-abstract class AbstractComponent(
-	override var anchor: Anchor = Anchor.TOP_LEFT,
-	override var position: Point = Point(),
-	override var size: Size = Size(),
-	override var padding: Padding = Padding(0.0),
-	override var backgroundColor: Color? = null,
-	override var scale: Double = 1.0,
-	override var snapToDevicePixels: Boolean = false,
-	override var flexLayoutNode: YogaNode? = null
-) : Component {
-	override var parent: Component? = null
+class ModMenuCloseButtonComponent(onClick: () -> Unit) : ButtonComponent("", onClick = onClick) {
+	var innerPadding = Padding(5.0)
+	override fun renderComponent(mouseX: Int, mouseY: Int) {
+		super.renderComponent(mouseX, mouseY)
 
+		val size = effectiveSize
+		val topLeft = Point(innerPadding.left, innerPadding.top)
+		val bottomRight = Point(size.width - innerPadding.right, size.height - innerPadding.bottom)
+		val tesselator = TessellatorBridge
+
+		tesselator.start(DrawMode.LINES)
+		tesselator.addVertex(topLeft.x, topLeft.y, 0.0)
+		tesselator.addVertex(bottomRight.x, bottomRight.y, 0.0)
+		tesselator.draw()
+	}
 }

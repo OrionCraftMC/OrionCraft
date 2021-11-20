@@ -53,6 +53,13 @@ inline fun matrix(code: () -> Unit) {
 	OpenGlBridge.popMatrix()
 }
 
+inline fun blend(code: () -> Unit) {
+	OpenGlBridge.enableBlend()
+	OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
+	code()
+	OpenGlBridge.disableBlend()
+}
+
 inline fun basicShapesRendering(code: () -> Unit) {
 	matrix {
 		OpenGlBridge.enableBlend()

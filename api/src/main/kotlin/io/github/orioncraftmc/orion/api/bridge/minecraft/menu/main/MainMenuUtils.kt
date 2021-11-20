@@ -22,27 +22,9 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.screens.impl
+package io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main
 
-import io.github.orioncraftmc.orion.api.bridge.matrix
-import io.github.orioncraftmc.orion.api.gui.ParentComponentHelper
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.utils.BrandingUtils
-import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
-
-class GuiScreenOrionBrandingScreen : ParentComponentHelper() {
-
-	private val brandingComponent = BrandingUtils.getBrandingComponent(1.5).apply {
-		parent = parentComponent
-		padding = Padding(2.0)
-		anchor = Anchor.BOTTOM_RIGHT
-	}
-
-	fun drawScreen() {
-		updateParentComponent()
-		matrix {
-			ComponentUtils.renderComponent(brandingComponent, 0, 0)
-		}
-	}
+interface MainMenuUtils {
+	fun executeMainMenuAction(action: MainMenuAction)
+	fun getTranslationForMainMenuAction(action: MainMenuAction): String
 }

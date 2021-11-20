@@ -27,10 +27,10 @@ package io.github.orioncraftmc.orion.api.gui.components.impl
 import com.github.ajalt.colormath.Color
 import com.github.ajalt.colormath.model.RGBInt
 import io.github.orioncraftmc.orion.api.bridge.FontRendererBridge
-import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.drawString
 import io.github.orioncraftmc.orion.api.gui.components.AbstractComponent
 import io.github.orioncraftmc.orion.api.gui.model.Size
+import kotlin.math.floor
 
 open class LabelComponent(open var text: String = "", var color: Color = RGBInt(255, 255, 255)) : AbstractComponent() {
 
@@ -38,7 +38,7 @@ open class LabelComponent(open var text: String = "", var color: Color = RGBInt(
 
 	override var size: Size
 		get() = super.size.apply {
-			width = FontRendererBridge.getStringWidth(text).toDouble()
+			width = floor(FontRendererBridge.getStringWidth(text).toDouble())
 			height = FontRendererBridge.fontHeight.toDouble()
 		}
 		set(value) {}

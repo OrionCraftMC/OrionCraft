@@ -24,23 +24,24 @@
 
 package io.github.orioncraftmc.orion.api.gui.components
 
-import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.meditate.YogaNode
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.meditate.YogaNodeFactory
+import io.github.orioncraftmc.meditate.internal.YGSize
 
-abstract class AbstractComponent(
-	override var anchor: Anchor = Anchor.TOP_LEFT,
-	override var position: Point = Point(),
-	override var size: Size = Size(),
-	override var padding: Padding = Padding(0.0),
-	override var backgroundColor: Color? = null,
-	override var scale: Double = 1.0,
-	override var snapToDevicePixels: Boolean = false,
-	override var flexLayoutNode: YogaNode? = null
-) : Component {
-	override var parent: Component? = null
+@FlexMarker
+inline fun Component.flex(builder: YogaNode.() -> Unit): Component {
+	val node = flexLayoutNode ?: YogaNodeFactory.create()
+	node.builder()
+	flexLayoutNode = node
+	return this
+}
 
+@FlexMarker
+fun Component.useOrionMeasureForFlex(): Component {
+	return flex {
+		setMeasureFunction { _, _, _, _, _ ->
+			val size = this@useOrionMeasureForFlex.size
+			return@setMeasureFunction YGSize(size.width.toFloat(), size.height.toFloat())
+		}
+	}
 }

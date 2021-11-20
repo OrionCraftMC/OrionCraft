@@ -33,19 +33,19 @@ import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
 object BrandingUtils {
 	fun getBrandingComponent(mainTextScale: Double): Component {
-		val mainLabelComponent = LabelComponent("OrionCraft").apply {
-			scale = mainTextScale
-		}
-		if (OrionCraft.clientVersion.isNostalgiaVersion) {
-			return FlowLayoutContainer(FlowLayoutDirection.VERTICAL).apply {
-				snapToDevicePixels = true
-				addComponent(mainLabelComponent)
+		return FlowLayoutContainer(FlowLayoutDirection.VERTICAL).apply {
+			snapToDevicePixels = true
+			val mainLabelComponent = LabelComponent("OrionCraft").apply {
+				scale = mainTextScale
+			}
+			addComponent(mainLabelComponent)
+
+			if (OrionCraft.clientVersion.isNostalgiaVersion) {
 				addComponent(LabelComponent("Nostalgia").apply {
 					anchor = Anchor.TOP_RIGHT
 					snapToDevicePixels = true
 				})
 			}
 		}
-		return mainLabelComponent
 	}
 }

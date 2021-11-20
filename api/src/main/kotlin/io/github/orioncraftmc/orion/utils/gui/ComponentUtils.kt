@@ -27,7 +27,10 @@ package io.github.orioncraftmc.orion.utils.gui
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
+import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
+import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
 import kotlin.math.roundToInt
 
@@ -75,9 +78,8 @@ object ComponentUtils {
 
 	fun renderBackgroundColor(component: Component, color: Color?) {
 		val backgroundColor = color ?: return
-		val padding = component.padding
+		val (size, padding) = computeEffectiveProperties(component)
 
-		val size = component.size
 		RectRenderingUtils.drawRectangle(
 			-padding.left,
 			-padding.top,
@@ -118,6 +120,58 @@ object ComponentUtils {
 		val finalMouseX = mouseX - componentPos.x.toInt()
 		val finalMouseY = mouseY - componentPos.y.toInt()
 		return Pair(finalMouseX, finalMouseY)
+	}
+
+	private val emptyPadding = Padding(0.0)
+	fun computeEffectiveProperties(component: Component): Pair<Size, Padding> {
+		if (component.parent != null && component.flexLayoutNode != null) {
+			return component.effectiveSize to emptyPadding
+		}
+
+		return component.size to component.padding
+	}
+
+	fun computeEffectivePosition(component: Component): Point {
+		val flexLayoutNode = component.flexLayoutNode
+		val parent = component.parent ?: throw UnsupportedOperationException("Component is always known to have Parent")
+		if (flexLayoutNode != null && parent is ComponentContainer) {
+ 			performRootComponentLayout(parent)
+			return Point(flexLayoutNode.layoutX.toDouble(), flexLayoutNode.layoutY.toDouble())
+		}
+
+		val (parentSize, parentPadding) = computeEffectiveProperties(parent)
+
+		return AnchorUtils.computePosition(
+			component.position,
+			component.size,
+			component.anchor,
+			parentSize,
+			component.padding,
+			parentPadding,
+			component.scale
+		)
+	}
+
+	fun computeEffectiveSize(component: Component): Size {
+		val flexLayoutNode = component.flexLayoutNode
+		val parent = component.parent
+		if (flexLayoutNode != null && parent is ComponentContainer) {
+			performRootComponentLayout(parent)
+			return Size(flexLayoutNode.layoutWidth.toDouble(), flexLayoutNode.layoutHeight.toDouble())
+		}
+
+		return (component.size + component.padding) * component.scale
+	}
+
+	fun performRootComponentLayout(container: ComponentContainer, force: Boolean = false) {
+		// Perform layout of the upper components
+		(container.parent as? ComponentContainer)?.let { performRootComponentLayout(it); }
+
+		val flexLayoutNode = container.flexLayoutNode ?: return
+
+		if (force || flexLayoutNode.isDirty) {
+			flexLayoutNode.calculateLayout(container.size.width.toFloat(), container.size.height.toFloat())
+		}
 	}
 
 }

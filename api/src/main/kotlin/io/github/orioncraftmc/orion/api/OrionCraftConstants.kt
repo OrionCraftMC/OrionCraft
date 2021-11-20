@@ -54,6 +54,8 @@ object OrionCraftConstants {
 
 	const val DEFAULT_PROFILE_NAME = "Default"
 
+	val mainMenuClientName
+		get() = "OrionCraft ${OrionCraft.clientVersion}"
 
 	const val orionCraftDiscordClientId = 903702295282343936
 	const val orionCraftNostalgiaDiscordClientId = 903714432264314950

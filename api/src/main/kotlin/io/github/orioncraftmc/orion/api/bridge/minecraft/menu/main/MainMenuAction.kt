@@ -22,25 +22,13 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components
+package io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main
 
-import com.github.ajalt.colormath.Color
-import io.github.orioncraftmc.meditate.YogaNode
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
-
-abstract class AbstractComponent(
-	override var anchor: Anchor = Anchor.TOP_LEFT,
-	override var position: Point = Point(),
-	override var size: Size = Size(),
-	override var padding: Padding = Padding(0.0),
-	override var backgroundColor: Color? = null,
-	override var scale: Double = 1.0,
-	override var snapToDevicePixels: Boolean = false,
-	override var flexLayoutNode: YogaNode? = null
-) : Component {
-	override var parent: Component? = null
-
+enum class MainMenuAction {
+	SINGLEPLAYER,
+	MULTIPLAYER,
+	ORIONCRAFT_SETTINGS,
+	LANGUAGE_PICKER,
+	OPTIONS,
+	EXIT_GAME
 }

@@ -26,15 +26,16 @@ package io.github.orioncraftmc.orion.api.gui.hud.editor
 
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
+import io.github.orioncraftmc.meditate.enums.YogaAlign
+import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraft
-import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
-import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
-import io.github.orioncraftmc.orion.api.bridge.basicShapesRendering
-import io.github.orioncraftmc.orion.api.bridge.matrix
+import io.github.orioncraftmc.orion.api.bridge.*
 import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
 import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
+import io.github.orioncraftmc.orion.api.gui.components.nodeSize
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.ComponentSnapEngine
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnapAxis
@@ -45,6 +46,7 @@ import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.api.logger
+import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
 import io.github.orioncraftmc.orion.utils.BrandingUtils
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackground
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundSelected
@@ -57,7 +59,13 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs
 import kotlin.math.floor
 
-class ModsEditorScreen : ComponentOrionScreen() {
+class ModsEditorScreen : ComponentOrionScreen(true) {
+
+	init {
+		flex {
+			justifyContent = YogaJustify.CENTER
+		}
+	}
 
 	inner class ModsEditorHudModuleRenderer : BaseHudModuleRenderer(true) {
 
@@ -129,9 +137,13 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 	// Button used to display the mods list
 	private val modsButton = ButtonComponent("Mods").apply {
-		size = Size(85.0, 27.0)
-		anchor = Anchor.MIDDLE
-		onClick = { }
+		onClick = {
+			MinecraftBridge.openScreen(ModMenuScreen())
+		}
+		flex {
+			nodeSize = Size(85.0, 27.0)
+			alignSelf = YogaAlign.CENTER
+		}
 	}
 
 	private val branding = BrandingUtils.getBrandingComponent(2.5).apply {
@@ -399,6 +411,8 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	}
 
 	override fun onClose() {
+		super.onClose()
+
 		// Notify Orion settings that we updated the hud mod settings
 		modulesRenderer.modElementComponents.rowKeySet().forEach {
 			it.hudModSetting.notifyUpdate(it)

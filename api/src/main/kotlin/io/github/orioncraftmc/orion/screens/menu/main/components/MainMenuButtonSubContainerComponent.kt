@@ -1,4 +1,4 @@
-/*
+ /*
  * MIT License
  *
  * Copyright (c) 2021 OrionCraftMC
@@ -22,34 +22,40 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.hud.mod.single.simple
+package io.github.orioncraftmc.orion.screens.menu.main.components
 
+import io.github.orioncraftmc.meditate.enums.YogaAlign
+import io.github.orioncraftmc.meditate.enums.YogaEdge
+import io.github.orioncraftmc.meditate.enums.YogaFlexDirection
+import io.github.orioncraftmc.meditate.enums.YogaJustify
+import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuAction
 import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.gui.components.impl.LiveLabelComponent
+import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
-import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.utils.ColorConstants
+import io.github.orioncraftmc.orion.screens.buttonGapSize
 
-abstract class SimpleTextHudOrionMod(id: String, name: String) : SingleHudOrionMod(id, name) {
-	abstract val value: String
-	open val dummyValue: String
-		get() = value
-
-	override fun getHudComponent(anchor: Anchor): Component? {
-		return createLabel { value }
+open class MainMenuButtonSubContainerComponent(direction: YogaFlexDirection) : ComponentContainer() {
+	init {
+		flex {
+			justifyContent = YogaJustify.CENTER
+			alignItems = YogaAlign.CENTER
+			flexDirection = direction
+		}
 	}
 
-	private fun createLabel(function: () -> String) = ComponentContainer().apply {
-		addComponent(LiveLabelComponent(function).apply {
-			anchor = Anchor.MIDDLE
-		})
-		size = Size(58.0, 19.0)
-		backgroundColor = ColorConstants.modLabelBackgroundColor
+	fun addButton(action: MainMenuAction): MainMenuButtonComponent {
+		return MainMenuButtonComponent(action).also { addComponent(it) }
 	}
 
-	override fun getDummyHudComponent(anchor: Anchor): Component {
-		return createLabel { dummyValue }
+	fun addButtonWithFlexGrowthAndMargin(
+        mainMenuAction: MainMenuAction,
+        growth: Float,
+        marginEdge: YogaEdge
+	): Component {
+		return addButton(mainMenuAction).flex {
+			flexGrow = growth
+			setWidth(Float.NaN)
+			setMargin(marginEdge, buttonGapSize / 2)
+		}
 	}
 }
