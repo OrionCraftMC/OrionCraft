@@ -24,7 +24,7 @@
 
 package io.github.orioncraftmc.orion.utils
 
-object KeyBindingCategoryConstants {
+object NostalgiaKeyBindingCategoryConstants {
     private val categories = mapOf(
         "Gameplay" to listOf(
             "key.attack",
