@@ -22,30 +22,14 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.backport.gui.controls
+package io.github.orioncraftmc.orion.backport.hooks
 
-import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
+import io.github.orioncraftmc.orion.api.bridge.minecraft.input.VanillaKeybindingBridge
+import io.github.orioncraftmc.orion.utils.NostalgiaKeyBindingCategoryConstants
 
-interface ControlsListEntry {
-	fun drawEntry(
-		var1: Int,
-		var2: Int,
-		var3: Int,
-		var4: Int,
-		var5: Int,
-		var6: TessellatorBridge,
-		var7: Int,
-		var8: Int,
-		var9: Boolean
-	)
-
-	/**
-	 * Returns true if the mouse has been pressed on this control.
-	 */
-	fun mousePressed(index: Int, mouseX: Int, mouseY: Int, mouseEvent: Int, relativeX: Int, relativeY: Int): Boolean
-
-	/**
-	 * Fired when the mouse button is released.
-	 */
-	fun mouseReleased(index: Int, mouseX: Int, mouseY: Int, mouseEvent: Int, relativeX: Int, relativeY: Int)
+@Suppress("unused")
+object NostalgiaKeybindingsHook {
+	fun getKeybindingCategory(keybinding: VanillaKeybindingBridge): String {
+		return NostalgiaKeyBindingCategoryConstants.getKeyCategory(keybinding.description)
+	}
 }
