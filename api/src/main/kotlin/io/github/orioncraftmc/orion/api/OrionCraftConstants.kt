@@ -36,7 +36,7 @@ object OrionCraftConstants {
 	private val clientName: String
 		get() = "OrionCraft${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
 
-	val clientVersionString get() = "${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"}"
+	val clientVersionString get() = "${OrionCraft.clientVersion}-${BuildConstants.COMMIT_HASH}/${BuildConstants.COMMIT_BRANCH}"
 
 	val clientTitle: String
 		get() {
