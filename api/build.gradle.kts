@@ -1,3 +1,7 @@
+plugins {
+    id("com.github.gmazzo.buildconfig") version "3.0.3"
+}
+
 dependencies {
     // Align versions of all Kotlin components
     api(platform("org.jetbrains.kotlin:kotlin-bom"))
@@ -28,4 +32,13 @@ dependencies {
 
     /* Meditate Layout */
     implementation("io.github.orioncraftmc:meditate-layout:1.0.0")
+}
+
+val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by rootProject.extra
+val details = versionDetails()
+
+buildConfig {
+    className("BuildConstants")
+    buildConfigField("String", "COMMIT_HASH", "\"${details.gitHash}\"")
+    buildConfigField("String", "COMMIT_BRANCH", "\"${details.branchName}\"")
 }

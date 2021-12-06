@@ -1,6 +1,7 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.5.30" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.6.0" apply false
     id("org.cadixdev.licenser") version "0.6.1" apply false
+    id("com.palantir.git-version") version "0.12.3"
 }
 
 subprojects {
@@ -21,8 +22,8 @@ subprojects {
 
     tasks {
         extensions.getByType(JavaPluginExtension::class.java).apply {
-            targetCompatibility = JavaVersion.VERSION_16
-            sourceCompatibility = JavaVersion.VERSION_16
+            targetCompatibility = JavaVersion.VERSION_17
+            sourceCompatibility = JavaVersion.VERSION_17
         }
     }
 
@@ -42,10 +43,9 @@ subprojects {
         withSourcesJar()
     }
 
-
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_16.toString()
+            jvmTarget = JavaVersion.VERSION_17.toString()
         }
     }
 }
