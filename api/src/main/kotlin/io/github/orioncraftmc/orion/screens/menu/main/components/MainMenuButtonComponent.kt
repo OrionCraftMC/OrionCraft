@@ -31,8 +31,8 @@ import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuActio
 import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.nodeSize
-import io.github.orioncraftmc.orion.screens.buttonGapSize
-import io.github.orioncraftmc.orion.screens.menuButtonSize
+import io.github.orioncraftmc.orion.screens.menu.main.buttonGapSize
+import io.github.orioncraftmc.orion.screens.menu.main.menuButtonSize
 import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
 
 class MainMenuButtonComponent(val action: MainMenuAction) :

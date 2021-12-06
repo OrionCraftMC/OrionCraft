@@ -32,7 +32,7 @@ import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuActio
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
-import io.github.orioncraftmc.orion.screens.buttonGapSize
+import io.github.orioncraftmc.orion.screens.menu.main.buttonGapSize
 
 open class MainMenuButtonSubContainerComponent(direction: YogaFlexDirection) : ComponentContainer() {
 	init {

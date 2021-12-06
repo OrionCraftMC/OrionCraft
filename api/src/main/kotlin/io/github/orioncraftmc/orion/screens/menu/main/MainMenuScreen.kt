@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.screens
+package io.github.orioncraftmc.orion.screens.menu.main
 
 import io.github.orioncraftmc.meditate.enums.YogaAlign
 import io.github.orioncraftmc.meditate.enums.YogaJustify
