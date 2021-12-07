@@ -22,31 +22,32 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.model
+package io.github.orioncraftmc.orion.mods.hud
 
-import io.github.orioncraftmc.orion.utils.gui.AnchorUtils
+import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutDirection
+import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod
+import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.mods.staffhack.gui.HackNameComponent
 
-enum class Anchor {
-	TOP_LEFT,
-	TOP_MIDDLE,
-	TOP_RIGHT,
+object StaffHackMod : SingleHudOrionMod("staffhack", "Staff Hack") {
 
-	MIDDLE_LEFT,
-	MIDDLE,
-	MIDDLE_RIGHT,
+	val enabledMods = listOf("Xray", "Nametags", "B-Hop")
+	override fun getHudComponent(anchor: Anchor): Component {
+		return FlowLayoutContainer().apply {
+			val finalAnchor = anchor.getSideAtTop()
+			println("BRRRRRRRRRRRR:::::: $finalAnchor")
+			this.anchor = finalAnchor
+			direction = FlowLayoutDirection.VERTICAL
 
-	BOTTOM_LEFT,
-	BOTTOM_MIDDLE,
-	BOTTOM_RIGHT;
-
-	fun getSideAtTop(): Anchor {
-		val (left, middle, right) = AnchorUtils.extractXInformationFromAnchor(this)
-		return if (left) {
-			TOP_LEFT
-		} else if (right) {
-			TOP_RIGHT
-		} else {
-			TOP_MIDDLE
+			enabledMods.sortedByDescending { it.length }.forEach {
+				addComponent(HackNameComponent(it, finalAnchor))
+			}
 		}
+	}
+
+	override fun getDummyHudComponent(anchor: Anchor): Component {
+		return getHudComponent(anchor)!!
 	}
 }

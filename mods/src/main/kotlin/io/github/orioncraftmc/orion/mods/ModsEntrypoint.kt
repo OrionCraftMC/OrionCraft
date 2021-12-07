@@ -28,6 +28,7 @@ import io.github.orioncraftmc.orion.api.OrionCraftModsEntrypoint
 import io.github.orioncraftmc.orion.mods.fullbright.FullBrightMod
 import io.github.orioncraftmc.orion.mods.hud.FpsHudMod
 import io.github.orioncraftmc.orion.mods.hud.HelloWorldHud
+import io.github.orioncraftmc.orion.mods.hud.StaffHackMod
 
 object ModsEntrypoint : OrionCraftModsEntrypoint {
 	override fun initializeMods() {
@@ -35,6 +36,7 @@ object ModsEntrypoint : OrionCraftModsEntrypoint {
 		//registerMod(TestHudMod)
 		registerMod(FpsHudMod)
 		registerMod(HelloWorldHud)
+		registerMod(StaffHackMod)
 	}
 
 }
