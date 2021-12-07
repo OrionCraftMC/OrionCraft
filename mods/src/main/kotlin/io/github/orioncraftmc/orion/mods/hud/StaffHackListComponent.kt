@@ -24,18 +24,26 @@
 
 package io.github.orioncraftmc.orion.mods.hud
 
-import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod
+import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
+import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutDirection
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.orion.mods.staffhack.gui.HackNameComponent
 
-object StaffHackMod : SingleHudOrionMod("staffhack", "Staff Hack") {
-
-	val enabledMods = listOf("Xray", "Nametags", "B-Hop")
-	override fun getHudComponent(anchor: Anchor): Component {
-		return StaffHackListComponent(anchor)
+class StaffHackListComponent(initialAnchor: Anchor) : FlowLayoutContainer(), AnchorUpdateReceiver {
+	init {
+		this.direction = FlowLayoutDirection.VERTICAL
+		updateMods(initialAnchor)
 	}
 
-	override fun getDummyHudComponent(anchor: Anchor): Component {
-		return getHudComponent(anchor)
+    private fun updateMods(initialAnchor: Anchor) {
+		StaffHackMod.enabledMods.sortedByDescending { it.length }.forEach {
+			addComponent(HackNameComponent(it, initialAnchor.getSideAtTop()))
+		}
+	}
+
+	override fun onAnchorUpdate(anchor: Anchor) {
+		componentsList.clear()
+		updateMods(anchor)
 	}
 }

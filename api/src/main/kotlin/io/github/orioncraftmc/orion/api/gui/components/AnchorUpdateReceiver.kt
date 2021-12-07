@@ -22,20 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.mods.hud
+package io.github.orioncraftmc.orion.api.gui.components
 
-import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
-object StaffHackMod : SingleHudOrionMod("staffhack", "Staff Hack") {
-
-	val enabledMods = listOf("Xray", "Nametags", "B-Hop")
-	override fun getHudComponent(anchor: Anchor): Component {
-		return StaffHackListComponent(anchor)
-	}
-
-	override fun getDummyHudComponent(anchor: Anchor): Component {
-		return getHudComponent(anchor)
-	}
+interface AnchorUpdateReceiver {
+	fun onAnchorUpdate(anchor: Anchor)
 }

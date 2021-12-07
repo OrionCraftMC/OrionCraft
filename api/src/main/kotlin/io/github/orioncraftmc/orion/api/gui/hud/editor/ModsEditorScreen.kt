@@ -31,11 +31,12 @@ import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.bridge.*
 import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
+import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
-import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.components.nodeSize
+import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.ComponentSnapEngine
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnapAxis
@@ -302,8 +303,13 @@ class ModsEditorScreen : ComponentOrionScreen(true) {
 			AnchorUtils.convertGlobalAndLocalPositioning(point, newAnchor, false)
 
 			// Properly change the settings with the new data
+			val shouldNotifyAnchorUpdate = settings.anchor != newAnchor
 			settings.anchor = newAnchor
 			settings.position = point
+
+			if (shouldNotifyAnchorUpdate) {
+				(component as? AnchorUpdateReceiver)?.onAnchorUpdate(newAnchor)
+			}
 
 			// Apply the new position settings on this component
 			modulesRenderer.applyComponentSettings(component, settings)
