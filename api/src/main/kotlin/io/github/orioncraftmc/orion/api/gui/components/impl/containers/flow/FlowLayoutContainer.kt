@@ -28,6 +28,7 @@ import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Size
+import kotlin.math.ceil
 
 open class FlowLayoutContainer(var direction: FlowLayoutDirection = FlowLayoutDirection.HORIZONTAL) :
 	ComponentContainer() {
@@ -40,10 +41,10 @@ open class FlowLayoutContainer(var direction: FlowLayoutDirection = FlowLayoutDi
 		val previousComponents = componentsList.takeWhile { it != component }
 		when (direction) {
 			FlowLayoutDirection.HORIZONTAL -> {
-				OpenGlBridge.translate(previousComponents.sumOf { getComponentSize(it).width }, 0.0, 0.0)
+				OpenGlBridge.translate(previousComponents.sumOf { ceil(getComponentSize(it).width + 2) }, 0.0, 0.0)
 			}
 			FlowLayoutDirection.VERTICAL -> {
-				OpenGlBridge.translate(0.0, previousComponents.sumOf { getComponentSize(it).height }, 0.0)
+				OpenGlBridge.translate(0.0, previousComponents.sumOf { getComponentSize(it).height + 1 }, 0.0)
 			}
 		}
 	}
@@ -51,13 +52,13 @@ open class FlowLayoutContainer(var direction: FlowLayoutDirection = FlowLayoutDi
 	private fun computeLayoutSize(): Size {
 		return when (direction) {
 			FlowLayoutDirection.HORIZONTAL -> {
-				val width = components.sumOf { getComponentSize(it).width }
+				val width = components.sumOf { ceil(getComponentSize(it).width + 1) }
 				val height = components.maxOf { getComponentSize(it).height }
 				Size(width, height) + padding
 			}
 			FlowLayoutDirection.VERTICAL -> {
 				val width = components.maxOf { getComponentSize(it).width }
-				val height = components.sumOf { getComponentSize(it).height }
+				val height = components.sumOf { ceil(getComponentSize(it).height + 1) }
 				Size(width, height) + padding
 			}
 		}

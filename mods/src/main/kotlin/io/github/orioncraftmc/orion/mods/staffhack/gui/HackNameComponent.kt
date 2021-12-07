@@ -26,6 +26,7 @@ package io.github.orioncraftmc.orion.mods.staffhack.gui
 
 import com.github.ajalt.colormath.model.RGBInt
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.components.impl.RectangleComponent
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
@@ -36,20 +37,33 @@ import io.github.orioncraftmc.orion.utils.ColorConstants
 
 class HackNameComponent(name: String, textAnchor: Anchor) : FlowLayoutContainer() {
 	init {
+		snapToDevicePixels = true
 		anchor = textAnchor
 		backgroundColor = ColorConstants.modLabelBackgroundColor
 
-		addComponent(RectangleComponent().apply{
+		val rectangle = RectangleComponent().apply {
 			size = Size(2.0, MinecraftBridge.fontRenderer.fontHeight.toDouble())
 			backgroundColor = RGBInt(0, 0x90, 0xff)
 			anchor = Anchor.MIDDLE_LEFT
 			padding = Padding(5.0, 0.0)
-		})
-
-		addComponent(LabelComponent(name).apply {
+			snapToDevicePixels = true
+		}
+		val name = LabelComponent(name).apply {
 			padding = Padding(5.0)
 			anchor = Anchor.MIDDLE
-		})
+			snapToDevicePixels = true
+		}
+		var first: Component = rectangle
+		var second: Component = name
+
+		if (anchor.getSideAtTop() == Anchor.TOP_LEFT) {
+			//swap first with second
+			first = name
+			second = rectangle
+		}
+
+		addComponent(first)
+		addComponent(second)
 
 	}
 }
