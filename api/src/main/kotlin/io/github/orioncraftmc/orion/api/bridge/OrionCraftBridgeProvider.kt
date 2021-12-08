@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.api.bridge
 
 import io.github.orioncraftmc.orion.api.bridge.minecraft.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.minecraft.input.KeybindingUtils
 import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuUtils
 import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationUtils
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
@@ -41,6 +42,8 @@ interface OrionCraftBridgeProvider {
 	val resourceLocationUtils: ResourceLocationUtils
 
 	val mainMenuUtils: MainMenuUtils
+
+	val keybindingUtils: KeybindingUtils
 
 	val logger: Logger
 }

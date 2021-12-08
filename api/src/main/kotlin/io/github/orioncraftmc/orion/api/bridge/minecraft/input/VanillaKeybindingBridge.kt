@@ -27,8 +27,6 @@ package io.github.orioncraftmc.orion.api.bridge.minecraft.input
 interface VanillaKeybindingBridge {
 	val defaultKeyCode: Int
 
-	val category: String
-
 	val description: String
 
 	@Suppress("INAPPLICABLE_JVM_NAME")

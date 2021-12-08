@@ -24,14 +24,17 @@
 
 package io.github.orioncraftmc.orion.api
 
+import io.github.orioncraftmc.orion.api.bridge.KeybindingUtils
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.impl.FallbackOrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.gui.hud.InGameHudRenderer
 import io.github.orioncraftmc.orion.api.keybinding.KeybindingManager
+import io.github.orioncraftmc.orion.api.keybinding.OrionKeybinding
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.mod.ModManager
 import io.github.orioncraftmc.orion.api.mod.settings.SettingsProvider
+import io.github.orioncraftmc.orion.utils.LegacyKeyboardKey
 import io.github.orioncraftmc.orion.utils.OrionDiscordIntegration
 import kotlin.system.measureTimeMillis
 
@@ -72,6 +75,10 @@ object OrionCraft {
 
 	private fun initializeKeybindings() {
 		KeybindingManager.initialize()
+
+		KeybindingUtils.registerKeybinding(OrionKeybinding("nostalgia.perspective_toggle", LegacyKeyboardKey.KEY_F5))
+
+		logger.info("Initialized Orion Keybindings successfully")
 	}
 
 	private fun initializeSettings() {

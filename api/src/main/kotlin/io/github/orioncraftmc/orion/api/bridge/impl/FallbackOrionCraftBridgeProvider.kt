@@ -26,6 +26,7 @@ package io.github.orioncraftmc.orion.api.bridge.impl
 
 import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.minecraft.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.minecraft.input.KeybindingUtils
 import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuUtils
 import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationUtils
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
@@ -47,6 +48,9 @@ internal object FallbackOrionCraftBridgeProvider : OrionCraftBridgeProvider {
 		get() = bridgeNotImplemented()
 
 	override val mainMenuUtils: MainMenuUtils
+		get() = bridgeNotImplemented()
+
+	override val keybindingUtils: KeybindingUtils
 		get() = bridgeNotImplemented()
 
 	override val logger: Logger

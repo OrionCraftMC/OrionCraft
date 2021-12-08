@@ -22,25 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.keybinding
+package io.github.orioncraftmc.orion.api.bridge.minecraft.input
 
-import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.event.impl.InputEvent
-import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
-import io.github.orioncraftmc.orion.api.onEvent
-import io.github.orioncraftmc.orion.utils.LegacyKeyboardKey
+import io.github.orioncraftmc.orion.api.keybinding.OrionKeybinding
 
-object KeybindingManager {
-
-	internal fun initialize() {
-		registerInputEventHandler()
-	}
-
-	private fun registerInputEventHandler() {
-		onEvent<InputEvent> {
-			if (it.isPressed && it.keyCode == LegacyKeyboardKey.KEY_RSHIFT.keyCode) {
-				MinecraftBridge.openScreen(ModsEditorScreen())
-			}
-		}
-	}
+interface KeybindingUtils {
+	fun registerKeybinding(keybind: OrionKeybinding): VanillaKeybindingBridge
 }
