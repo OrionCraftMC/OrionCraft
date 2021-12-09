@@ -28,6 +28,7 @@ import io.github.orioncraftmc.orion.api.bridge.KeybindingUtils
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.impl.FallbackOrionCraftBridgeProvider
+import io.github.orioncraftmc.orion.api.event.impl.LocaleLoadEvent
 import io.github.orioncraftmc.orion.api.gui.hud.InGameHudRenderer
 import io.github.orioncraftmc.orion.api.keybinding.KeybindingManager
 import io.github.orioncraftmc.orion.api.keybinding.OrionKeybinding
@@ -54,6 +55,8 @@ object OrionCraft {
 	fun startGameEntrypoint(version: ClientVersion) {
 		logger.info("Initializing OrionCraft on Minecraft $version")
 		clientVersion = version
+
+		initializeLocaleListener()
 	}
 
 	fun setOrionCraftBridgesEntrypoint(bridgeProvider: OrionCraftBridgeProvider) {
@@ -71,6 +74,18 @@ object OrionCraft {
 		initializeKeybindings()
 		initializeMods()
 		initializeHudRendererManager()
+	}
+
+	private fun initializeLocaleListener() {
+		onEvent<LocaleLoadEvent> {
+			val assetFileResource = "/assets/orion/lang/${it.locale}.lang"
+
+			val orionTranslationStream = javaClass.getResourceAsStream(assetFileResource)
+			if (orionTranslationStream != null) {
+				it.properties.load(orionTranslationStream)
+				logger.info("Loaded Orion translation file for ${it.locale}")
+			}
+		}
 	}
 
 	private fun initializeKeybindings() {
