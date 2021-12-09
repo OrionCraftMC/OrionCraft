@@ -91,7 +91,15 @@ object OrionCraft {
 	private fun initializeKeybindings() {
 		KeybindingManager.initialize()
 
-		KeybindingUtils.registerKeybinding(OrionKeybinding("nostalgia.perspective_toggle", LegacyKeyboardKey.KEY_F5))
+		if (clientVersion.versionData?.hasVanillaPerspectiveKeybinding != true) {
+			// Version requires us to register custom keybinding
+			KeybindingUtils.registerKeybinding(
+				OrionKeybinding(
+					"nostalgia.perspective_toggle",
+					LegacyKeyboardKey.KEY_F5
+				)
+			)
+		}
 
 		logger.info("Initialized Orion Keybindings successfully")
 	}
