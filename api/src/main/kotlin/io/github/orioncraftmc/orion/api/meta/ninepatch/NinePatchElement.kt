@@ -22,16 +22,24 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.api.meta.ninepatch
 
-interface TessellatorBridge {
-	fun start(mode: DrawMode)
+import juuxel.libninepatch.NinePatch
 
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
+data class NinePatchElement(
+	val resourceName: String, val cornerWidth: Int, val cornerHeight: Int, val width: Int, val height: Int
+) {
+	private val cachedNinePatchMap = mutableMapOf<Double, NinePatch<NinePatchElement>>()
 
-	fun addVertex(x: Double, y: Double, z: Double)
+	fun getNinePatch(scale: Double): NinePatch<NinePatchElement> {
+		val scaledCornerWidth = (cornerWidth * scale).toInt()
+		val scaledCornerHeight = (cornerHeight * scale).toInt()
+		return cachedNinePatchMap[scale] ?: NinePatch.builder(this)
+			.cornerUv((cornerWidth / width.toFloat()), (cornerHeight / height.toFloat()))
+			.cornerSize(scaledCornerWidth, scaledCornerHeight)
+			.mode(NinePatch.Mode.STRETCHING)
+			.build().also { cachedNinePatchMap[scale] = it }
 
-	fun addVertexWithUV(x: Double, y: Double, z: Double, u: Double, v: Double)
+	}
 
-	fun draw()
 }

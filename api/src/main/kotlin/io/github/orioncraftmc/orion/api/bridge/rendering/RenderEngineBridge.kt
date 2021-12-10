@@ -24,14 +24,8 @@
 
 package io.github.orioncraftmc.orion.api.bridge.rendering
 
-interface TessellatorBridge {
-	fun start(mode: DrawMode)
+import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationBridge
 
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
-
-	fun addVertex(x: Double, y: Double, z: Double)
-
-	fun addVertexWithUV(x: Double, y: Double, z: Double, u: Double, v: Double)
-
-	fun draw()
+interface RenderEngineBridge {
+	fun bindTexture(texture: ResourceLocationBridge)
 }

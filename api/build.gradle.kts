@@ -32,6 +32,9 @@ dependencies {
 
     /* Meditate Layout */
     implementation("io.github.orioncraftmc:meditate-layout:1.0.0")
+
+    /* LibNinePatch */
+    implementation("io.github.juuxel:libninepatch:1.0.0")
 }
 
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by rootProject.extra

@@ -22,16 +22,27 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.utils
 
-interface TessellatorBridge {
-	fun start(mode: DrawMode)
+import io.github.orioncraftmc.orion.api.bridge.ResourceLocationUtils
+import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocationBridge
+import io.github.orioncraftmc.orion.api.meta.ninepatch.NinePatchElement
+import java.text.DecimalFormat
 
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
+object NinePatchConstants {
+	val ninePatchScales = arrayOf(1.0, 2.0, 2.5)
 
-	fun addVertex(x: Double, y: Double, z: Double)
+	val button = NinePatchElement("textures/gui/button/button_%scale%x.png", 15, 15, 54, 54)
 
-	fun addVertexWithUV(x: Double, y: Double, z: Double, u: Double, v: Double)
+	val buttonHover = NinePatchElement("textures/gui/button/button_hover_%scale%x.png", 15, 15, 54, 54)
 
-	fun draw()
+	private val decimalFormat = DecimalFormat("0.#")
+	fun getResourceLocationForElementWithScale(element: NinePatchElement, scale: Double = 1.0): ResourceLocationBridge {
+		return ResourceLocationUtils.createNewOrionResourceLocation(
+			element.resourceName.replace(
+				"%scale%",
+				decimalFormat.format(scale)
+			)
+		)
+	}
 }

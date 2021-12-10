@@ -22,16 +22,28 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.utils.rendering
 
-interface TessellatorBridge {
-	fun start(mode: DrawMode)
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
+import io.github.orioncraftmc.orion.api.bridge.matrix
+import io.github.orioncraftmc.orion.api.gui.components.impl.ninepatch.NinePatchTextureRenderer
+import io.github.orioncraftmc.orion.api.meta.ninepatch.NinePatchElement
+import io.github.orioncraftmc.orion.utils.NinePatchConstants
 
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
-
-	fun addVertex(x: Double, y: Double, z: Double)
-
-	fun addVertexWithUV(x: Double, y: Double, z: Double, u: Double, v: Double)
-
-	fun draw()
+object NinePatchRendererUtils {
+	fun renderNinePatch(element: NinePatchElement, x: Double, y: Double, width: Double, height: Double, scale: Double) {
+		val resource = NinePatchConstants.getResourceLocationForElementWithScale(element, scale)
+		MinecraftBridge.renderEngine.bindTexture(resource)
+		OpenGlBridge.translate(x, y, 0.0)
+		matrix {
+			OpenGlBridge.scale(1 / scale, 1 / scale, 1.0)
+			element.getNinePatch(scale).draw(
+				NinePatchTextureRenderer,
+				(width * scale).toInt(),
+				(height * scale).toInt()
+			)
+		}
+		OpenGlBridge.translate(-x, -y, 0.0)
+	}
 }

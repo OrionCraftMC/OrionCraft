@@ -22,16 +22,36 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.api.gui.components.impl.ninepatch
 
-interface TessellatorBridge {
-	fun start(mode: DrawMode)
+import io.github.orioncraftmc.orion.api.meta.ninepatch.NinePatchElement
+import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
+import juuxel.libninepatch.TextureRenderer
 
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
+object NinePatchTextureRenderer : TextureRenderer<NinePatchElement> {
+	override fun draw(
+		texture: NinePatchElement,
+		x: Int,
+		y: Int,
+		width: Int,
+		height: Int,
+		u1: Float,
+		v1: Float,
+		u2: Float,
+		v2: Float
+	) {
+		RectRenderingUtils.drawRectangleWithUv(
+			x.toDouble(),
+			y.toDouble(),
+			(x + width).toDouble(),
+			(y + height).toDouble(),
+			u1.toDouble(),
+			v1.toDouble(),
+			u2.toDouble(),
+			v2.toDouble(),
+		)
 
-	fun addVertex(x: Double, y: Double, z: Double)
+		return
+	}
 
-	fun addVertexWithUV(x: Double, y: Double, z: Double, u: Double, v: Double)
-
-	fun draw()
 }

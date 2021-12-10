@@ -69,4 +69,42 @@ object RectRenderingUtils {
 		OpenGlBridge.resetColor()
 	}
 
+	fun drawRectangleWithUv(
+		x1: Double,
+		y1: Double,
+		x2: Double,
+		y2: Double,
+		u1: Double,
+		v1: Double,
+		u2: Double,
+		v2: Double
+	) {
+
+		val finalX1 = minOf(x1, x2)
+		val finalX2 = maxOf(x1, x2)
+		val finalY1 = minOf(y1, y2)
+		val finalY2 = maxOf(y1, y2)
+
+		val finalU1 = minOf(u1, u2)
+		val finalU2 = maxOf(u1, u2)
+		val finalV1 = minOf(v1, v2)
+		val finalV2 = maxOf(v1, v2)
+
+		val tessellator = TessellatorBridge
+
+		matrix {
+			OpenGlBridge.enableTexture2D()
+			blend {
+				tessellator.start(DrawMode.QUADS)
+				tessellator.setColor(255, 255, 255, 255)
+				tessellator.addVertexWithUV(finalX1, finalY2, 0.0, finalU1, finalV2)
+				tessellator.addVertexWithUV(finalX2, finalY2, 0.0, finalU2, finalV2)
+				tessellator.addVertexWithUV(finalX2, finalY1, 0.0, finalU2, finalV1)
+				tessellator.addVertexWithUV(finalX1, finalY1, 0.0, finalU1, finalV1)
+				tessellator.draw()
+			}
+		}
+		OpenGlBridge.resetColor()
+	}
+
 }
