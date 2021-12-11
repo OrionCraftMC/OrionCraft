@@ -51,7 +51,7 @@ object OrionDiscordIntegration {
 		updateActivity(Activity().apply {
 			this.state = state
 			this.type = ActivityType.PLAYING
-			this.details = "Playing ${OrionCraftConstants.clientVersionString}"
+			this.details = "Playing ${OrionCraftConstants.clientRpcVersionString}"
 			this.timestamps().start = Instant.now()
 			this.assets().largeImage = "rpc_logo"
 		})
@@ -97,7 +97,7 @@ object OrionDiscordIntegration {
 		// Find out which name Discord's library has (.dll for Windows, .so for Linux)
 		val name = "discord_game_sdk"
 		val suffix: String
-		val osName = System.getProperty("os.name").lowercase()
+		val osName = System.getProperty("os.name"). lowercase()
 		var arch = System.getProperty("os.arch").lowercase()
 		suffix = if (osName.contains("windows")) {
 			".dll"

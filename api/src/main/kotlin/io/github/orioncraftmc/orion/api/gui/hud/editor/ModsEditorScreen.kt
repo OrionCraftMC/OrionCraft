@@ -186,8 +186,8 @@ class ModsEditorScreen : ComponentOrionScreen(true) {
 
 		SnapAxis.values().forEach { v ->
 			componentSnappingLines[v]?.run {
-				add(axisBorderDistance)
-				add(v.getValueFromPoint(sizePoint) - axisBorderDistance)
+				//add(axisBorderDistance)
+				//add(v.getValueFromPoint(sizePoint) - axisBorderDistance)
 			}
 		}
 	}
@@ -281,14 +281,15 @@ class ModsEditorScreen : ComponentOrionScreen(true) {
 				)
 			}.apply {
 				val size = component.size
-				x = x.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble() - size.width)
-				y = y.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble() - size.height)
+				preventOffLimitMovement(size)
 
 				val shouldSnapNextAxis = AtomicBoolean(true)
 				if (shouldSnapNextAxis.get()) x =
-					handlePositionSnapAxis(SnapAxis.HORIZONTAL, x, x + size.width, mousePosition, shouldSnapNextAxis)
+					handlePositionSnapAxis(SnapAxis.HORIZONTAL, x, x + size.width, mousePosition, size, shouldSnapNextAxis)
 				if (shouldSnapNextAxis.get()) y =
-					handlePositionSnapAxis(SnapAxis.VERTICAL, y, y + size.height, mousePosition, shouldSnapNextAxis)
+					handlePositionSnapAxis(SnapAxis.VERTICAL, y, y + size.height, mousePosition, size, shouldSnapNextAxis)
+
+				preventOffLimitMovement(size)
 			}
 
 			// Properly update the position of this element
@@ -318,11 +319,17 @@ class ModsEditorScreen : ComponentOrionScreen(true) {
 		return elementsBeingDraggedTable.size() > 0
 	}
 
+	private fun Point.preventOffLimitMovement(size: Size) {
+		x = x.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble() - size.width)
+		y = y.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble() - size.height)
+	}
+
 	private fun handlePositionSnapAxis(
 		axis: SnapAxis,
 		firstValue: Double,
 		secondValue: Double,
 		mousePos: Point,
+		size: Size,
 		shouldSnapNextAxis: AtomicBoolean
 	): Double {
 		shouldSnapNextAxis.set(true)
@@ -391,7 +398,7 @@ class ModsEditorScreen : ComponentOrionScreen(true) {
 		// In order to snap, we need to be within the "Snapping Distance"
 		// In order to unsnap, we need to be snapped and our mouse needs to be
 		// further than the "Exiting Snapping Distance"
-		val shouldSnap = snapValueComparison <= snappingDistance
+		val shouldSnap = snapValueComparison <= (if (axis == SnapAxis.HORIZONTAL) horizontalSnappingDistance else snappingDistance)
 		val shouldUnsnap = isSnapped && mouseDistance >= exitSnappingDistance
 
 		logger.debug("$finalSnapValue: Unsnapping: isSnapped=$isSnapped mouseDistance=$mouseDistance snapMouseDistance=$snapMouseDistance shouldUnsnap=$shouldUnsnap")
@@ -472,10 +479,11 @@ class ModsEditorScreen : ComponentOrionScreen(true) {
 	}
 
 	companion object {
-		private const val snappingDistance = 4.0
+		private const val snappingDistance = 3.5
+		private const val horizontalSnappingDistance = snappingDistance * 0.75
 		private const val exitSnappingDistance = 8.0
-		private const val finalSnappingDistance = 15.0
+		private const val finalSnappingDistance = 12.0
 
-		private const val axisBorderDistance = 15.0
+		private const val axisBorderDistance = 5.0
 	}
 }

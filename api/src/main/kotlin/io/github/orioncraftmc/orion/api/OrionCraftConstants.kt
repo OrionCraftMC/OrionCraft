@@ -36,11 +36,13 @@ object OrionCraftConstants {
 	private val clientName: String
 		get() = "OrionCraft${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
 
-	val clientVersionString get() = "${OrionCraft.clientVersion}-${BuildConstants.COMMIT_HASH}/${BuildConstants.COMMIT_BRANCH}"
+	val clientTitleVersionString get() = "${OrionCraft.clientVersion}-${BuildConstants.COMMIT_HASH}/${BuildConstants.COMMIT_BRANCH}"
+
+	val clientRpcVersionString get() = "${OrionCraft.clientVersion} (${BuildConstants.COMMIT_HASH}/${BuildConstants.COMMIT_BRANCH})"
 
 	val clientTitle: String
 		get() {
-			return "$clientName ($clientVersionString)"
+			return "$clientName ($clientTitleVersionString)"
 		}
 
 	val clientBrand: String
