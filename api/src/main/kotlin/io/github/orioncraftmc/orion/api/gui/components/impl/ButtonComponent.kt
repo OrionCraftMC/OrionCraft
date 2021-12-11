@@ -30,9 +30,6 @@ import io.github.orioncraftmc.orion.api.bridge.FontRendererBridge
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.utils.ColorConstants.buttonBackground
-import io.github.orioncraftmc.orion.utils.ColorConstants.buttonPressedBackground
-import io.github.orioncraftmc.orion.utils.ColorConstants.rectangleBorder
 import io.github.orioncraftmc.orion.utils.NinePatchConstants
 import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.utils.rendering.NinePatchRendererUtils
@@ -43,14 +40,13 @@ open class ButtonComponent(
 	var onClick: () -> Unit = {}
 ) : ComponentContainer() {
 
+	var mousePressed = false
+
 	init {
 		snapToDevicePixels = true
 	}
 
 	var isAutomaticSize = false
-	var borderColor = rectangleBorder
-	var pressedBackground = buttonPressedBackground
-	var unpressedBackground = buttonBackground
 
 	override var size: Size = Size()
 		get() {
@@ -86,16 +82,20 @@ open class ButtonComponent(
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
-		onClick()
+		mousePressed = true
 	}
 
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
+		if (mousePressed) {
+			onClick()
+		}
+		mousePressed = false
 		super.handleMouseRelease(mouseX, mouseY)
 	}
 
 	private fun getNinePatch(mouseX: Int, mouseY: Int) =
 		if (ComponentUtils.isMouseWithinComponent(mouseX, mouseY, this)) {
-			NinePatchConstants.buttonHover
+			if (mousePressed) NinePatchConstants.buttonPressed else NinePatchConstants.buttonHover
 		} else {
 			NinePatchConstants.button
 		}
