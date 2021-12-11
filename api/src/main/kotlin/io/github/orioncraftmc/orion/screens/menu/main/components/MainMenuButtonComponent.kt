@@ -31,9 +31,9 @@ import io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main.MainMenuActio
 import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.nodeSize
+import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
 import io.github.orioncraftmc.orion.screens.menu.main.buttonGapSize
 import io.github.orioncraftmc.orion.screens.menu.main.menuButtonSize
-import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
 
 class MainMenuButtonComponent(val action: MainMenuAction) :
 	ButtonComponent(getTranslationForAction(action)) {
@@ -48,7 +48,7 @@ class MainMenuButtonComponent(val action: MainMenuAction) :
 
 	private fun executeMainMenuAction() {
 		if (action == MainMenuAction.ORIONCRAFT_SETTINGS) {
-			MinecraftBridge.openScreen(ModMenuScreen(true))
+			MinecraftBridge.openScreen(ModsEditorScreen(true))
 			return
 		}
 		MainMenuUtils.executeMainMenuAction(action)

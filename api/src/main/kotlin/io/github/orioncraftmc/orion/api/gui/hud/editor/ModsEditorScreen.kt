@@ -60,7 +60,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs
 import kotlin.math.floor
 
-class ModsEditorScreen : ComponentOrionScreen(true) {
+class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScreen(true) {
 
 	init {
 		flex {
@@ -159,6 +159,9 @@ class ModsEditorScreen : ComponentOrionScreen(true) {
 	}
 
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
+		if (isFromMainMenu) {
+			MinecraftBridge.drawDefaultBackground()
+		}
 		mousePosition.apply {
 			x = mouseX.toDouble()
 			y = mouseY.toDouble()
