@@ -96,7 +96,7 @@ object RectRenderingUtils {
 			OpenGlBridge.enableTexture2D()
 			blend {
 				tessellator.start(DrawMode.QUADS)
-				tessellator.setColor(255, 255, 255, 255)
+				tessellator.setTesselatorColor(255, 255, 255, 255)
 				tessellator.addVertexWithUV(finalX1, finalY2, 0.0, finalU1, finalV2)
 				tessellator.addVertexWithUV(finalX2, finalY2, 0.0, finalU2, finalV2)
 				tessellator.addVertexWithUV(finalX2, finalY1, 0.0, finalU2, finalV1)
