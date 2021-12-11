@@ -368,7 +368,7 @@ class ModsEditorScreen : ComponentOrionScreen(true) {
 		skipCurrentSnapping: AtomicBoolean
 	): Double? {
 		// Measure our current distance to the snapping guideline
-		val finalSnapValue = snapValue - secondValueOffset
+		val finalSnapValue = (snapValue - secondValueOffset).coerceAtLeast(0.0)
 		val finalValue = value - secondValueOffset
 		val snapValueComparison = abs(finalValue - finalSnapValue)
 		//Are we too far? If so, skip this guideline
