@@ -77,7 +77,14 @@ open class ButtonComponent(
 
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
 		val (ourSize, _) = ComponentUtils.computeEffectiveProperties(this)
-		NinePatchRendererUtils.renderNinePatch(getNinePatch(mouseX, mouseY), 0.0, 0.0, ourSize.width, ourSize.height, 2.0)
+		NinePatchRendererUtils.renderNinePatch(
+			getNinePatch(mouseX, mouseY),
+			0.0,
+			0.0,
+			ourSize.width,
+			ourSize.height,
+			2.0
+		)
 		super.renderComponent(mouseX, mouseY)
 	}
 
@@ -97,6 +104,7 @@ open class ButtonComponent(
 		if (ComponentUtils.isMouseWithinComponent(mouseX, mouseY, this)) {
 			if (mousePressed) NinePatchConstants.buttonPressed else NinePatchConstants.buttonHover
 		} else {
+			mousePressed = false
 			NinePatchConstants.button
 		}
 }
