@@ -27,7 +27,12 @@ package io.github.orioncraftmc.orion.api.meta.ninepatch
 import juuxel.libninepatch.NinePatch
 
 data class NinePatchElement(
-	val resourceName: String, val cornerWidth: Int, val cornerHeight: Int, val width: Int, val height: Int
+	val resourceName: String,
+	val cornerWidth: Int,
+	val cornerHeight: Int,
+	val width: Int,
+	val height: Int,
+	val paddingSize: Int
 ) {
 	private val cachedNinePatchMap = mutableMapOf<Double, NinePatch<NinePatchElement>>()
 

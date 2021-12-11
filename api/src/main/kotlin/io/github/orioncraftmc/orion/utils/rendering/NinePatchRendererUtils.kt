@@ -30,18 +30,22 @@ import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.components.impl.ninepatch.NinePatchTextureRenderer
 import io.github.orioncraftmc.orion.api.meta.ninepatch.NinePatchElement
 import io.github.orioncraftmc.orion.utils.NinePatchConstants
+import kotlin.math.roundToInt
 
 object NinePatchRendererUtils {
 	fun renderNinePatch(element: NinePatchElement, x: Double, y: Double, width: Double, height: Double, scale: Double) {
-		val resource = NinePatchConstants.getResourceLocationForElementWithScale(element, scale)
+		val patchScale = scale
+		val finalScale = scale * 2
+		val resource = NinePatchConstants.getResourceLocationForElementWithScale(element, patchScale)
 		MinecraftBridge.renderEngine.bindTexture(resource)
 		OpenGlBridge.translate(x, y, 0.0)
 		matrix {
-			OpenGlBridge.scale(1 / scale, 1 / scale, 1.0)
-			element.getNinePatch(scale).draw(
+			OpenGlBridge.translate(-element.paddingSize.toDouble(), -element.paddingSize.toDouble(), 0.0)
+			OpenGlBridge.scale(1 / finalScale, 1 / finalScale, 1.0)
+			element.getNinePatch(patchScale).draw(
 				NinePatchTextureRenderer,
-				(width * scale).toInt(),
-				(height * scale).toInt()
+				((width + (element.paddingSize * 2)) * finalScale).roundToInt(),
+				((height + (element.paddingSize * 2)) * finalScale).roundToInt()
 			)
 		}
 		OpenGlBridge.translate(-x, -y, 0.0)

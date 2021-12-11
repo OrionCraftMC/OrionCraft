@@ -29,12 +29,24 @@ import io.github.orioncraftmc.orion.api.bridge.minecraft.resources.ResourceLocat
 import io.github.orioncraftmc.orion.api.meta.ninepatch.NinePatchElement
 import java.text.DecimalFormat
 
+const val buttonCornerSize = 10
+const val buttonSize = 68
+const val buttonPaddingSize = 2
+
 object NinePatchConstants {
-	val ninePatchScales = arrayOf(1.0, 2.0, 2.5)
+	val ninePatchScales = arrayOf(2.0)
 
-	val button = NinePatchElement("textures/gui/button/button_%scale%x.png", 15, 15, 54, 54)
+	val button = NinePatchElement("textures/gui/button/button_%scale%x.png", buttonCornerSize, buttonCornerSize,
+		buttonSize,
+		buttonSize,
+		buttonPaddingSize
+	)
 
-	val buttonHover = NinePatchElement("textures/gui/button/button_hover_%scale%x.png", 15, 15, 54, 54)
+	val buttonHover = NinePatchElement("textures/gui/button/button_hover_%scale%x.png",
+		buttonCornerSize,
+		buttonCornerSize, buttonSize, buttonSize,
+		buttonPaddingSize
+	)
 
 	private val decimalFormat = DecimalFormat("0.#")
 	fun getResourceLocationForElementWithScale(element: NinePatchElement, scale: Double = 1.0): ResourceLocationBridge {

@@ -33,8 +33,9 @@ import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.utils.ColorConstants.buttonBackground
 import io.github.orioncraftmc.orion.utils.ColorConstants.buttonPressedBackground
 import io.github.orioncraftmc.orion.utils.ColorConstants.rectangleBorder
+import io.github.orioncraftmc.orion.utils.NinePatchConstants
 import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
-import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
+import io.github.orioncraftmc.orion.utils.rendering.NinePatchRendererUtils
 
 open class ButtonComponent(
 	text: String,
@@ -79,23 +80,9 @@ open class ButtonComponent(
 	}
 
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
-		ComponentUtils.renderBackgroundColor(this, getBackgroundColor(mouseX, mouseY))
-		renderButtonBorder()
+		val (ourSize, _) = ComponentUtils.computeEffectiveProperties(this)
+		NinePatchRendererUtils.renderNinePatch(getNinePatch(mouseX, mouseY), 0.0, 0.0, ourSize.width, ourSize.height, 2.0)
 		super.renderComponent(mouseX, mouseY)
-	}
-
-	private fun renderButtonBorder() {
-		val (ourSize, ourPadding) = ComponentUtils.computeEffectiveProperties(this)
-
-		RectRenderingUtils.drawRectangle(
-			-ourPadding.left,
-			-ourPadding.top,
-			ourSize.width + ourPadding.right,
-			ourSize.height + ourPadding.bottom,
-			borderColor,
-			true,
-			2.0
-		)
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
@@ -106,10 +93,10 @@ open class ButtonComponent(
 		super.handleMouseRelease(mouseX, mouseY)
 	}
 
-	private fun getBackgroundColor(mouseX: Int, mouseY: Int) =
+	private fun getNinePatch(mouseX: Int, mouseY: Int) =
 		if (ComponentUtils.isMouseWithinComponent(mouseX, mouseY, this)) {
-			pressedBackground
+			NinePatchConstants.buttonHover
 		} else {
-			unpressedBackground
+			NinePatchConstants.button
 		}
 }
