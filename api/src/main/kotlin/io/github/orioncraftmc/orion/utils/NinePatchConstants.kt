@@ -36,13 +36,12 @@ const val buttonPaddingSize = 2
 object NinePatchConstants {
 	val ninePatchScales = arrayOf(2.0)
 
-	val button = NinePatchElement("textures/gui/button/button_%scale%x.png", buttonCornerSize, buttonCornerSize,
-		buttonSize,
-		buttonSize,
-		buttonPaddingSize
-	)
+	val button = createButtonElement("button")
+	val buttonHover = createButtonElement("button_hover")
+	val buttonPressed = createButtonElement("button_pressed")
 
-	val buttonHover = NinePatchElement("textures/gui/button/button_hover_%scale%x.png",
+	private fun createButtonElement(name: String) = NinePatchElement(
+		"textures/gui/button/${name}_%scale%x.png",
 		buttonCornerSize,
 		buttonCornerSize, buttonSize, buttonSize,
 		buttonPaddingSize
