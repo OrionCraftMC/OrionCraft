@@ -97,8 +97,8 @@ object OrionDiscordIntegration {
 		// Find out which name Discord's library has (.dll for Windows, .so for Linux)
 		val name = "discord_game_sdk"
 		val suffix: String
-		val osName = System.getProperty("os.name"). lowercase()
-		var arch = System.getProperty("os.arch").lowercase()
+		val osName = System.getProperty("os.name").toLowerCase()
+		var arch = System.getProperty("os.arch").toLowerCase()
 		suffix = if (osName.contains("windows")) {
 			".dll"
 		} else if (osName.contains("linux")) {
