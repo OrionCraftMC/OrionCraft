@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft.input
+package io.github.orioncraftmc.orion.api.bridge.input
 
 import io.github.orioncraftmc.orion.api.keybinding.OrionKeybinding
 

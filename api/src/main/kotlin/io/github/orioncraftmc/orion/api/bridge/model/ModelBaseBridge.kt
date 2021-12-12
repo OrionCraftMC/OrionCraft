@@ -22,14 +22,12 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.backport.hooks
+package io.github.orioncraftmc.orion.api.bridge.model
 
-import io.github.orioncraftmc.orion.api.bridge.input.VanillaKeybindingBridge
-import io.github.orioncraftmc.orion.utils.NostalgiaKeyBindingCategoryConstants
+import io.github.orioncraftmc.orion.api.bridge.entity.EntityBridge
 
-@Suppress("unused")
-object NostalgiaKeybindingsHook {
-	fun getKeybindingCategory(keybinding: VanillaKeybindingBridge): String {
-		return NostalgiaKeyBindingCategoryConstants.getKeyCategory(keybinding.description)
-	}
+interface ModelBaseBridge {
+	fun render(entity: EntityBridge, f: Float, g: Float, h: Float, i: Float, j: Float, k: Float)
+
+	fun setRotationAngles(f: Float, g: Float, h: Float, i: Float, j: Float, k: Float, entity: EntityBridge)
 }

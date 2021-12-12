@@ -22,13 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft.menu.main
+package io.github.orioncraftmc.orion.api.bridge.main
 
-enum class MainMenuAction {
-	SINGLEPLAYER,
-	MULTIPLAYER,
-	ORIONCRAFT_SETTINGS,
-	LANGUAGE_PICKER,
-	OPTIONS,
-	EXIT_GAME
+interface MainMenuUtils {
+	fun executeMainMenuAction(action: MainMenuAction)
+
+	fun getTranslationForMainMenuAction(action: MainMenuAction): String
 }

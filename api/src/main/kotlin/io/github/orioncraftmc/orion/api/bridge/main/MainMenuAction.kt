@@ -22,17 +22,13 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft.input
+package io.github.orioncraftmc.orion.api.bridge.main
 
-interface VanillaKeybindingBridge {
-	val defaultKeyCode: Int
-
-	val description: String
-
-	@Suppress("INAPPLICABLE_JVM_NAME")
-	@get:JvmName("bridge\$isPressed")
-	@set:JvmName("bridge\$setPressed")
-	var isPressed: Boolean
-
-	var keyCode: Int
+enum class MainMenuAction {
+	SINGLEPLAYER,
+	MULTIPLAYER,
+	ORIONCRAFT_SETTINGS,
+	LANGUAGE_PICKER,
+	OPTIONS,
+	EXIT_GAME
 }

@@ -22,14 +22,8 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.backport.hooks
+package io.github.orioncraftmc.orion.api.bridge.entity
 
-import io.github.orioncraftmc.orion.api.bridge.input.VanillaKeybindingBridge
-import io.github.orioncraftmc.orion.utils.NostalgiaKeyBindingCategoryConstants
-
-@Suppress("unused")
-object NostalgiaKeybindingsHook {
-	fun getKeybindingCategory(keybinding: VanillaKeybindingBridge): String {
-		return NostalgiaKeyBindingCategoryConstants.getKeyCategory(keybinding.description)
-	}
+interface EntityLivingBridge : EntityBridge {
+	var texture: String
 }
