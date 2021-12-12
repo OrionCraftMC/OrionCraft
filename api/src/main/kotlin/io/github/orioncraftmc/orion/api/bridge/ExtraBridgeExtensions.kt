@@ -26,7 +26,7 @@ package io.github.orioncraftmc.orion.api.bridge
 
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.GlCapability
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
 

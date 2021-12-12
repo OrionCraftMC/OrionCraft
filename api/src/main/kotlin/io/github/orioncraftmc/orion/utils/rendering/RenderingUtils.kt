@@ -27,8 +27,8 @@ package io.github.orioncraftmc.orion.utils.rendering
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
-import io.github.orioncraftmc.orion.api.bridge.rendering.GlCapability
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.DrawMode
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
 import io.github.orioncraftmc.orion.api.bridge.setColor
 import kotlin.math.cos
 import kotlin.math.sin

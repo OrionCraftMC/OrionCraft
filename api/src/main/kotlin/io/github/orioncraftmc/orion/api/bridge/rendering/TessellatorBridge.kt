@@ -24,6 +24,8 @@
 
 package io.github.orioncraftmc.orion.api.bridge.rendering
 
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.DrawMode
+
 interface TessellatorBridge {
 	fun start(mode: DrawMode)
 

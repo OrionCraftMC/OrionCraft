@@ -26,8 +26,8 @@ package io.github.orioncraftmc.orion.utils.rendering
 
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.*
-import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
-import io.github.orioncraftmc.orion.api.bridge.rendering.GlCapability
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.DrawMode
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
 
 object RectRenderingUtils {
 

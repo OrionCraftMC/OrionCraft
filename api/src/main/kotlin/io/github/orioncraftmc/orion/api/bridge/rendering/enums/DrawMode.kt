@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.rendering
+package io.github.orioncraftmc.orion.api.bridge.rendering.enums
 
 enum class DrawMode {
 	POINTS,

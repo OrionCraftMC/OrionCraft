@@ -24,6 +24,8 @@
 
 package io.github.orioncraftmc.orion.api.bridge.rendering
 
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
+
 interface OpenGlBridge {
 	fun enableCapability(capability: GlCapability)
 	fun disableCapability(capability: GlCapability)

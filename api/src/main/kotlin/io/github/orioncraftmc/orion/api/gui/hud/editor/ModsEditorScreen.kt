@@ -30,8 +30,8 @@ import io.github.orioncraftmc.meditate.enums.YogaAlign
 import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.bridge.*
-import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
-import io.github.orioncraftmc.orion.api.bridge.rendering.GlCapability
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.DrawMode
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
 import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.flex

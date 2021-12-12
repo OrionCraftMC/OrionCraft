@@ -26,7 +26,7 @@ package io.github.orioncraftmc.orion.utils.gui
 
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.GlCapability
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Padding
