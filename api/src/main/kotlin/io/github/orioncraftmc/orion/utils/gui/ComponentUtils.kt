@@ -26,6 +26,7 @@ package io.github.orioncraftmc.orion.utils.gui
 
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.GlCapability
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.model.Padding
@@ -48,7 +49,7 @@ object ComponentUtils {
 		if (doLayout) performComponentLayout(component)
 		renderBackgroundColor(component, component.backgroundColor)
 		val (finalMouseX, finalMouseY) = computeMousePosition(component, mouseX, mouseY)
-		OpenGlBridge.enableBlend()
+		OpenGlBridge.enableCapability(GlCapability.BLEND)
 		component.renderComponent(finalMouseX, finalMouseY)
 	}
 

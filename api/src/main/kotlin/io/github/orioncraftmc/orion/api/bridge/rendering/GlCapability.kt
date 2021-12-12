@@ -24,19 +24,6 @@
 
 package io.github.orioncraftmc.orion.api.bridge.rendering
 
-interface OpenGlBridge {
-	fun enableCapability(capability: GlCapability)
-	fun disableCapability(capability: GlCapability)
-
-	fun enableBlendAlphaMinusSrcAlpha()
-
-	fun pushMatrix()
-	fun popMatrix()
-
-	fun translate(x: Double, y: Double, z: Double)
-	fun scale(x: Double, y: Double, z: Double)
-
-	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
-
-	fun setLineWidth(width: Float)
+enum class GlCapability {
+    BLEND, TEXTURE_2D, CULL_FACE
 }

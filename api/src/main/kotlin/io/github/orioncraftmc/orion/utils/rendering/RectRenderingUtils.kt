@@ -27,6 +27,7 @@ package io.github.orioncraftmc.orion.utils.rendering
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.*
 import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
+import io.github.orioncraftmc.orion.api.bridge.rendering.GlCapability
 
 object RectRenderingUtils {
 
@@ -93,7 +94,7 @@ object RectRenderingUtils {
 		val tessellator = TessellatorBridge
 
 		matrix {
-			OpenGlBridge.enableTexture2D()
+			OpenGlBridge.enableCapability(GlCapability.TEXTURE_2D)
 			blend {
 				tessellator.start(DrawMode.QUADS)
 				tessellator.setTesselatorColor(255, 255, 255, 255)

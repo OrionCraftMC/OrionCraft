@@ -26,6 +26,7 @@ package io.github.orioncraftmc.orion.api.bridge
 
 import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.GlCapability
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
 
@@ -54,19 +55,19 @@ inline fun matrix(code: () -> Unit) {
 }
 
 inline fun blend(code: () -> Unit) {
-	OpenGlBridge.enableBlend()
+	OpenGlBridge.enableCapability(GlCapability.BLEND)
 	OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
 	code()
-	OpenGlBridge.disableBlend()
+	OpenGlBridge.disableCapability(GlCapability.BLEND)
 }
 
 inline fun basicShapesRendering(code: () -> Unit) {
 	matrix {
-		OpenGlBridge.enableBlend()
-		OpenGlBridge.disableTexture2D()
+		OpenGlBridge.enableCapability(GlCapability.BLEND)
+		OpenGlBridge.disableCapability(GlCapability.TEXTURE_2D)
 		OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
 		code()
-		OpenGlBridge.enableTexture2D()
-		OpenGlBridge.disableBlend()
+		OpenGlBridge.enableCapability(GlCapability.TEXTURE_2D)
+		OpenGlBridge.disableCapability(GlCapability.BLEND)
 	}
 }

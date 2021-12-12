@@ -28,6 +28,7 @@ import com.github.ajalt.colormath.Color
 import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.DrawMode
+import io.github.orioncraftmc.orion.api.bridge.rendering.GlCapability
 import io.github.orioncraftmc.orion.api.bridge.setColor
 import kotlin.math.cos
 import kotlin.math.sin
@@ -98,8 +99,8 @@ object RenderingUtils {
 	) {
 		val arcResolution = 180
 		OpenGlBridge.pushMatrix()
-		OpenGlBridge.enableBlend()
-		OpenGlBridge.disableTexture2D()
+		OpenGlBridge.enableCapability(GlCapability.BLEND)
+		OpenGlBridge.disableCapability(GlCapability.TEXTURE_2D)
 		OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
 		val tessellator = TessellatorBridge
 
@@ -125,8 +126,8 @@ object RenderingUtils {
 		OpenGlBridge.setLineWidth(lineWidth)
 		tessellator.draw()
 
-		OpenGlBridge.enableTexture2D()
-		OpenGlBridge.disableBlend()
+		OpenGlBridge.enableCapability(GlCapability.TEXTURE_2D)
+		OpenGlBridge.disableCapability(GlCapability.BLEND)
 		OpenGlBridge.popMatrix()
 	}
 }
