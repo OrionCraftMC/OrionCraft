@@ -29,6 +29,9 @@ import io.github.orioncraftmc.orion.utils.NostalgiaKeyBindingCategoryConstants
 
 @Suppress("unused")
 object NostalgiaKeybindingsHook {
+
+	var togglePerspectiveKeybinding: VanillaKeybindingBridge? = null
+
 	fun getKeybindingCategory(keybinding: VanillaKeybindingBridge): String {
 		return NostalgiaKeyBindingCategoryConstants.getKeyCategory(keybinding.description)
 	}

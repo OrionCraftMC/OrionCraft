@@ -35,6 +35,7 @@ import io.github.orioncraftmc.orion.api.keybinding.OrionKeybinding
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.mod.ModManager
 import io.github.orioncraftmc.orion.api.mod.settings.SettingsProvider
+import io.github.orioncraftmc.orion.backport.hooks.NostalgiaKeybindingsHook
 import io.github.orioncraftmc.orion.utils.LegacyKeyboardKey
 import io.github.orioncraftmc.orion.utils.OrionDiscordIntegration
 import kotlin.system.measureTimeMillis
@@ -93,7 +94,7 @@ object OrionCraft {
 
 		if (clientVersion.versionData?.hasVanillaPerspectiveKeybinding != true) {
 			// Version requires us to register custom keybinding
-			KeybindingUtils.registerKeybinding(
+			NostalgiaKeybindingsHook.togglePerspectiveKeybinding = KeybindingUtils.registerKeybinding(
 				OrionKeybinding(
 					"nostalgia.perspective_toggle",
 					LegacyKeyboardKey.KEY_F5
