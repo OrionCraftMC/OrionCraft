@@ -50,8 +50,8 @@ object PlayerTexturesHook {
 		}
 		val downloadData: List<String>
 		try {
-			downloadData = location.split('_', limit = 3)
-			if (downloadData.size != 3) {
+ 			downloadData = location.split('_', limit = 4)
+			if (downloadData.size != 4) {
 				return
 			}
 		} catch (e: Exception) {
@@ -61,7 +61,8 @@ object PlayerTexturesHook {
 		cancel.run()
 
 		val part = downloadData[1]
-		val name = downloadData[2]
+		val cacheBurst = downloadData[2] //ignored
+		val name = downloadData[3]
 		var result: ByteArray? = null
 
 		logger.debug("Downloading part $part for name $name")
