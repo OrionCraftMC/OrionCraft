@@ -41,7 +41,7 @@ object NinePatchConstants {
 	val buttonPressed = createButtonElement("button_pressed")
 
 	private fun createButtonElement(name: String) = NinePatchElement(
-		"textures/gui/button/${name}_%scale%x.png",
+		"textures/gui/button/${name}_2x.png",
 		buttonCornerSize,
 		buttonCornerSize, buttonSize, buttonSize,
 		buttonPaddingSize
