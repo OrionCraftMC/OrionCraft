@@ -30,14 +30,14 @@ import io.github.orioncraftmc.orion.api.event.impl.HudRenderEvent
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
-import io.github.orioncraftmc.orion.api.onEvent
+import io.github.orioncraftmc.orion.api.onInstaEvent
 import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 
 class InGameHudRenderer : BaseHudModuleRenderer() {
 
 	init {
-		onEvent<HudRenderEvent> {
-			if (MinecraftBridge.currentOpenedScreen is ModsEditorScreen) return@onEvent
+		onInstaEvent<HudRenderEvent> {
+			if (MinecraftBridge.currentOpenedScreen is ModsEditorScreen) return@onInstaEvent
 			val oldZLevel = it.hud.zLevel
 			it.hud.zLevel = 1000f
 			renderHudElements()
