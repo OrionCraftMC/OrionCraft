@@ -25,6 +25,7 @@
 package io.github.orioncraftmc.orion.utils
 
 import io.github.orioncraftmc.orion.api.OrionCraft
+import io.github.orioncraftmc.orion.api.OrionCraftConstants
 import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
@@ -32,16 +33,24 @@ import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.Flow
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
 object BrandingUtils {
-	fun getBrandingComponent(mainTextScale: Double): Component {
+	fun getBrandingComponent(mainTextScale: Double, isGuiBackgroundTarget: Boolean = false): Component {
 		return FlowLayoutContainer(FlowLayoutDirection.VERTICAL).apply {
 			snapToDevicePixels = true
-			val mainLabelComponent = LabelComponent("OrionCraft").apply {
+			val mainLabelComponent = LabelComponent(OrionCraftConstants.mainClientName).apply {
 				scale = mainTextScale
+				if (isGuiBackgroundTarget) anchor = Anchor.TOP_RIGHT
 			}
 			addComponent(mainLabelComponent)
 
+			var secondaryLabelText: String? = null
 			if (OrionCraft.clientVersion.isNostalgiaVersion) {
-				addComponent(LabelComponent("Nostalgia").apply {
+				secondaryLabelText = "Nostalgia"
+			} else if (isGuiBackgroundTarget && OrionCraftConstants.isCustomBranded) {
+				secondaryLabelText = "(powered by OrionCraftMc)" //TODO: Translate to client language
+			}
+
+			if (secondaryLabelText != null) {
+				addComponent(LabelComponent(secondaryLabelText).apply {
 					anchor = Anchor.TOP_RIGHT
 					snapToDevicePixels = true
 				})

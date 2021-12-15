@@ -30,11 +30,16 @@ import java.io.File
 
 object OrionCraftConstants {
 
+	val isCustomBranded: Boolean
+		get() = System.getProperty("orioncraft.branded") == "true"
+
 	val isDevEnvironment
 		get() = System.getProperty("lightcraft.launch.dev") != null
 
+	val mainClientName = "OrionCraft"
+
 	private val clientName: String
-		get() = "OrionCraft${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
+		get() = "${mainClientName}${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
 
 	val clientTitleVersionString get() = "${OrionCraft.clientVersion}-${BuildConstants.COMMIT_HASH}/${BuildConstants.COMMIT_BRANCH}"
 
@@ -57,9 +62,10 @@ object OrionCraftConstants {
 	const val DEFAULT_PROFILE_NAME = "Default"
 
 	val mainMenuClientName
-		get() = "OrionCraft ${OrionCraft.clientVersion}"
+		get() = "$mainClientName ${OrionCraft.clientVersion}"
 
 	const val orionCraftDiscordClientId = 903702295282343936
 	const val orionCraftNostalgiaDiscordClientId = 903714432264314950
+
 
 }

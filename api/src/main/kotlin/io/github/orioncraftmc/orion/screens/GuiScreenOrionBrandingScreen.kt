@@ -35,7 +35,7 @@ import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 
 class GuiScreenOrionBrandingScreen : ParentComponentHelper() {
 
-	private val brandingComponent = BrandingUtils.getBrandingComponent(1.5).apply {
+	private val brandingComponent = BrandingUtils.getBrandingComponent(1.5, true).apply {
 		parent = parentComponent
 		padding = Padding(2.0)
 		anchor = Anchor.BOTTOM_RIGHT
