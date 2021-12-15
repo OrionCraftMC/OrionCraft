@@ -25,15 +25,17 @@
 package io.github.orioncraftmc.orion.screens
 
 import io.github.orioncraftmc.orion.api.OrionCraftConstants
+import io.github.orioncraftmc.orion.api.bridge.gui.GuiScreenBridge
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.ParentComponentHelper
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
+import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.utils.BrandingUtils
 import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 
-class GuiScreenOrionBrandingScreen : ParentComponentHelper() {
+class GuiScreenOrionBrandingScreen(val gui: GuiScreenBridge) : ParentComponentHelper() {
 
 	private val brandingComponent = BrandingUtils.getBrandingComponent(1.5, true).apply {
 		parent = parentComponent
@@ -49,6 +51,9 @@ class GuiScreenOrionBrandingScreen : ParentComponentHelper() {
 
 
 	fun drawScreen() {
+		if (gui is ModsEditorScreen) {
+			return
+		}
 		updateParentComponent()
 		matrix {
 			ComponentUtils.renderComponent(brandingComponent, 0, 0)
