@@ -24,14 +24,14 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud
 
+import io.github.orioncraftmc.components.Component
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.event.impl.HudRenderEvent
-import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.onInstaEvent
-import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
+import io.github.orioncraftmc.components.utils.ComponentUtils
 
 class InGameHudRenderer : BaseHudModuleRenderer() {
 

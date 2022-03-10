@@ -24,10 +24,10 @@
 
 package io.github.orioncraftmc.orion.mods.hud
 
+import io.github.orioncraftmc.components.containers.flow.FlowLayoutContainer
+import io.github.orioncraftmc.components.containers.flow.FlowLayoutDirection
+import io.github.orioncraftmc.components.model.Anchor
 import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutDirection
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
 import io.github.orioncraftmc.orion.mods.staffhack.gui.HackNameComponent
 
 class StaffHackListComponent(initialAnchor: Anchor) : FlowLayoutContainer(), AnchorUpdateReceiver {

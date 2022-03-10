@@ -30,10 +30,10 @@ import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.gui.ParentComponentHelper
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Padding
 import io.github.orioncraftmc.orion.utils.BrandingUtils
-import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
+import io.github.orioncraftmc.components.utils.ComponentUtils
 
 class GuiScreenOrionBrandingScreen(val gui: GuiScreenBridge) : ParentComponentHelper() {
 

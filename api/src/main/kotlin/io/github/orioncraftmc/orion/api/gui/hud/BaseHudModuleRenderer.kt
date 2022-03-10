@@ -29,7 +29,7 @@ import com.google.common.collect.Table
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.event.impl.HudModComponentRefreshEvent
 import io.github.orioncraftmc.orion.api.gui.ParentComponentHelper
-import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.components.Component
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudModSettingsModel
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod

@@ -24,15 +24,15 @@
 
 package io.github.orioncraftmc.orion.screens.menu.main
 
+import io.github.orioncraftmc.components.flex
 import io.github.orioncraftmc.meditate.enums.YogaAlign
 import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraftConstants
-import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Padding
+import io.github.orioncraftmc.components.model.Size
 import io.github.orioncraftmc.orion.screens.menu.main.components.MainMenuButtonContainerComponent
 import io.github.orioncraftmc.orion.utils.OrionDiscordIntegration
 

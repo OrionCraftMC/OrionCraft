@@ -26,14 +26,14 @@
 
 package io.github.orioncraftmc.orion.api.gui.components.screens
 
+import io.github.orioncraftmc.components.Component
+import io.github.orioncraftmc.components.containers.ComponentContainer
+import io.github.orioncraftmc.components.flex
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Point
+import io.github.orioncraftmc.components.utils.ComponentUtils
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.gui.components.flex
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
-import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 import kotlin.math.roundToInt
 
 open class ComponentOrionScreen(isFlex: Boolean = false) : ComponentContainer(), OrionScreen {

@@ -26,12 +26,12 @@ package io.github.orioncraftmc.orion.api.gui.components.impl
 
 import com.github.ajalt.colormath.Color
 import com.github.ajalt.colormath.model.RGBInt
+import io.github.orioncraftmc.components.containers.ComponentContainer
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Size
+import io.github.orioncraftmc.components.utils.ComponentUtils
 import io.github.orioncraftmc.orion.api.bridge.FontRendererBridge
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.utils.NinePatchConstants
-import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.utils.rendering.NinePatchRendererUtils
 
 open class ButtonComponent(

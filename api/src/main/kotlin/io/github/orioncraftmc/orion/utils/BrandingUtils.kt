@@ -26,11 +26,11 @@ package io.github.orioncraftmc.orion.utils
 
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.OrionCraftConstants
-import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.components.Component
+import io.github.orioncraftmc.components.containers.flow.FlowLayoutContainer
+import io.github.orioncraftmc.components.containers.flow.FlowLayoutDirection
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutDirection
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.components.model.Anchor
 
 object BrandingUtils {
 	fun getBrandingComponent(mainTextScale: Double, isGuiBackgroundTarget: Boolean = false): Component {

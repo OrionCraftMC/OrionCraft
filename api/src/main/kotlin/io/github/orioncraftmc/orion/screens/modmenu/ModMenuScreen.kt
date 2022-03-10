@@ -24,11 +24,11 @@
 
 package io.github.orioncraftmc.orion.screens.modmenu
 
+import io.github.orioncraftmc.components.flex
 import io.github.orioncraftmc.meditate.enums.YogaAlign
 import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.blend
-import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.screens.modmenu.components.ModMenuGuiContainer
 

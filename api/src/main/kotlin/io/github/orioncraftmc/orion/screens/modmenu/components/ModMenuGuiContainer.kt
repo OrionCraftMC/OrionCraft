@@ -24,12 +24,12 @@
 
 package io.github.orioncraftmc.orion.screens.modmenu.components
 
+import io.github.orioncraftmc.components.containers.ComponentContainer
+import io.github.orioncraftmc.components.flex
+import io.github.orioncraftmc.components.model.Size
+import io.github.orioncraftmc.components.nodeSize
 import io.github.orioncraftmc.meditate.enums.YogaEdge
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.gui.components.flex
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
-import io.github.orioncraftmc.orion.api.gui.components.nodeSize
-import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.utils.ColorConstants
 
 class ModMenuGuiContainer : ComponentContainer() {

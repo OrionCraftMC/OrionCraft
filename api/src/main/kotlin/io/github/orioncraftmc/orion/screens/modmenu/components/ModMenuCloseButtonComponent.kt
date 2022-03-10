@@ -24,11 +24,11 @@
 
 package io.github.orioncraftmc.orion.screens.modmenu.components
 
+import io.github.orioncraftmc.components.model.Padding
+import io.github.orioncraftmc.components.model.Point
 import io.github.orioncraftmc.orion.api.bridge.TessellatorBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.enums.DrawMode
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Point
 
 class ModMenuCloseButtonComponent(onClick: () -> Unit) : ButtonComponent("", onClick = onClick) {
 	var innerPadding = Padding(5.0)

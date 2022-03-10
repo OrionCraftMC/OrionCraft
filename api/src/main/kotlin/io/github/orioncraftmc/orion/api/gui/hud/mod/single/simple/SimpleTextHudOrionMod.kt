@@ -24,12 +24,12 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.mod.single.simple
 
-import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.components.Component
+import io.github.orioncraftmc.components.containers.ComponentContainer
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Size
 import io.github.orioncraftmc.orion.api.gui.components.impl.LiveLabelComponent
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
 import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.utils.ColorConstants
 
 abstract class SimpleTextHudOrionMod(id: String, name: String) : SingleHudOrionMod(id, name) {

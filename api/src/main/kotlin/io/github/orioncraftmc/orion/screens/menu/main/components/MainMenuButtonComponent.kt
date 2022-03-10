@@ -24,13 +24,13 @@
 
 package io.github.orioncraftmc.orion.screens.menu.main.components
 
+import io.github.orioncraftmc.components.flex
+import io.github.orioncraftmc.components.nodeSize
 import io.github.orioncraftmc.meditate.enums.YogaEdge
 import io.github.orioncraftmc.orion.api.bridge.MainMenuUtils
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.main.MainMenuAction
-import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
-import io.github.orioncraftmc.orion.api.gui.components.nodeSize
 import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
 import io.github.orioncraftmc.orion.screens.menu.main.buttonGapSize
 import io.github.orioncraftmc.orion.screens.menu.main.menuButtonSize

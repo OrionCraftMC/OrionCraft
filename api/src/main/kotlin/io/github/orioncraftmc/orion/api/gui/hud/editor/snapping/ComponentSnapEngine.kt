@@ -24,7 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.editor.snapping
 
-import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.components.Component
 
 object ComponentSnapEngine {
 

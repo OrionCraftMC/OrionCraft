@@ -24,11 +24,13 @@
 
 package io.github.orioncraftmc.orion.api
 
+import io.github.orioncraftmc.components.OrionComponents
 import io.github.orioncraftmc.orion.api.bridge.KeybindingUtils
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.OrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.bridge.impl.FallbackOrionCraftBridgeProvider
 import io.github.orioncraftmc.orion.api.event.impl.LocaleLoadEvent
+import io.github.orioncraftmc.orion.api.gui.OrionComponentsBridgeImpl
 import io.github.orioncraftmc.orion.api.gui.hud.InGameHudRenderer
 import io.github.orioncraftmc.orion.api.keybinding.KeybindingManager
 import io.github.orioncraftmc.orion.api.keybinding.OrionKeybinding
@@ -68,6 +70,7 @@ object OrionCraft {
 	}
 
 	private fun doInit() {
+		OrionComponents.bridge = OrionComponentsBridgeImpl
 		OrionDiscordIntegration.initIntegration()
 		OrionDiscordIntegration.updateStateActivity("Initializing..")
 

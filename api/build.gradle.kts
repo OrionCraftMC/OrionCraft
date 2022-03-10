@@ -18,8 +18,6 @@ dependencies {
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
-    api("com.github.ajalt.colormath:colormath:3.0.0")
-
     // Json I/O
     api("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.+")
 
@@ -30,11 +28,11 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
 
-    /* Meditate Layout */
-    implementation("io.github.orioncraftmc:meditate-layout:1.0.0")
-
     /* LibNinePatch */
     implementation("io.github.juuxel:libninepatch:1.1.0")
+
+    /* Orion Components */
+    api("io.github.orioncraftmc:orion-components:0.0.2-SNAPSHOT")
 }
 
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by rootProject.extra

@@ -26,6 +26,15 @@ package io.github.orioncraftmc.orion.api.gui.hud.editor
 
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
+import io.github.orioncraftmc.components.Component
+import io.github.orioncraftmc.components.flex
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Padding
+import io.github.orioncraftmc.components.model.Point
+import io.github.orioncraftmc.components.model.Size
+import io.github.orioncraftmc.components.nodeSize
+import io.github.orioncraftmc.components.utils.AnchorUtils
+import io.github.orioncraftmc.components.utils.ComponentUtils
 import io.github.orioncraftmc.meditate.enums.YogaAlign
 import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraft
@@ -33,20 +42,13 @@ import io.github.orioncraftmc.orion.api.bridge.*
 import io.github.orioncraftmc.orion.api.bridge.rendering.enums.DrawMode
 import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
 import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
-import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.gui.components.flex
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
-import io.github.orioncraftmc.orion.api.gui.components.nodeSize
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.ComponentSnapEngine
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnapAxis
 import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnappedComponentData
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.api.logger
 import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
 import io.github.orioncraftmc.orion.utils.BrandingUtils
@@ -54,8 +56,6 @@ import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackground
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundSelected
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentSelectionBorder
 import io.github.orioncraftmc.orion.utils.ColorConstants.rectangleBorder
-import io.github.orioncraftmc.orion.utils.gui.AnchorUtils
-import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs

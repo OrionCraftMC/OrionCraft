@@ -25,11 +25,11 @@
 package io.github.orioncraftmc.orion.mods.hud
 
 import com.github.ajalt.colormath.model.RGB
+import io.github.orioncraftmc.components.Component
+import io.github.orioncraftmc.components.model.Anchor
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
 object TestHudMod : HudOrionMod<TestHudMod.Elements>("hudtest", "Hud Test") {
 

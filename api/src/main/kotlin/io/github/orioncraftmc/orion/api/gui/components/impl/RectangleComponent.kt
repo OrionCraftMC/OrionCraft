@@ -25,7 +25,7 @@
 package io.github.orioncraftmc.orion.api.gui.components.impl
 
 import com.github.ajalt.colormath.Color
-import io.github.orioncraftmc.orion.api.gui.components.AbstractComponent
+import io.github.orioncraftmc.components.AbstractComponent
 import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
 
 class RectangleComponent(var borderColor: Color? = null, var borderWidth: Double = 1.0) : AbstractComponent() {

@@ -24,8 +24,8 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.mod
 
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Point
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Point
 
 data class HudModSettingsModel(
 	var enabled: Boolean = false,

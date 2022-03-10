@@ -24,7 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.gui.components
 
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.components.model.Anchor
 
 /**
  * A receiver that receives updates to the [Anchor] of a [Component].

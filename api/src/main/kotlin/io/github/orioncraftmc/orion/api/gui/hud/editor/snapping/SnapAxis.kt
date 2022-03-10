@@ -24,7 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.editor.snapping
 
-import io.github.orioncraftmc.orion.api.gui.model.Point
+import io.github.orioncraftmc.components.model.Point
 
 enum class SnapAxis {
 	HORIZONTAL,

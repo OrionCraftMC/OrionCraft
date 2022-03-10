@@ -25,14 +25,14 @@
 package io.github.orioncraftmc.orion.mods.staffhack.gui
 
 import com.github.ajalt.colormath.model.RGBInt
+import io.github.orioncraftmc.components.Component
+import io.github.orioncraftmc.components.containers.flow.FlowLayoutContainer
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Padding
+import io.github.orioncraftmc.components.model.Size
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.gui.components.Component
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.components.impl.RectangleComponent
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.flow.FlowLayoutContainer
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.utils.ColorConstants
 
 class HackNameComponent(name: String, textAnchor: Anchor) : FlowLayoutContainer() {
