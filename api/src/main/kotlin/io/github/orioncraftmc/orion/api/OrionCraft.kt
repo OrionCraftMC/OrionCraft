@@ -34,6 +34,7 @@ import io.github.orioncraftmc.orion.api.gui.OrionComponentsBridgeImpl
 import io.github.orioncraftmc.orion.api.gui.hud.InGameHudRenderer
 import io.github.orioncraftmc.orion.api.keybinding.KeybindingManager
 import io.github.orioncraftmc.orion.api.keybinding.OrionKeybinding
+import io.github.orioncraftmc.orion.api.keybinding.OrionKeybindingCategory
 import io.github.orioncraftmc.orion.api.meta.ClientVersion
 import io.github.orioncraftmc.orion.api.mod.ModManager
 import io.github.orioncraftmc.orion.api.mod.settings.SettingsProvider
@@ -100,7 +101,8 @@ object OrionCraft {
 			NostalgiaKeybindingsHook.togglePerspectiveKeybinding = KeybindingUtils.registerKeybinding(
 				OrionKeybinding(
 					"nostalgia.perspective_toggle",
-					LegacyKeyboardKey.KEY_F5
+					LegacyKeyboardKey.KEY_F5,
+					OrionKeybindingCategory.MINECRAFT
 				)
 			)
 		}

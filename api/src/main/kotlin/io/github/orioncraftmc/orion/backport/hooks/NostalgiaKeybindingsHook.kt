@@ -24,6 +24,7 @@
 
 package io.github.orioncraftmc.orion.backport.hooks
 
+import io.github.orioncraftmc.orion.api.bridge.input.OrionKeybindingBridge
 import io.github.orioncraftmc.orion.api.bridge.input.VanillaKeybindingBridge
 import io.github.orioncraftmc.orion.utils.NostalgiaKeyBindingCategoryConstants
 
@@ -33,6 +34,7 @@ object NostalgiaKeybindingsHook {
 	var togglePerspectiveKeybinding: VanillaKeybindingBridge? = null
 
 	fun getKeybindingCategory(keybinding: VanillaKeybindingBridge): String {
+		if (keybinding is OrionKeybindingBridge) return keybinding.orionKeybinding.category.friendlyName
 		return NostalgiaKeyBindingCategoryConstants.getKeyCategory(keybinding.description)
 	}
 }

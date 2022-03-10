@@ -27,5 +27,5 @@ package io.github.orioncraftmc.orion.api.bridge.input
 import io.github.orioncraftmc.orion.api.keybinding.OrionKeybinding
 
 interface KeybindingUtils {
-	fun registerKeybinding(keybind: OrionKeybinding): VanillaKeybindingBridge
+	fun registerKeybinding(keybind: OrionKeybinding): OrionKeybindingBridge
 }
