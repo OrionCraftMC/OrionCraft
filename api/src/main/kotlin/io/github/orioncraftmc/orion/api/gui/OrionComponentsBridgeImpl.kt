@@ -22,28 +22,33 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.gui.components
+package io.github.orioncraftmc.orion.api.gui
 
 import com.github.ajalt.colormath.Color
-import io.github.orioncraftmc.meditate.YogaNode
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Padding
-import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
+import io.github.orioncraftmc.components.OrionComponentsBridge
+import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
+import io.github.orioncraftmc.orion.api.bridge.matrix
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
+import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
 
-/**
- * Base abstract class for all components that implement the [Component] interface.
- */
-abstract class AbstractComponent(
-	override var anchor: Anchor = Anchor.TOP_LEFT,
-	override var position: Point = Point(),
-	override var size: Size = Size(),
-	override var padding: Padding = Padding(0.0),
-	override var backgroundColor: Color? = null,
-	override var scale: Double = 1.0,
-	override var snapToDevicePixels: Boolean = false,
-	override var flexLayoutNode: YogaNode? = null
-) : Component {
-	override var parent: Component? = null
+object OrionComponentsBridgeImpl : OrionComponentsBridge {
+	override fun enableGlBlend() {
+		OpenGlBridge.enableCapability(GlCapability.BLEND)
+	}
 
+	override fun fillRectangle(x1: Double, y1: Double, width: Double, height: Double, color: Color) {
+		RectRenderingUtils.drawRectangle(x1, y1, width, height, color, false)
+	}
+
+	override fun pushPopMatrix(operation: () -> Unit) {
+		matrix(operation)
+	}
+
+	override fun scale(x: Double, y: Double, z: Double) {
+		OpenGlBridge.scale(x, y, z)
+	}
+
+	override fun translate(x: Double, y: Double, z: Double) {
+		OpenGlBridge.translate(x, y, z)
+	}
 }
