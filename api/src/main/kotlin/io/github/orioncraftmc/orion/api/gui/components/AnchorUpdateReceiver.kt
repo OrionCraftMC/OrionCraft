@@ -26,6 +26,10 @@ package io.github.orioncraftmc.orion.api.gui.components
 
 import io.github.orioncraftmc.orion.api.gui.model.Anchor
 
+/**
+ * A receiver that receives updates to the [Anchor] of a [Component].
+ * This is used in [Component]s that are used in mod UIs.
+ */
 interface AnchorUpdateReceiver {
 	fun onAnchorUpdate(anchor: Anchor)
 }

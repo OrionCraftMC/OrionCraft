@@ -28,6 +28,9 @@ import io.github.orioncraftmc.meditate.YogaNode
 import io.github.orioncraftmc.meditate.YogaNodeFactory
 import io.github.orioncraftmc.meditate.internal.YGSize
 
+/**
+ * Make use of the Meditate Layout Engine to layout components.
+ */
 @FlexMarker
 inline fun Component.flex(builder: YogaNode.() -> Unit): Component {
 	val node = flexLayoutNode ?: YogaNodeFactory.create()
@@ -36,6 +39,9 @@ inline fun Component.flex(builder: YogaNode.() -> Unit): Component {
 	return this
 }
 
+/**
+ * Use the size of the component to determine the size of the flexbox YogaNode.
+ */
 @FlexMarker
 fun Component.useOrionMeasureForFlex(): Component {
 	return flex {

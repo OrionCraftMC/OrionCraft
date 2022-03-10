@@ -24,5 +24,8 @@
 
 package io.github.orioncraftmc.orion.api.gui.components
 
+/**
+ * DSL marker the flex extension.
+ */
 @DslMarker
 annotation class FlexMarker

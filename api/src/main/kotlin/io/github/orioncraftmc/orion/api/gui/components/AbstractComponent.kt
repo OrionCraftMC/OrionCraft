@@ -31,6 +31,9 @@ import io.github.orioncraftmc.orion.api.gui.model.Padding
 import io.github.orioncraftmc.orion.api.gui.model.Point
 import io.github.orioncraftmc.orion.api.gui.model.Size
 
+/**
+ * Base abstract class for all components that implement the [Component] interface.
+ */
 abstract class AbstractComponent(
 	override var anchor: Anchor = Anchor.TOP_LEFT,
 	override var position: Point = Point(),

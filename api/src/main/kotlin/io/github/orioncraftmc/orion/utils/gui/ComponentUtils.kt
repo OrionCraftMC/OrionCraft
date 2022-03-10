@@ -35,6 +35,9 @@ import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
 import kotlin.math.roundToInt
 
+/**
+ * A utility class for components. Handles the rendering and positioning of components.
+ */
 object ComponentUtils {
 
 	fun getComponentOriginPosition(component: Component) =

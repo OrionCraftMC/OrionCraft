@@ -37,6 +37,9 @@ import io.github.orioncraftmc.orion.utils.gui.ComponentUtils.computeMousePositio
 import io.github.orioncraftmc.orion.utils.gui.ComponentUtils.isMouseWithinComponent
 import java.util.*
 
+/**
+ * A component that contains other components and renders them to the screen.
+ */
 open class ComponentContainer : Component {
 	val components: List<Component> by lazy { Collections.unmodifiableList(componentsList) }
 	protected val componentsList = mutableListOf<Component>()

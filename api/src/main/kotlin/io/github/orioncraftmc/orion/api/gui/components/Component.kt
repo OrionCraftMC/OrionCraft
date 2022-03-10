@@ -33,16 +33,31 @@ import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.utils.gui.ComponentUtils
 import io.github.orioncraftmc.orion.utils.gui.ComponentUtils.computeEffectiveSize
 
+/**
+ * A UI element that can be rendered on the screen.
+ */
 interface Component {
+	/**
+	 * Render the component on the screen.
+	 *
+	 * @param mouseX The x-coordinate of the mouse.
+	 * @param mouseY The y-coordinate of the mouse.
+	 */
 	fun renderComponent(mouseX: Int, mouseY: Int)
 
 	/**
 	 * Invoked when the mouse button has been clicked (pressed and released) on a component.
+	 *
+	 * @param mouseX The x-coordinate of the mouse.
+	 * @param mouseY The y-coordinate of the mouse.
 	 */
 	fun handleMouseClick(mouseX: Int, mouseY: Int) {}
 
 	/**
 	 * Invoked when a mouse button has been released on a component.
+	 *
+	 * @param mouseX The x-coordinate of the mouse.
+	 * @param mouseY The y-coordinate of the mouse.
 	 */
 	fun handleMouseRelease(mouseX: Int, mouseY: Int) {}
 
