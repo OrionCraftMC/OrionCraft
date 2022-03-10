@@ -22,36 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.orioncraftmc.orion.api.bridge.minecraft
+package io.github.orioncraftmc.orion.api.event.impl.action
 
-import io.github.orioncraftmc.orion.api.bridge.gui.GuiScreenBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.RenderEngineBridge
-import io.github.orioncraftmc.orion.api.gui.screens.OrionScreen
-import java.io.File
-
-interface MinecraftBridge {
-	val scaledResolution: ScaledResolutionBridge
-
-	val fontRenderer: FontRendererBridge
-
-	val renderEngine: RenderEngineBridge
-
-	val gameWidth: Int
-
-	val gameHeight: Int
-
-	val gameAppDirectory: File
-
-	val gameSettings: GameSettingsBridge
-
-	val currentOpenedScreen: GuiScreenBridge?
-
-	val currentFps: Int
-
-	fun drawDefaultBackground()
-
-	fun openScreen(screen: OrionScreen?)
-
-	fun translateString(translationKey: String): String
+enum class GameAction(val translationKey: String) {
+	MAIN_MENU("orioncraft.rpc.mainmenu"),
+	SINGLEPLAYER("orioncraft.rpc.singleplayer"),
+	MULTIPLAYER("orioncraft.rpc.multiplayer"),
 }

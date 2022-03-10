@@ -33,7 +33,9 @@ import io.github.orioncraftmc.orion.api.OrionCraftConstants
 import io.github.orioncraftmc.orion.api.OrionCraftConstants.orionCraftDiscordClientId
 import io.github.orioncraftmc.orion.api.OrionCraftConstants.orionCraftNostalgiaDiscordClientId
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.event.impl.action.GameActionChangeEvent
 import io.github.orioncraftmc.orion.api.logger
+import io.github.orioncraftmc.orion.api.onEvent
 import java.io.File
 import java.io.IOException
 import java.net.URL
@@ -55,6 +57,15 @@ object OrionDiscordIntegration {
 			this.timestamps().start = Instant.now()
 			this.assets().largeImage = "rpc_logo"
 		})
+	}
+
+	fun init() {
+		initIntegration()
+		updateStateActivity("Initializing..")
+
+		onEvent<GameActionChangeEvent> {
+			updateStateActivity(MinecraftBridge.translateString(it.action.translationKey))
+		}
 	}
 
 	fun updateActivity(activity: Activity) {
@@ -82,7 +93,7 @@ object OrionDiscordIntegration {
 		}
 
 		thread {
-			while (true) {
+			while (discordSdkCore != null) {
 				discordSdkCore?.runCallbacks()
 				Thread.sleep(100)
 			}

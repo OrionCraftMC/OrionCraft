@@ -72,8 +72,7 @@ object OrionCraft {
 
 	private fun doInit() {
 		OrionComponents.bridge = OrionComponentsBridgeImpl
-		OrionDiscordIntegration.initIntegration()
-		OrionDiscordIntegration.updateStateActivity("Initializing..")
+		OrionDiscordIntegration.init()
 
 		initializeSettings()
 		initializeKeybindings()
