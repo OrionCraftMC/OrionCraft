@@ -25,13 +25,19 @@
 package io.github.orioncraftmc.orion.mods
 
 import io.github.orioncraftmc.orion.api.OrionCraftModsEntrypoint
+import io.github.orioncraftmc.orion.api.gui.hud.mod.single.simple.SimpleTextHudOrionMod
 import io.github.orioncraftmc.orion.mods.fullbright.FullBrightMod
-import io.github.orioncraftmc.orion.mods.hud.FpsHudMod
 
 object ModsEntrypoint : OrionCraftModsEntrypoint {
 	override fun initializeMods() {
 		registerMod(FullBrightMod)
-		registerMod(FpsHudMod)
+		//registerMod(FpsHudMod)
+		for (i in 1..3) registerMod(exampleMod(i))
+	}
+
+	private fun exampleMod(i: Int) = object : SimpleTextHudOrionMod("example$i", "Hud Mod $i") {
+		override val value: String
+			get() = "Mod #$i"
 	}
 
 }
