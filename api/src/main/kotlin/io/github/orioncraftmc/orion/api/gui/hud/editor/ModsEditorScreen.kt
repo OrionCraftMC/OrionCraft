@@ -192,8 +192,8 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 			ComponentSnapEngine.computeSnappingPositions(modulesRenderer.modElementComponents.cellSet()
 				.filterNot { elementsBeingDraggedTable.contains(it.rowKey, it.columnKey) }.map { it.value })
 
-		val maxX = modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble()
-		val maxY = modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble()
+		val maxX = modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0
+		val maxY = modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0
 		val sizePoint = Point(maxX, maxY)
 
 		borderComponentSnappingLines.clear()
@@ -211,8 +211,8 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 		axis: SnapAxis,
 		value: Double
 	) {
-		val maxX = modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble()
-		val maxY = modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble()
+		val maxX = modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0
+		val maxY = modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0
 
 		var x = 0.0
 		var y = 0.0
@@ -350,8 +350,8 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 	}
 
 	private fun Point.preventOffLimitMovement(size: Size) {
-		x = x.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble() - size.width)
-		y = y.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble() - size.height)
+		x = x.coerceIn(0.0, (modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0) - size.width)
+		y = y.coerceIn(0.0, (modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0) - size.height)
 	}
 
 	private fun handlePositionSnapAxis(
