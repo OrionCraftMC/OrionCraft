@@ -24,9 +24,9 @@
 
 package io.github.orioncraftmc.orion.api.gui.components.impl
 
+import io.github.orioncraftmc.components.AbstractComponent
+import io.github.orioncraftmc.components.model.Size
 import io.github.orioncraftmc.orion.api.bridge.FontRendererBridge
-import io.github.orioncraftmc.orion.api.gui.components.AbstractComponent
-import io.github.orioncraftmc.orion.api.gui.model.Size
 import io.github.orioncraftmc.orion.api.utils.rendering.adventure.AdventureComponentRenderer
 import net.kyori.adventure.text.Component
 

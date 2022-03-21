@@ -25,9 +25,9 @@ dependencies {
     implementation("com.github.JnCrMx:discord-game-sdk4j:2b5a903204")
 
     /* Adventure - Chat Components */
-    implementation("net.kyori:adventure-api:4.9.2")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.9.2")
-    implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
+    implementation("net.kyori:adventure-api:4.10.1")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.10.1")
+    implementation("net.kyori:adventure-text-minimessage:4.10.1")
 
     /* HTTP I/O */
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
