@@ -2,9 +2,10 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.6.0" apply false
     id("org.cadixdev.licenser") version "0.6.1" apply false
     id("com.palantir.git-version") version "0.12.3"
+    `java-library-distribution`
 }
 
-subprojects {
+allprojects {
     apply(plugin = "org.gradle.java-library")
     apply(plugin = "org.gradle.maven-publish")
 
@@ -46,6 +47,14 @@ subprojects {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
             jvmTarget = JavaVersion.VERSION_17.toString()
+        }
+    }
+
+    if (this == rootProject) {
+        subprojects.forEach {
+            dependencies {
+                "api"(it)
+            }
         }
     }
 }
