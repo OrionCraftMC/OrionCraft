@@ -1,3 +1,7 @@
+plugins {
+    id("com.github.gmazzo.buildconfig") version "3.0.3"
+}
+
 dependencies {
     // Align versions of all Kotlin components
     api(platform("org.jetbrains.kotlin:kotlin-bom"))
@@ -14,8 +18,6 @@ dependencies {
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
-    api("com.github.ajalt.colormath:colormath:3.0.0")
-
     // Json I/O
     api("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.+")
 
@@ -26,5 +28,23 @@ dependencies {
     implementation("net.kyori:adventure-api:4.9.2")
     implementation("net.kyori:adventure-text-serializer-legacy:4.9.2")
     implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
+
+    /* HTTP I/O */
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
+
+    /* LibNinePatch */
+    implementation("io.github.juuxel:libninepatch:1.1.0")
+
+    /* Orion Components */
+    api("io.github.orioncraftmc:orion-components:0.0.2-SNAPSHOT")
 }
 
+val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by rootProject.extra
+val details = versionDetails()
+
+buildConfig {
+    className("BuildConstants")
+    buildConfigField("String", "COMMIT_HASH", "\"${details.gitHash}\"")
+    buildConfigField("String", "COMMIT_BRANCH", "\"${details.branchName}\"")
+}

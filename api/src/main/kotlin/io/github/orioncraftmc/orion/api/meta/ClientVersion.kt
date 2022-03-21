@@ -24,9 +24,12 @@
 
 package io.github.orioncraftmc.orion.api.meta
 
-enum class ClientVersion(val isNostalgiaVersion: Boolean = false) {
+import io.github.orioncraftmc.orion.api.meta.version.AbstractVersionData
+import io.github.orioncraftmc.orion.api.meta.version.OneDotFiveVersionData
+
+enum class ClientVersion(val isNostalgiaVersion: Boolean = false, val versionData: AbstractVersionData? = null) {
 	INVALID,
-	MC_1_5_2(true),
+	MC_1_5_2(true, OneDotFiveVersionData),
 	MC_1_6_4(true),
 	MC_1_7_10,
 	MC_1_8_9;

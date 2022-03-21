@@ -28,6 +28,7 @@ import com.github.ajalt.colormath.Color
 import com.github.ajalt.colormath.model.HSV
 import com.github.ajalt.colormath.model.RGBInt
 import io.github.orioncraftmc.orion.api.bridge.rendering.FontRendererBridge
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
 import io.github.orioncraftmc.orion.api.bridge.rendering.OpenGlBridge
 import io.github.orioncraftmc.orion.api.bridge.rendering.TessellatorBridge
 import net.kyori.adventure.util.HSVLike
@@ -42,6 +43,10 @@ fun TessellatorBridge.setColor(color: Color) {
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
 }
 
+fun OpenGlBridge.resetColor() {
+	setColor(255, 255, 255,255)
+}
+
 fun OpenGlBridge.setColor(color: Color) {
 	val rgb = color.toSRGB()
 	setColor(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
@@ -53,14 +58,21 @@ inline fun matrix(code: () -> Unit) {
 	OpenGlBridge.popMatrix()
 }
 
+inline fun blend(code: () -> Unit) {
+	OpenGlBridge.enableCapability(GlCapability.BLEND)
+	OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
+	code()
+	OpenGlBridge.disableCapability(GlCapability.BLEND)
+}
+
 inline fun basicShapesRendering(code: () -> Unit) {
 	matrix {
-		OpenGlBridge.enableBlend()
-		OpenGlBridge.disableTexture2D()
+		OpenGlBridge.enableCapability(GlCapability.BLEND)
+		OpenGlBridge.disableCapability(GlCapability.TEXTURE_2D)
 		OpenGlBridge.enableBlendAlphaMinusSrcAlpha()
 		code()
-		OpenGlBridge.enableTexture2D()
-		OpenGlBridge.disableBlend()
+		OpenGlBridge.enableCapability(GlCapability.TEXTURE_2D)
+		OpenGlBridge.disableCapability(GlCapability.BLEND)
 	}
 }
 

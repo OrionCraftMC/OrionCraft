@@ -24,6 +24,7 @@
 
 package io.github.orioncraftmc.orion.api.mod
 
+import io.github.orioncraftmc.orion.api.OrionCraftConstants
 import io.github.orioncraftmc.orion.api.mod.settings.AbstractModSetting
 import io.github.orioncraftmc.orion.api.mod.settings.ModSettingsBuilder
 import io.github.orioncraftmc.orion.api.mod.settings.update
@@ -31,7 +32,7 @@ import io.github.orioncraftmc.orion.api.mod.settings.update
 abstract class OrionMod(val id: String, val name: String, val category: ModCategory) {
 	val settings = mutableListOf<AbstractModSetting<*>>()
 
-	open var isEnabled: Boolean by setting().boolean(false) update { if (it) onEnable() else onDisable() }
+	open var isEnabled: Boolean by setting().boolean(OrionCraftConstants.isDevEnvironment) update { if (it) onEnable() else onDisable() }
 
 	open fun onEnable() {}
 

@@ -30,17 +30,24 @@ import java.io.File
 
 object OrionCraftConstants {
 
+	val isCustomBranded: Boolean
+		get() = System.getProperty("orioncraft.branded") == "true"
+
 	val isDevEnvironment
 		get() = System.getProperty("lightcraft.launch.dev") != null
 
-	private val clientName: String
-		get() = "OrionCraft${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
+	val mainClientName = "OrionCraft"
 
-	val clientVersionString get() = "${OrionCraft.clientVersion}/${if (isDevEnvironment) "DEV" else "PROD"}"
+	private val clientName: String
+		get() = "${mainClientName}${if (OrionCraft.clientVersion.isNostalgiaVersion) " Nostalgia" else ""}"
+
+	val clientTitleVersionString get() = "${OrionCraft.clientVersion}-${BuildConstants.COMMIT_HASH}/${BuildConstants.COMMIT_BRANCH}"
+
+	val clientRpcVersionString get() = "${OrionCraft.clientVersion} (${BuildConstants.COMMIT_HASH}/${BuildConstants.COMMIT_BRANCH})"
 
 	val clientTitle: String
 		get() {
-			return "$clientName ($clientVersionString)"
+			return "$clientName ($clientTitleVersionString)"
 		}
 
 	val clientBrand: String
@@ -54,8 +61,11 @@ object OrionCraftConstants {
 
 	const val DEFAULT_PROFILE_NAME = "Default"
 
+	val mainMenuClientName
+		get() = "$mainClientName ${OrionCraft.clientVersion}"
 
 	const val orionCraftDiscordClientId = 903702295282343936
 	const val orionCraftNostalgiaDiscordClientId = 903714432264314950
+
 
 }

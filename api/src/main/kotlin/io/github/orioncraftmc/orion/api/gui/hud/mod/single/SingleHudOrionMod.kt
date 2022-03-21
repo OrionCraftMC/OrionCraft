@@ -24,9 +24,11 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.mod.single
 
-import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.event.EventBus
+import io.github.orioncraftmc.orion.api.event.impl.HudModComponentRefreshEvent
+import io.github.orioncraftmc.components.Component
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.components.model.Anchor
 import java.util.*
 
 abstract class SingleHudOrionMod(id: String, name: String) : HudOrionMod<SingleHudElementType>(id, name) {
@@ -44,5 +46,9 @@ abstract class SingleHudOrionMod(id: String, name: String) : HudOrionMod<SingleH
 
 	override fun getDummyHudComponent(anchor: Anchor, hudElement: SingleHudElementType): Component {
 		return getDummyHudComponent(anchor)
+	}
+
+	fun refreshHudComponent() {
+		EventBus.callEvent(HudModComponentRefreshEvent(this, SingleHudElementType.SINGLE))
 	}
 }

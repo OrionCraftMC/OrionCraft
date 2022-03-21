@@ -26,45 +26,64 @@ package io.github.orioncraftmc.orion.api.gui.hud.editor
 
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
+import io.github.orioncraftmc.components.Component
+import io.github.orioncraftmc.components.flex
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Padding
+import io.github.orioncraftmc.components.model.Point
+import io.github.orioncraftmc.components.model.Size
+import io.github.orioncraftmc.components.nodeSize
+import io.github.orioncraftmc.components.utils.AnchorUtils
+import io.github.orioncraftmc.components.utils.ComponentUtils
+import io.github.orioncraftmc.meditate.enums.YogaAlign
+import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraft
-import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
-import io.github.orioncraftmc.orion.api.bridge.matrix
-import io.github.orioncraftmc.orion.api.gui.components.Component
+import io.github.orioncraftmc.orion.api.bridge.*
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.DrawMode
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
+import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
+import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.ComponentSnapEngine
+import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnapAxis
+import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnappedComponentData
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Point
-import io.github.orioncraftmc.orion.api.gui.model.Size
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackground
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentBackgroundSelected
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.modComponentSelectionBorder
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.rectangleBorder
-import io.github.orioncraftmc.orion.api.utils.gui.AnchorUtils
-import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
-import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
+import io.github.orioncraftmc.orion.api.logger
+import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
+import io.github.orioncraftmc.orion.utils.BrandingUtils
+import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackground
+import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundSelected
+import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentSelectionBorder
+import io.github.orioncraftmc.orion.utils.ColorConstants.rectangleBorder
+import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.math.abs
 import kotlin.math.floor
 
-class ModsEditorScreen : ComponentOrionScreen() {
+class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScreen(true) {
 
-	inner class ModsEditorHudModuleRenderer : BaseHudModuleRenderer() {
+	init {
+		flex {
+			justifyContent = YogaJustify.CENTER
+		}
+	}
+
+	inner class ModsEditorHudModuleRenderer : BaseHudModuleRenderer(true) {
 
 		inline fun doActionIfMouseIsOverHudComponent(
-			mouseX: Int,
-			mouseY: Int,
-			action: (HudOrionMod<*>, Enum<*>, Component) -> Unit
+			mouseX: Int, mouseY: Int, action: (HudOrionMod<*>, Enum<*>, Component) -> Unit
 		) {
-			modElementComponents.cellSet().forEach { cell ->
-				val isMouseWithinComponent = ComponentUtils.isMouseWithinComponent(mouseX, mouseY, cell.value, true, 2)
-				if (isMouseWithinComponent) {
+			modElementComponents.cellSet()
+				.filter { cell -> ComponentUtils.isMouseWithinComponent(mouseX, mouseY, cell.value, true, 2) }
+				.take(1)
+				.forEach { cell ->
 					action(cell.rowKey, cell.columnKey, cell.value)
 				}
-			}
 		}
 
 		override fun renderComponent(mod: HudOrionMod<*>, hudElement: Enum<*>, component: Component) {
-			OpenGlBridge.enableBlend()
+			OpenGlBridge.enableCapability(GlCapability.BLEND)
 			matrix {
 				ComponentUtils.renderComponent(component, 0, 0)
 				drawComponentRectangle(component)
@@ -73,7 +92,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 
 		private fun drawComponentRectangle(component: Component) {
 			val size = component.effectiveSize
-			val position = Point()
+			val position = ComponentUtils.getComponentOriginPosition(component)
 			val yPositionOffset = -0.5
 
 			RectRenderingUtils.drawRectangle(
@@ -86,13 +105,10 @@ class ModsEditorScreen : ComponentOrionScreen() {
 				borderRectangleLineWidth
 			)
 
+
 			var backgroundColor = modComponentBackground
 			if (ComponentUtils.isMouseWithinComponent(
-					mousePosition.x.toInt(),
-					mousePosition.y.toInt(),
-					component,
-					true,
-					2
+					mousePosition.x.toInt(), mousePosition.y.toInt(), component, true, 2
 				)
 			) {
 				backgroundColor = modComponentBackgroundSelected
@@ -117,49 +133,124 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private val modulesRenderer = ModsEditorHudModuleRenderer()
 	private val mousePosition = Point(0.0, 0.0)
 	private val elementsBeingDraggedTable: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
+	private val snappedElementsData = SnappedComponentData()
 	private var componentDragMouseOffset: Point? = null
+	private var borderComponentSnappingLines: MutableMap<SnapAxis, MutableList<Double>> = mutableMapOf()
+	private var componentSnappingLines: Map<SnapAxis, MutableList<Double>> = emptyMap()
 
 	// Button used to display the mods list
 	private val modsButton = ButtonComponent("Mods").apply {
-		size = Size(85.0, 27.0)
-		anchor = Anchor.MIDDLE
 		onClick = {
+			MinecraftBridge.openScreen(ModMenuScreen())
 		}
+		flex {
+			nodeSize = Size(85.0, 27.0)
+			alignSelf = YogaAlign.CENTER
+		}
+	}
+
+	private val branding = BrandingUtils.getBrandingComponent(2.5).apply {
+		anchor = Anchor.TOP_MIDDLE
+		padding = Padding(0.0, 25.0, 0.0, 0.0)
 	}
 
 	init {
 		// Add button to our screen
 		addComponent(modsButton)
+		addComponent(branding)
 	}
 
 	override fun drawScreen(mouseX: Int, mouseY: Int, renderPartialTicks: Float) {
+		if (isFromMainMenu) {
+			MinecraftBridge.drawDefaultBackground()
+		}
 		mousePosition.apply {
 			x = mouseX.toDouble()
 			y = mouseY.toDouble()
 		}
 		super.drawScreen(mouseX, mouseY, renderPartialTicks)
-		if (!handleComponentMouseMove(mouseX, mouseY)) {
+		val isMouseHoverAnyElement = components.any { ComponentUtils.isMouseWithinComponent(mouseX, mouseY, it, true) }
+		if (!handleComponentMouseMove(
+				mouseX,
+				mouseY
+			) && !isMouseHoverAnyElement
+		) {
 			// If they are not moving a component, draw a selection box
 			drawSelectionBox(mouseX, mouseY)
 		}
 
+		// One or many components got moved, update the hud
 		modulesRenderer.renderHudElements()
+		updateSnappingLines()
+		borderComponentSnappingLines.forEach {
+			it.value.forEach { l -> drawSnappingLine(it.key, l) }
+		}
 	}
 
-	private val anchorForPointArray =
-		arrayOf(
-			arrayOf(
-				Anchor.TOP_LEFT, Anchor.TOP_MIDDLE, Anchor.TOP_RIGHT
-			),
-			arrayOf(
-				Anchor.MIDDLE_LEFT, Anchor.MIDDLE, Anchor.MIDDLE_RIGHT
-			),
-			arrayOf(
-				Anchor.BOTTOM_LEFT, Anchor.BOTTOM_MIDDLE, Anchor.BOTTOM_RIGHT
-			)
-		)
+	private fun updateSnappingLines() {
+		componentSnappingLines =
+			ComponentSnapEngine.computeSnappingPositions(modulesRenderer.modElementComponents.cellSet()
+				.filterNot { elementsBeingDraggedTable.contains(it.rowKey, it.columnKey) }.map { it.value })
 
-	fun getAnchorForPoint(x: Double, y: Double): Anchor {
+		val maxX = modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0
+		val maxY = modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0
+		val sizePoint = Point(maxX, maxY)
+
+		borderComponentSnappingLines.clear()
+		SnapAxis.values().forEach { v ->
+			borderComponentSnappingLines[v] =
+				mutableListOf(axisBorderDistance, v.getValueFromPoint(sizePoint) - axisBorderDistance)
+			componentSnappingLines[v]?.run {
+				addAll(borderComponentSnappingLines[v]!!)
+			}
+		}
+
+	}
+
+	private fun drawSnappingLine(
+		axis: SnapAxis,
+		value: Double
+	) {
+		val maxX = modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0
+		val maxY = modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0
+
+		var x = 0.0
+		var y = 0.0
+		val finalX: Double
+		val finalY: Double
+		if (axis == SnapAxis.HORIZONTAL) {
+			x = value
+			finalX = x
+			finalY = maxY
+		} else {
+			y = value
+			finalX = maxX
+			finalY = y
+		}
+
+		val tessellator = TessellatorBridge
+
+		basicShapesRendering {
+			OpenGlBridge.setLineWidth(1f)
+			tessellator.start(DrawMode.LINE_LOOP)
+			tessellator.addVertex(x, y, 0.0)
+			tessellator.addVertex(finalX, finalY, 0.0)
+			tessellator.setColor(255, 255, 255, 50)
+			tessellator.draw()
+		}
+	}
+
+	private val anchorForPointArray = arrayOf(
+		arrayOf(
+			Anchor.TOP_LEFT, Anchor.TOP_MIDDLE, Anchor.TOP_RIGHT
+		), arrayOf(
+			Anchor.MIDDLE_LEFT, Anchor.MIDDLE, Anchor.MIDDLE_RIGHT
+		), arrayOf(
+			Anchor.BOTTOM_LEFT, Anchor.BOTTOM_MIDDLE, Anchor.BOTTOM_RIGHT
+		)
+	)
+
+	private fun getAnchorForPoint(x: Double, y: Double): Anchor {
 		val parentSize = modulesRenderer.parentComponent.size
 		val dividedWidth = parentSize.width / 3
 		val dividedHeight = parentSize.height / 3
@@ -173,6 +264,8 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	private fun handleComponentMouseMove(mouseX: Int, mouseY: Int): Boolean {
 		// Check if we are actually moving any components
 		val mouseOffset = componentDragMouseOffset ?: return false
+
+		updateSnappingLines()
 
 		// We are probably dragging some components
 		elementsBeingDraggedTable.cellSet().forEach { cell ->
@@ -198,14 +291,35 @@ class ModsEditorScreen : ComponentOrionScreen() {
 					this.size,
 					settings.anchor,
 					parent!!.size,
-					this.padding,
+					Padding(0.0),
 					parent!!.padding,
 					this.scale
 				)
 			}.apply {
-				val size = component.effectiveSize
-				x = x.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledWidthFloat.toDouble() - size.width)
-				y = y.coerceIn(0.0, modulesRenderer.lastScaledResolution.scaledHeightFloat.toDouble() - size.height)
+				val size = component.size
+				preventOffLimitMovement(size)
+
+				val shouldSnapNextAxis = AtomicBoolean(true)
+				if (shouldSnapNextAxis.get()) x =
+					handlePositionSnapAxis(
+						SnapAxis.HORIZONTAL,
+						x,
+						x + size.width,
+						mousePosition,
+						size,
+						shouldSnapNextAxis
+					)
+				if (shouldSnapNextAxis.get()) y =
+					handlePositionSnapAxis(
+						SnapAxis.VERTICAL,
+						y,
+						y + size.height,
+						mousePosition,
+						size,
+						shouldSnapNextAxis
+					)
+
+				preventOffLimitMovement(size)
 			}
 
 			// Properly update the position of this element
@@ -220,8 +334,13 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			AnchorUtils.convertGlobalAndLocalPositioning(point, newAnchor, false)
 
 			// Properly change the settings with the new data
+			val shouldNotifyAnchorUpdate = settings.anchor != newAnchor
 			settings.anchor = newAnchor
 			settings.position = point
+
+			if (shouldNotifyAnchorUpdate) {
+				(component as? AnchorUpdateReceiver)?.onAnchorUpdate(newAnchor)
+			}
 
 			// Apply the new position settings on this component
 			modulesRenderer.applyComponentSettings(component, settings)
@@ -230,7 +349,120 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		return elementsBeingDraggedTable.size() > 0
 	}
 
+	private fun Point.preventOffLimitMovement(size: Size) {
+		x = x.coerceIn(0.0, (modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0) - size.width)
+		y = y.coerceIn(0.0, (modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0) - size.height)
+	}
+
+	private fun handlePositionSnapAxis(
+		axis: SnapAxis,
+		firstValue: Double,
+		secondValue: Double,
+		mousePos: Point,
+		size: Size,
+		shouldSnapNextAxis: AtomicBoolean
+	): Double {
+		shouldSnapNextAxis.set(true)
+		val firstSkipCurrentSnapping = AtomicBoolean(false)
+		val secondSkipCurrentSnapping = AtomicBoolean(false)
+		val axisSnapValues = componentSnappingLines[axis]?.distinct() ?: return firstValue
+		axisSnapValues.forEach { snapValue ->
+			val firstSnappingResult = snapValueToAxis(
+				firstValue,
+				axis,
+				snapValue,
+				mousePos,
+				0.0,
+				firstSkipCurrentSnapping
+			)
+			val secondSnappingResult = snapValueToAxis(
+				secondValue,
+				axis,
+				snapValue,
+				mousePos,
+				secondValue - firstValue,
+				secondSkipCurrentSnapping
+			)
+			(firstSnappingResult ?: secondSnappingResult)?.let { return it }
+			if (firstSkipCurrentSnapping.get() || secondSkipCurrentSnapping.get()) return@forEach
+		}
+
+		shouldSnapNextAxis.set(true)
+
+		// We are not snapped anywhere, clear the snapping data
+		debugMessage("Clearing snapping data for current axis $axis")
+		snappedElementsData.setUnsnapped(axis)
+
+		return firstValue
+	}
+
+	private fun snapValueToAxis(
+		value: Double,
+		axis: SnapAxis,
+		snapValue: Double,
+		mousePos: Point,
+		secondValueOffset: Double,
+		skipCurrentSnapping: AtomicBoolean
+	): Double? {
+		// Measure our current distance to the snapping guideline
+		val finalSnapValue = (snapValue - secondValueOffset).coerceAtLeast(0.0)
+		val finalValue = value - secondValueOffset
+		val snapValueComparison = abs(finalValue - finalSnapValue)
+		//Are we too far? If so, skip this guideline
+		if (snapValueComparison > finalSnappingDistance) {
+			skipCurrentSnapping.set(true)
+			return null
+		}
+
+		// Check if we are previously snapped
+		val isSnapped = snappedElementsData.isSnapped(axis)
+		// Calculate the mouse distance to the snapping guideline of our current snap
+		val snapMouseDistance = snappedElementsData.getSnapMouseDistance(axis) ?: 0.0
+		debugMessage("isSnapped[${axis}]= $isSnapped")
+
+		val originalMouseDownMousePos = selectionBoxFirstPoint?.let { axis.getValueFromPoint(it) } ?: 0.0
+		val snapMousePos = axis.getValueFromPoint(mousePos)
+		val originalMouseDownMouseDistance = abs(snapMousePos - originalMouseDownMousePos)
+		// Calculate the distance of our mouse to the point where we snapped
+		val mouseDistance = abs(snapMousePos - finalSnapValue - snapMouseDistance)
+
+		// Check what we should do
+		// In order to snap, we need to be within the "Snapping Distance"
+		// In order to unsnap, we need to be snapped and our mouse needs to be
+		// further than the "Exiting Snapping Distance"
+		val shouldSnap =
+			snapValueComparison <= (if (axis == SnapAxis.HORIZONTAL) horizontalSnappingDistance else snappingDistance)
+		val shouldUnsnap = isSnapped && mouseDistance >= exitSnappingDistance
+
+		debugMessage("$finalSnapValue|$axis: Unsnapping: isSnapped=$isSnapped originalMouseDownMousePos=$originalMouseDownMousePos mouseDistance=$mouseDistance snapMouseDistance=$snapMouseDistance shouldUnsnap=$shouldUnsnap")
+
+		if (shouldSnap && !shouldUnsnap) {
+			println("Drawing axis $axis for value $value")
+			drawSnappingLine(axis, value)
+
+			// If we are not previously snapped, store some helpful values
+			// that will help us check when to unsnap
+			debugMessage("$finalSnapValue: Should've snapped on first value to [$finalValue -> $finalSnapValue]; [$mouseDistance] ")
+			if (!isSnapped) snappedElementsData.setSnapped(axis, mouseDistance, snapMousePos)
+			return finalSnapValue
+		}
+
+		if (shouldUnsnap) {
+			// In case we should unsnap, we need to "teleport" the component to be offset with
+			// the mouse movement, otherwise the component would snap again
+			val originalMousePos = snappedElementsData.getSnapMousePosition(axis) ?: 0.0
+
+			// Clear the current snapping data since we unsnapped
+			snappedElementsData.setUnsnapped(axis)
+			debugMessage("Clearing snapping data for $axis")
+			return (finalValue + ((axis.getValueFromPoint(mousePos) - originalMousePos) / 2.0))
+		}
+		return null
+	}
+
 	override fun onClose() {
+		super.onClose()
+
 		// Notify Orion settings that we updated the hud mod settings
 		modulesRenderer.modElementComponents.rowKeySet().forEach {
 			it.hudModSetting.notifyUpdate(it)
@@ -243,12 +475,16 @@ class ModsEditorScreen : ComponentOrionScreen() {
 		val boxFirstPoint = selectionBoxFirstPoint
 		if (boxFirstPoint != null) {
 			RectRenderingUtils.drawRectangle(
-				boxFirstPoint.x, boxFirstPoint.y,
-				mouseX.toDouble(), mouseY.toDouble(), modComponentSelectionBorder, true, 2.0
+				boxFirstPoint.x,
+				boxFirstPoint.y,
+				mouseX.toDouble(),
+				mouseY.toDouble(),
+				modComponentSelectionBorder,
+				true,
+				2.0
 			)
 			RectRenderingUtils.drawRectangle(
-				boxFirstPoint.x, boxFirstPoint.y,
-				mouseX.toDouble(), mouseY.toDouble(), modComponentBackground, false
+				boxFirstPoint.x, boxFirstPoint.y, mouseX.toDouble(), mouseY.toDouble(), modComponentBackground, false
 			)
 		}
 	}
@@ -262,6 +498,7 @@ class ModsEditorScreen : ComponentOrionScreen() {
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
 		handleComponentMouseRelease()
 		selectionBoxFirstPoint = null
+		snappedElementsData.clear()
 		super.handleMouseRelease(mouseX, mouseY)
 	}
 
@@ -272,9 +509,23 @@ class ModsEditorScreen : ComponentOrionScreen() {
 			elementsBeingDraggedTable.put(mod, hudElement, component)
 		}
 	}
+	
+	private fun debugMessage(msg: String) {
+		if (debug) logger.debug(msg)
+	}
 
 	private fun handleComponentMouseRelease() {
 		componentDragMouseOffset = null
 		elementsBeingDraggedTable.clear()
+	}
+
+	companion object {
+		private const val snappingDistance = 3.5
+		private const val horizontalSnappingDistance = snappingDistance * 0.75
+		private const val exitSnappingDistance = 8.0
+		private const val finalSnappingDistance = 12.0
+
+		private const val axisBorderDistance = 5.0
+		private const val debug = false
 	}
 }

@@ -26,23 +26,36 @@ package io.github.orioncraftmc.orion.api.gui.components.impl
 
 import com.github.ajalt.colormath.Color
 import com.github.ajalt.colormath.model.RGBInt
-import io.github.orioncraftmc.orion.api.gui.components.impl.containers.ComponentContainer
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.buttonBackground
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.buttonPressedBackground
-import io.github.orioncraftmc.orion.api.utils.ColorConstants.rectangleBorder
-import io.github.orioncraftmc.orion.api.utils.gui.ComponentUtils
-import io.github.orioncraftmc.orion.api.utils.rendering.RectRenderingUtils
+import io.github.orioncraftmc.components.containers.ComponentContainer
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Size
+import io.github.orioncraftmc.components.utils.ComponentUtils
+import io.github.orioncraftmc.orion.api.bridge.FontRendererBridge
+import io.github.orioncraftmc.orion.utils.NinePatchConstants
+import io.github.orioncraftmc.orion.utils.rendering.NinePatchRendererUtils
 
-class ButtonComponent(
+open class ButtonComponent(
 	text: String,
 	var color: Color = RGBInt(255, 255, 255),
 	var onClick: () -> Unit = {}
 ) : ComponentContainer() {
 
-	var borderColor = rectangleBorder
-	var pressedBackground = buttonPressedBackground
-	var unpressedBackground = buttonBackground
+	var mousePressed = false
+
+	init {
+		snapToDevicePixels = true
+	}
+
+	var isAutomaticSize = false
+
+	override var size: Size = Size()
+		get() {
+			if (isAutomaticSize) {
+				field.width = FontRendererBridge.getStringWidth(text).toDouble()
+				field.height = FontRendererBridge.fontHeight.toDouble()
+			}
+			return field
+		}
 
 	var text = text
 		set(value) {
@@ -57,43 +70,41 @@ class ButtonComponent(
 	private fun createLabelComponent() {
 		componentsList.clear()
 		addComponent(LabelComponent(text, color).apply {
+			snapToDevicePixels = true
 			anchor = Anchor.MIDDLE
 		})
 	}
 
 	override fun renderComponent(mouseX: Int, mouseY: Int) {
-		ComponentUtils.renderBackgroundColor(this, getBackgroundColor(mouseX, mouseY))
-		renderButtonBorder()
+		val (ourSize, _) = ComponentUtils.computeEffectiveProperties(this)
+		NinePatchRendererUtils.renderNinePatch(
+			getNinePatch(mouseX, mouseY),
+			0.0,
+			0.0,
+			ourSize.width,
+			ourSize.height,
+			2.0
+		)
 		super.renderComponent(mouseX, mouseY)
 	}
 
-	private fun renderButtonBorder() {
-		val ourPadding = padding
-		val ourSize = size
-		RectRenderingUtils.drawRectangle(
-			-ourPadding.left,
-			-ourPadding.top,
-			ourSize.width + ourPadding.right,
-			ourSize.height + ourPadding.bottom,
-			borderColor,
-			true,
-			2.0
-		)
-
-	}
-
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
-		onClick()
+		mousePressed = true
 	}
 
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
+		if (mousePressed) {
+			onClick()
+		}
+		mousePressed = false
 		super.handleMouseRelease(mouseX, mouseY)
 	}
 
-	private fun getBackgroundColor(mouseX: Int, mouseY: Int) =
+	private fun getNinePatch(mouseX: Int, mouseY: Int) =
 		if (ComponentUtils.isMouseWithinComponent(mouseX, mouseY, this)) {
-			pressedBackground
+			if (mousePressed) NinePatchConstants.buttonPressed else NinePatchConstants.buttonHover
 		} else {
-			unpressedBackground
+			mousePressed = false
+			NinePatchConstants.button
 		}
 }

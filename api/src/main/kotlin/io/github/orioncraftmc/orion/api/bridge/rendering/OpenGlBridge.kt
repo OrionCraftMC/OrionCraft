@@ -24,15 +24,11 @@
 
 package io.github.orioncraftmc.orion.api.bridge.rendering
 
+import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
+
 interface OpenGlBridge {
-	fun enableBlend()
-	fun disableBlend()
-
-	fun enableTexture2D()
-	fun disableTexture2D()
-
-	fun enableRescaleNormal()
-	fun disableRescaleNormal()
+	fun enableCapability(capability: GlCapability)
+	fun disableCapability(capability: GlCapability)
 
 	fun enableBlendAlphaMinusSrcAlpha()
 
@@ -45,10 +41,4 @@ interface OpenGlBridge {
 	fun setColor(red: Int, green: Int, blue: Int, alpha: Int)
 
 	fun setLineWidth(width: Float)
-
-	fun enableStandardItemLighting()
-
-	fun disableStandardItemLighting()
-
-	fun enableGUIStandardItemLighting()
 }

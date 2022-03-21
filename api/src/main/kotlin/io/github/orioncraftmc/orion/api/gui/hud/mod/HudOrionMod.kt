@@ -27,8 +27,8 @@ package io.github.orioncraftmc.orion.api.gui.hud.mod
 import com.google.common.reflect.TypeToken
 import io.github.orioncraftmc.orion.api.event.EventBus
 import io.github.orioncraftmc.orion.api.event.impl.HudModComponentRefreshEvent
-import io.github.orioncraftmc.orion.api.gui.components.Component
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
+import io.github.orioncraftmc.components.Component
+import io.github.orioncraftmc.components.model.Anchor
 import io.github.orioncraftmc.orion.api.mod.ModCategory
 import io.github.orioncraftmc.orion.api.mod.OrionMod
 import java.util.*

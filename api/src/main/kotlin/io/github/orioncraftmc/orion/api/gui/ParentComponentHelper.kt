@@ -33,14 +33,14 @@ open class ParentComponentHelper {
 	var lastGameWidth = 0
 	var lastGameHeight = 0
 	var lastGuiScale = -1
-	lateinit var lastScaledResolution: ScaledResolutionBridge
+	var lastScaledResolution: ScaledResolutionBridge? = null
 
 	protected fun updateParentComponent() {
-		if (MinecraftBridge.gameWidth != lastGameWidth || MinecraftBridge.gameHeight != lastGameHeight || MinecraftBridge.gameSettings.guiScale != lastGuiScale) {
+		if (lastScaledResolution == null || MinecraftBridge.gameWidth != lastGameWidth || MinecraftBridge.gameHeight != lastGameHeight || MinecraftBridge.gameSettings.guiScale != lastGuiScale) {
 			parentComponent.size.apply {
 				lastScaledResolution = MinecraftBridge.scaledResolution
-				width = lastScaledResolution.scaledWidthFloat.toDouble()
-				height = lastScaledResolution.scaledHeightFloat.toDouble()
+				width = lastScaledResolution!!.scaledWidthFloat.toDouble()
+				height = lastScaledResolution!!.scaledHeightFloat.toDouble()
 			}
 		}
 

@@ -24,4 +24,6 @@
 
 package io.github.orioncraftmc.orion.api.keybinding
 
-data class OrionKeybinding(var id: String, var keyCode: Int?)
+import io.github.orioncraftmc.orion.utils.LegacyKeyboardKey
+
+data class OrionKeybinding(var id: String, var keyCode: LegacyKeyboardKey, val category: OrionKeybindingCategory)

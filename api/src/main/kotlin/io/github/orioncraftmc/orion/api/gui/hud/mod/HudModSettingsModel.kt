@@ -24,11 +24,12 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.mod
 
-import io.github.orioncraftmc.orion.api.gui.model.Anchor
-import io.github.orioncraftmc.orion.api.gui.model.Point
+import io.github.orioncraftmc.components.model.Anchor
+import io.github.orioncraftmc.components.model.Point
+import io.github.orioncraftmc.orion.api.OrionCraftConstants
 
 data class HudModSettingsModel(
-	var enabled: Boolean = false,
+	var enabled: Boolean = OrionCraftConstants.isDevEnvironment,
 	var position: Point = Point(),
 	var anchor: Anchor = Anchor.TOP_LEFT,
 	var scale: Double = 1.0

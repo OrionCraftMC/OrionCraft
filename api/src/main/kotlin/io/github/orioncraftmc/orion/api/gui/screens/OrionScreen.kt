@@ -27,9 +27,11 @@
 package io.github.orioncraftmc.orion.api.gui.screens
 
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
-import io.github.orioncraftmc.orion.api.bridge.rendering.gui.GuiScreenBridge
+import io.github.orioncraftmc.orion.api.bridge.gui.GuiScreenBridge
 
 interface OrionScreen : GuiScreenBridge {
+
+	var parentScreen: OrionScreen?
 
 	override var zLevel: Float
 		get() = 0.0f
@@ -60,7 +62,9 @@ interface OrionScreen : GuiScreenBridge {
 
 	fun onResize() {}
 
-	fun onClose() {}
+	fun onClose() {
+		parentScreen?.let { MinecraftBridge.openScreen(it) }
+	}
 
 	fun drawDefaultBackground() {
 		MinecraftBridge.drawDefaultBackground()

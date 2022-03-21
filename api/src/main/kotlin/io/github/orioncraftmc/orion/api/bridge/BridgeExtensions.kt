@@ -40,3 +40,9 @@ val ResourceLocationUtils
 
 val FontRendererBridge
 	get() = OrionCraft.bridges.minecraftBridge.fontRenderer
+
+val MainMenuUtils
+	get() = OrionCraft.bridges.mainMenuUtils
+
+val KeybindingUtils
+	get() = OrionCraft.bridges.keybindingUtils

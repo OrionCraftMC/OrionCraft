@@ -1,0 +1,9 @@
+controls.reset=Reset
+controls.resetAll=Reset All
+
+nostalgia.perspective_toggle=Toggle Perspective
+orioncraft.mod_settings=OrionCraft Mod Settings
+
+orioncraft.rpc.mainmenu=Idling on the main menu
+orioncraft.rpc.singleplayer=Playing singleplayer
+orioncraft.rpc.multiplayer=Playing multiplayer
