@@ -136,15 +136,19 @@ object OrionCraft {
 
 		logger.info("Initializing OrionCraft mods")
 		for (modEntrypoint in modEntrypoints) {
-			val entrypointClazz = Class.forName(modEntrypoint).kotlin
-			val entrypointInstance = entrypointClazz.objectInstance
-			if (entrypointInstance is OrionCraftModsEntrypoint) {
-				val entrypointName = entrypointClazz.simpleName
-				logger.debug("Found mod entrypoint $entrypointName")
-				val time = measureTimeMillis {
-					entrypointInstance.initializeMods()
+			kotlin.runCatching {
+				val entrypointClazz = Class.forName(modEntrypoint).kotlin
+				val entrypointInstance = entrypointClazz.objectInstance
+				if (entrypointInstance is OrionCraftModsEntrypoint) {
+					val entrypointName = entrypointClazz.simpleName
+					logger.debug("Found mod entrypoint $entrypointName")
+					val time = measureTimeMillis {
+						entrypointInstance.initializeMods()
+					}
+					logger.debug("Initialized entrypoint $entrypointName in $time ms")
 				}
-				logger.debug("Initialized entrypoint $entrypointName in $time ms")
+			}.onFailure {
+				logger.error("Skipping mod entrypoint ${modEntrypoint.substringAfterLast('.')}")
 			}
 		}
 	}
