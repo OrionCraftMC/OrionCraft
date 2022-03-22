@@ -117,10 +117,7 @@ object OrionCraft {
 		logger.info("Initialized and loaded OrionCraft settings in $time ms")
 	}
 
-	private val modEntrypoints = arrayOf(
-		"io.github.orioncraftmc.orion.mods.ModsEntrypoint",
-		"io.github.orioncraftmc.orion.proprietary.mods.ProprietaryModsEntrypoint"
-	)
+	private val modEntrypoints = arrayOf("io.github.orioncraftmc.orion.mods.ModsEntrypoint")
 
 	private fun initializeHudRendererManager() {
 		logger.info("Initializing OrionCraft Hud Renderer Manager")
