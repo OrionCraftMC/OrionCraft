@@ -158,3 +158,6 @@ gradle-app.setting
 .classpath
 
 # End of https://www.toptal.com/developers/gitignore/api/gradle,kotlin,intellij+all,java
+
+# TMIC constants
+**/landia-constants.json
