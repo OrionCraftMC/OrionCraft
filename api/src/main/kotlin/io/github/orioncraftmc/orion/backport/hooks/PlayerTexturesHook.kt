@@ -61,7 +61,6 @@ object PlayerTexturesHook {
 		cancel.run()
 
 		val part = downloadData[1]
-		val cacheBurst = downloadData[2] //ignored
 		val name = downloadData[3]
 		var result: ByteArray? = null
 
