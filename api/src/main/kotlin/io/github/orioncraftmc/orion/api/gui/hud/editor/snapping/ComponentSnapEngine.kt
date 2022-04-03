@@ -26,9 +26,11 @@ package io.github.orioncraftmc.orion.api.gui.hud.editor.snapping
 
 import io.github.orioncraftmc.components.Component
 
+data class SnappingPositionData(val value: Double, val component: Component)
+
 object ComponentSnapEngine {
 
-	private fun getSnappingPositionsForComponent(component: Component, axis: SnapAxis): List<Double> {
+	private fun getSnappingPositionsForComponent(component: Component, axis: SnapAxis): List<SnappingPositionData> {
 		return when (axis) {
 			SnapAxis.HORIZONTAL -> listOf(
 				kotlin.math.ceil(component.effectiveLeft - 0.5),
@@ -38,10 +40,10 @@ object ComponentSnapEngine {
 				kotlin.math.ceil(component.effectiveTop - 0.5),
 				kotlin.math.ceil(component.effectiveBottom + 0.5)
 			)
-		}
+		}.map { SnappingPositionData(it, component) }
 	}
 
-	fun computeSnappingPositions(componentList: List<Component>): Map<SnapAxis, MutableList<Double>> {
+	fun computeSnappingPositions(componentList: List<Component>): Map<SnapAxis, MutableList<SnappingPositionData>> {
 		return SnapAxis.values().associateWith { axis ->
 			componentList.flatMap { component ->
 				getSnappingPositionsForComponent(component, axis)

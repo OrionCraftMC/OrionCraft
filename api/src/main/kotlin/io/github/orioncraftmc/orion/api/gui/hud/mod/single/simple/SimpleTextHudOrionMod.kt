@@ -41,7 +41,11 @@ abstract class SimpleTextHudOrionMod(id: String, name: String) : SingleHudOrionM
 		return createLabel { value }
 	}
 
-	private fun createLabel(function: () -> String) = ComponentContainer().apply {
+	private fun createLabel(function: () -> String) = (object : ComponentContainer() {
+		override fun toString(): String {
+			return function()
+		}
+	}).apply {
 		addComponent(LiveLabelComponent(function).apply {
 			anchor = Anchor.MIDDLE
 		})
