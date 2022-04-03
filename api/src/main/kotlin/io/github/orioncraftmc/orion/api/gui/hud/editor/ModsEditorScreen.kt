@@ -410,6 +410,7 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 		secondValueOffset: Double,
 		skipCurrentSnapping: AtomicBoolean
 	): Double? {
+
 		// Measure our current distance to the snapping guideline
 		val finalSnapValue = (snapValue.value - secondValueOffset).coerceAtLeast(0.0)
 		val finalValue = value - secondValueOffset
@@ -421,47 +422,11 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 			return null
 		}
 
-		// Check if we are previously snapped
-		val isSnapped = snappedElementsData.isSnapped(axis)
-		// Calculate the mouse distance to the snapping guideline of our current snap
-		debugMessage("isSnapped[${axis}]= $isSnapped")
-
-		val originalMouseDownMousePos = selectionBoxFirstPoint?.let { axis.getValueFromPoint(it) } ?: 0.0
-		val snapMousePos = axis.getValueFromPoint(mousePos)
-		// Calculate the distance of our mouse to the point where we snapped
-		val mouseDistance = abs(snapMousePos - finalSnapValue)
-
-		// Check what we should do
-		// In order to snap, we need to be within the "Snapping Distance"
-		// In order to unsnap, we need to be snapped and our mouse needs to be
-		// further than the "Exiting Snapping Distance"
-		val shouldSnap = snappedElementsData.canSnap(axis) &&
-				snapValueComparison <= (if (axis == SnapAxis.HORIZONTAL) horizontalSnappingDistance else snappingDistance)
-		val shouldUnsnap = isSnapped && mouseDistance >= exitSnappingDistance
-
-		debugMessage("$finalSnapValue|$axis: Unsnapping: isSnapped=$isSnapped originalMouseDownMousePos=$originalMouseDownMousePos mouseDistance=$mouseDistance shouldUnsnap=$shouldUnsnap")
-
-		if (shouldSnap && !shouldUnsnap) {
-			//println("Drawing axis $axis for value $value from ${snapValue.component}")
+		if (snapValueComparison <= (if (axis == SnapAxis.HORIZONTAL) horizontalSnappingDistance else snappingDistance)) {
 			drawSnappingLine(axis, snapValue)
-
-			// If we are not previously snapped, store some helpful values
-			// that will help us check when to unsnap
-			debugMessage("$finalSnapValue: Should've snapped on first value to [$finalValue -> $finalSnapValue]; [$mouseDistance] ")
-			if (!isSnapped) snappedElementsData.setSnapped(axis, mouseDistance, snapMousePos)
 			return finalSnapValue
 		}
 
-		if (shouldUnsnap) {
-			// In case we should unsnap, we need to "teleport" the component to be offset with
-			// the mouse movement, otherwise the component would snap again
-			val originalMousePos = snappedElementsData.getSnapMousePosition(axis) ?: 0.0
-
-			// Clear the current snapping data since we unsnapped
-			snappedElementsData.setUnsnapped(axis)
-			debugMessage("Clearing snapping data for $axis")
-			return (finalValue + ((axis.getValueFromPoint(mousePos) - originalMousePos) / 2.0))
-		}
 		return null
 	}
 
