@@ -25,12 +25,9 @@
 package io.github.orioncraftmc.orion.api.gui.hud.mod.single.simple
 
 import io.github.orioncraftmc.components.Component
-import io.github.orioncraftmc.components.containers.ComponentContainer
 import io.github.orioncraftmc.components.model.Anchor
-import io.github.orioncraftmc.components.model.Size
-import io.github.orioncraftmc.orion.api.gui.components.impl.LiveLabelComponent
+import io.github.orioncraftmc.orion.api.gui.components.impl.SimpleTextHudComponent
 import io.github.orioncraftmc.orion.api.gui.hud.mod.single.SingleHudOrionMod
-import io.github.orioncraftmc.orion.utils.ColorConstants
 
 abstract class SimpleTextHudOrionMod(id: String, name: String) : SingleHudOrionMod(id, name) {
 	abstract val value: String
@@ -41,13 +38,7 @@ abstract class SimpleTextHudOrionMod(id: String, name: String) : SingleHudOrionM
 		return createLabel { value }
 	}
 
-	private fun createLabel(function: () -> String) = ComponentContainer().apply {
-		addComponent(LiveLabelComponent(function).apply {
-			anchor = Anchor.MIDDLE
-		})
-		size = Size(58.0, 19.0)
-		backgroundColor = ColorConstants.modLabelBackgroundColor
-	}
+	private fun createLabel(function: () -> String) = SimpleTextHudComponent(function)
 
 	override fun getDummyHudComponent(anchor: Anchor): Component {
 		return createLabel { dummyValue }

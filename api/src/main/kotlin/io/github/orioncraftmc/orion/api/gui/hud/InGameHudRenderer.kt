@@ -25,19 +25,23 @@
 package io.github.orioncraftmc.orion.api.gui.hud
 
 import io.github.orioncraftmc.components.Component
+import io.github.orioncraftmc.components.utils.ComponentUtils
 import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.event.impl.HudRenderEvent
 import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.onInstaEvent
-import io.github.orioncraftmc.components.utils.ComponentUtils
 
 class InGameHudRenderer : BaseHudModuleRenderer() {
 
 	init {
 		onInstaEvent<HudRenderEvent> {
 			if (MinecraftBridge.currentOpenedScreen is ModsEditorScreen) return@onInstaEvent
+
+			// If player has debug info (F3 menu) visible, don't render hud
+			if (MinecraftBridge.gameSettings.isDebugInfoVisible) return@onInstaEvent
+
 			val oldZLevel = it.hud.zLevel
 			it.hud.zLevel = 1000f
 			renderHudElements()
