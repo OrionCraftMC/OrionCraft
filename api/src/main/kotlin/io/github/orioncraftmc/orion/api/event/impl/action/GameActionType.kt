@@ -24,8 +24,9 @@
 
 package io.github.orioncraftmc.orion.api.event.impl.action
 
-enum class GameAction(val translationKey: String) {
+enum class GameActionType(val translationKey: String) {
 	MAIN_MENU("orioncraft.rpc.mainmenu"),
 	SINGLEPLAYER("orioncraft.rpc.singleplayer"),
 	MULTIPLAYER("orioncraft.rpc.multiplayer"),
 }
+

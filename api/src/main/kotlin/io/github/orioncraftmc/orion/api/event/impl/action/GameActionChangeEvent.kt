@@ -26,4 +26,6 @@ package io.github.orioncraftmc.orion.api.event.impl.action
 
 import io.github.orioncraftmc.orion.api.event.Event
 
-data class GameActionChangeEvent(val action: GameAction) : Event
+data class GameActionChangeEvent(
+	val action: GameActionType, val data: GameActionConnectionData? = null
+) : Event

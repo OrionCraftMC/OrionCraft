@@ -32,8 +32,8 @@ import io.github.orioncraftmc.meditate.enums.YogaAlign
 import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraftConstants
 import io.github.orioncraftmc.orion.api.event.EventBus
-import io.github.orioncraftmc.orion.api.event.impl.action.GameAction
 import io.github.orioncraftmc.orion.api.event.impl.action.GameActionChangeEvent
+import io.github.orioncraftmc.orion.api.event.impl.action.GameActionType
 import io.github.orioncraftmc.orion.api.gui.components.impl.LabelComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.screens.menu.main.components.MainMenuButtonContainerComponent
@@ -51,7 +51,7 @@ abstract class MainMenuScreen : ComponentOrionScreen(true) {
 			justifyContent = YogaJustify.CENTER
 			alignItems = YogaAlign.CENTER
 		}
-		EventBus.callEvent(GameActionChangeEvent(GameAction.MAIN_MENU))
+		EventBus.callEvent(GameActionChangeEvent(GameActionType.MAIN_MENU))
 		padding = Padding(5.0)
 		addLabels()
 	}
