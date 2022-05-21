@@ -24,12 +24,16 @@
 
 package io.github.orioncraftmc.orion.api.gui.hud.editor.snapping
 
+import io.github.orioncraftmc.orion.api.gui.hud.editor.ModsEditorScreen
+
 data class SnappedComponentData(
-	private var snappedAxisMouseDistance: MutableMap<SnapAxis, Pair<Double, Double>> = mutableMapOf()
+	private var snappedAxisMouseDistance: MutableMap<SnapAxis, Pair<Double, Double>> = mutableMapOf(),
+	private var snappedAxisLastTime: MutableMap<SnapAxis, Long> = mutableMapOf()
 ) {
 
 	fun clear() {
 		snappedAxisMouseDistance.clear()
+		snappedAxisLastTime.clear()
 	}
 
 	fun isSnapped(axis: SnapAxis): Boolean {
@@ -38,10 +42,16 @@ data class SnappedComponentData(
 
 	fun setSnapped(axis: SnapAxis, mouseDistance: Double, mousePosition: Double) {
 		snappedAxisMouseDistance[axis] = mouseDistance to mousePosition
+		snappedAxisLastTime.remove(axis)
 	}
 
-	fun setUnsnapped(axis: SnapAxis) {
+	fun setUnsnapped(axis: SnapAxis, isClear: Boolean = false) {
 		snappedAxisMouseDistance.remove(axis)
+		if (!isClear) snappedAxisLastTime[axis] = System.currentTimeMillis()
+	}
+
+	fun canSnap(axis: SnapAxis): Boolean {
+		return snappedAxisLastTime[axis]?.let { (System.currentTimeMillis() - it) > ModsEditorScreen.exitSnappingTimeMs } ?: true
 	}
 
 	fun getSnapMouseDistance(axis: SnapAxis): Double? {

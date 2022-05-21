@@ -10,7 +10,7 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     api("org.jetbrains.kotlin:kotlin-reflect")
 
-    api("com.google.guava:guava:14.0.1")
+    api("com.google.guava:guava:31.1-jre")
 
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
@@ -19,7 +19,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
     // Json I/O
-    api("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.+")
+    api("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
 
     /* Discord SDK Integration */
     implementation("com.github.JnCrMx:discord-game-sdk4j:2b5a903204")
@@ -38,6 +38,9 @@ dependencies {
 
     /* Orion Components */
     api("io.github.orioncraftmc:orion-components:0.0.2-SNAPSHOT")
+
+    /* OrionCraft Client API */
+    api("io.github.orioncraftmc.client.api:lib")
 }
 
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by rootProject.extra

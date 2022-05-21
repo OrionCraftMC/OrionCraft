@@ -28,4 +28,6 @@ interface GameSettingsBridge {
 	var gammaValue: Float
 
 	val guiScale: Int
+
+	var isDebugInfoVisible: Boolean
 }
