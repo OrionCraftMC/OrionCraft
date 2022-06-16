@@ -24,7 +24,11 @@
 
 package io.github.orioncraftmc.orion.api.keybinding
 
-enum class OrionKeybindingCategory(val friendlyName: String) {
-	MINECRAFT("Minecraft") /* Minecraft Backport */,
-	ORIONCRAFT("OrionCraft")
+data class OrionKeybindingCategory(val friendlyName: String) {
+	companion object {
+		@JvmField
+		val MINECRAFT = OrionKeybindingCategory("Minecraft")  /* Minecraft Backport */
+		@JvmField
+		val ORIONCRAFT = OrionKeybindingCategory("OrionCraft")
+	}
 }
