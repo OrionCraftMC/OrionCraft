@@ -26,8 +26,8 @@ package io.github.orioncraftmc.orion.api.mod
 
 data class ModCategory(val friendlyName: String) {
 	companion object {
-		@JvmStatic val NEW = ModCategory("New")
-		@JvmStatic val HUD = ModCategory("HUD")
-		@JvmStatic val STAFF = ModCategory("Staff")
+		@JvmField val NEW = ModCategory("New")
+		@JvmField val HUD = ModCategory("HUD")
+		@JvmField val STAFF = ModCategory("Staff")
 	}
 }
