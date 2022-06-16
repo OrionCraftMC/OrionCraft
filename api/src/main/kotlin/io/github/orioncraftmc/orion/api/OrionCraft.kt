@@ -154,6 +154,9 @@ object OrionCraft {
 				}
 			}.onFailure {
 				logger.error("Skipping mod entrypoint ${modEntrypoint.substringAfterLast('.')}")
+				if (it !is ClassNotFoundException && it !is NoClassDefFoundError) {
+					it.printStackTrace()
+				}
 			}
 		}
 	}
