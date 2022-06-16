@@ -28,4 +28,6 @@ import io.github.orioncraftmc.orion.api.keybinding.OrionKeybinding
 
 interface KeybindingUtils {
 	fun registerKeybinding(keybind: OrionKeybinding): OrionKeybindingBridge
+
+	fun unregisterKeybinding(keybind: OrionKeybindingBridge)
 }
