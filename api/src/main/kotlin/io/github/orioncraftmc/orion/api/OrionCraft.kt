@@ -41,6 +41,7 @@ import io.github.orioncraftmc.orion.api.mod.settings.SettingsProvider
 import io.github.orioncraftmc.orion.backport.hooks.NostalgiaKeybindingsHook
 import io.github.orioncraftmc.orion.utils.LegacyKeyboardKey
 import io.github.orioncraftmc.orion.utils.OrionDiscordIntegration
+import kotlin.reflect.full.createInstance
 import kotlin.system.measureTimeMillis
 
 object OrionCraft {
@@ -132,10 +133,17 @@ object OrionCraft {
 		logger.info("Initialized OrionCraft Mod Manager")
 
 		logger.info("Initializing OrionCraft mods")
-		for (modEntrypoint in modEntrypoints) {
+
+		val finalEntrypoints = modEntrypoints + (System.getProperty("orioncraft.entrypoints")?.split(",") ?: emptyList())
+		for (modEntrypoint in finalEntrypoints) {
 			kotlin.runCatching {
 				val entrypointClazz = Class.forName(modEntrypoint).kotlin
-				val entrypointInstance = entrypointClazz.objectInstance
+				var entrypointInstance = entrypointClazz.objectInstance
+
+				// Entrypoint will not have an object instance if it is a Java class
+				// Thus, we need to create a new instance of it
+				if (entrypointInstance == null) entrypointInstance = entrypointClazz.createInstance()
+
 				if (entrypointInstance is OrionCraftModsEntrypoint) {
 					val entrypointName = entrypointClazz.simpleName
 					logger.debug("Found mod entrypoint $entrypointName")
