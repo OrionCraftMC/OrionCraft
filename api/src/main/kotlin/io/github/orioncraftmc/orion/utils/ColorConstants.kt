@@ -32,7 +32,7 @@ object ColorConstants {
 
 	val modLabelBackgroundColor = RGBInt(0, 0, 0, 111)
 
-	val rectangleBorder = RGBInt(255, 255, 255, 127)
+	val rectangleBorder = RGBInt(0, 0, 0, 255)
 
 	val buttonBackground = RGBInt(0, 0, 0, 90)
 	val buttonPressedBackground = RGBInt(255, 255, 255, 90)

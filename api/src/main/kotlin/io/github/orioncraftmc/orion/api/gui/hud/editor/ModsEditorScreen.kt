@@ -45,10 +45,6 @@ import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
-import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.ComponentSnapEngine
-import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnapAxis
-import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnappedComponentData
-import io.github.orioncraftmc.orion.api.gui.hud.editor.snapping.SnappingPositionData
 import io.github.orioncraftmc.orion.api.gui.hud.mod.HudOrionMod
 import io.github.orioncraftmc.orion.api.logger
 import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
@@ -94,13 +90,12 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 		private fun drawComponentRectangle(component: Component) {
 			val size = component.effectiveSize
 			val position = ComponentUtils.getComponentOriginPosition(component)
-			val yPositionOffset = -0.5
 
 			RectRenderingUtils.drawRectangle(
 				position.x,
-				position.y + yPositionOffset,
+				position.y,
 				position.x + size.width,
-				position.y + size.height + yPositionOffset,
+				position.y + size.height,
 				rectangleBorder,
 				true,
 				borderRectangleLineWidth
@@ -117,16 +112,17 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 
 			RectRenderingUtils.drawRectangle(
 				position.x,
-				position.y + yPositionOffset,
+				position.y,
 				position.x + size.width,
-				position.y + size.height + yPositionOffset,
+				position.y + size.height,
 				backgroundColor,
 				false
 			)
 		}
 	}
 
-	val borderRectangleLineWidth = 2.0
+	val borderRectangleLineWidth = 1.0
+	val uiSafeZone = 4.0
 
 	// Point variable used to track the first location of the selection  box
 	var selectionBoxFirstPoint: Point? = null
@@ -134,10 +130,7 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 	private val modulesRenderer = ModsEditorHudModuleRenderer()
 	private val mousePosition = Point(0.0, 0.0)
 	private val elementsBeingDraggedTable: Table<HudOrionMod<*>, Enum<*>, Component> = HashBasedTable.create()
-	private val snappedElementsData = SnappedComponentData()
 	private var componentDragMouseOffset: Point? = null
-	private var borderComponentSnappingLines: MutableMap<SnapAxis, MutableList<SnappingPositionData>> = mutableMapOf()
-	private var componentSnappingLines: Map<SnapAxis, MutableList<SnappingPositionData>> = emptyMap()
 
 	// Button used to display the mods list
 	private val modsButton = ButtonComponent("Mods").apply {
@@ -171,6 +164,7 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 		}
 		super.drawScreen(mouseX, mouseY, renderPartialTicks)
 		val isMouseHoverAnyElement = components.any { ComponentUtils.isMouseWithinComponent(mouseX, mouseY, it, true) }
+
 		if (!handleComponentMouseMove(
 				mouseX,
 				mouseY
@@ -182,68 +176,6 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 
 		// One or many components got moved, update the hud
 		modulesRenderer.renderHudElements()
-		updateSnappingLines()
-		borderComponentSnappingLines.forEach {
-			it.value.forEach { l -> drawSnappingLine(it.key, l) }
-		}
-	}
-
-	private fun updateSnappingLines() {
-		componentSnappingLines =
-			ComponentSnapEngine.computeSnappingPositions(modulesRenderer.modElementComponents.cellSet()
-				.filterNot { elementsBeingDraggedTable.contains(it.rowKey, it.columnKey) }.map { it.value })
-
-		//debugMessage("Skipped ${modulesRenderer.modElementComponents.cellSet().size - elementsBeingDraggedTable.size()} elements to be snapped")
-
-		val maxX = modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0
-		val maxY = modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0
-		val sizePoint = Point(maxX, maxY)
-
-		borderComponentSnappingLines.clear()
-		SnapAxis.values().forEach { v ->
-			borderComponentSnappingLines[v] =
-				mutableListOf(
-					SnappingPositionData(axisBorderDistance, this),
-					SnappingPositionData(v.getValueFromPoint(sizePoint) - axisBorderDistance, this)
-				)
-			componentSnappingLines[v]?.run {
-				addAll(borderComponentSnappingLines[v]!!)
-			}
-		}
-
-	}
-
-	private fun drawSnappingLine(
-		axis: SnapAxis,
-		value: SnappingPositionData
-	) {
-		val maxX = modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0
-		val maxY = modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0
-
-		var x = 0.0
-		var y = 0.0
-		val finalX: Double
-		val finalY: Double
-		if (axis == SnapAxis.HORIZONTAL) {
-			x = value.value
-			finalX = x
-			finalY = maxY
-		} else {
-			y = value.value
-			finalX = maxX
-			finalY = y
-		}
-
-		val tessellator = TessellatorBridge
-
-		basicShapesRendering {
-			OpenGlBridge.setLineWidth(1f)
-			tessellator.start(DrawMode.LINE_LOOP)
-			tessellator.addVertex(x, y, 0.0)
-			tessellator.addVertex(finalX, finalY, 0.0)
-			tessellator.setColor(255, 255, 255, 50)
-			tessellator.draw()
-		}
 	}
 
 	private val anchorForPointArray = arrayOf(
@@ -270,8 +202,6 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 	private fun handleComponentMouseMove(mouseX: Int, mouseY: Int): Boolean {
 		// Check if we are actually moving any components
 		val mouseOffset = componentDragMouseOffset ?: return false
-
-		updateSnappingLines()
 
 		// We are probably dragging some components
 		elementsBeingDraggedTable.cellSet().forEach { cell ->
@@ -302,30 +232,7 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 					this.scale
 				)
 			}.apply {
-				val size = component.size
-				preventOffLimitMovement(size)
-
-				val shouldSnapNextAxis = AtomicBoolean(true)
-				if (shouldSnapNextAxis.get()) x =
-					handlePositionSnapAxis(
-						SnapAxis.HORIZONTAL,
-						x,
-						x + size.width,
-						mousePosition,
-						size,
-						shouldSnapNextAxis
-					)
-				if (shouldSnapNextAxis.get()) y =
-					handlePositionSnapAxis(
-						SnapAxis.VERTICAL,
-						y,
-						y + size.height,
-						mousePosition,
-						size,
-						shouldSnapNextAxis
-					)
-
-				preventOffLimitMovement(size)
+				preventOffLimitMovement(component.size)
 			}
 
 			// Properly update the position of this element
@@ -356,78 +263,8 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 	}
 
 	private fun Point.preventOffLimitMovement(size: Size) {
-		x = x.coerceIn(0.0, (modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0) - size.width)
-		y = y.coerceIn(0.0, (modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0) - size.height)
-	}
-
-	private fun handlePositionSnapAxis(
-		axis: SnapAxis,
-		firstValue: Double,
-		secondValue: Double,
-		mousePos: Point,
-		size: Size,
-		shouldSnapNextAxis: AtomicBoolean
-	): Double {
-		shouldSnapNextAxis.set(true)
-		val firstSkipCurrentSnapping = AtomicBoolean(false)
-		val secondSkipCurrentSnapping = AtomicBoolean(false)
-		val axisSnapValues = componentSnappingLines[axis]?.distinct() ?: return firstValue
-		axisSnapValues.forEach { snapValue ->
-			val firstSnappingResult = snapValueToAxis(
-				firstValue,
-				axis,
-				snapValue,
-				mousePos,
-				0.0,
-				firstSkipCurrentSnapping
-			)
-			val secondSnappingResult = snapValueToAxis(
-				secondValue,
-				axis,
-				snapValue,
-				mousePos,
-				secondValue - firstValue,
-				secondSkipCurrentSnapping
-			)
-			(firstSnappingResult ?: secondSnappingResult)?.let { return it }
-			if (firstSkipCurrentSnapping.get() || secondSkipCurrentSnapping.get()) return@forEach
-		}
-
-		shouldSnapNextAxis.set(true)
-
-		// We are not snapped anywhere, clear the snapping data
-		debugMessage("Clearing snapping data for current axis $axis")
-		snappedElementsData.setUnsnapped(axis, true)
-
-		return firstValue
-	}
-
-	private fun snapValueToAxis(
-		value: Double,
-		axis: SnapAxis,
-		snapValue: SnappingPositionData,
-		mousePos: Point,
-		secondValueOffset: Double,
-		skipCurrentSnapping: AtomicBoolean
-	): Double? {
-
-		// Measure our current distance to the snapping guideline
-		val finalSnapValue = (snapValue.value - secondValueOffset).coerceAtLeast(0.0)
-		val finalValue = value - secondValueOffset
-		val snapValueComparison = abs(finalValue - finalSnapValue)
-
-		//Are we too far? If so, skip this guideline
-		if (snapValueComparison > finalSnappingDistance) {
-			skipCurrentSnapping.set(true)
-			return null
-		}
-
-		if (snapValueComparison <= (if (axis == SnapAxis.HORIZONTAL) horizontalSnappingDistance else snappingDistance)) {
-			drawSnappingLine(axis, snapValue)
-			return finalSnapValue
-		}
-
-		return null
+		x = x.coerceIn(uiSafeZone, (modulesRenderer.lastScaledResolution?.scaledWidthFloat?.toDouble() ?: 0.0) - size.width - uiSafeZone)
+		y = y.coerceIn(uiSafeZone, (modulesRenderer.lastScaledResolution?.scaledHeightFloat?.toDouble() ?: 0.0) - size.height - uiSafeZone)
 	}
 
 	override fun onClose() {
@@ -468,7 +305,6 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
 		handleComponentMouseRelease()
 		selectionBoxFirstPoint = null
-		snappedElementsData.clear()
 		super.handleMouseRelease(mouseX, mouseY)
 	}
 
@@ -494,14 +330,6 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 	}
 
 	companion object {
-		private const val snappingDistance = 3.5
-		private const val horizontalSnappingDistance = snappingDistance * 0.75
-		private const val exitSnappingDistance = 10.0
-		private const val finalSnappingDistance = 12.0
-		const val exitSnappingTimeMs = 5
-
-
-		private const val axisBorderDistance = 5.0
 		private const val debug = true
 	}
 }
