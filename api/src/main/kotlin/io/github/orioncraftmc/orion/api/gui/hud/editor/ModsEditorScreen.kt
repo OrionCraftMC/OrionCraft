@@ -39,7 +39,6 @@ import io.github.orioncraftmc.meditate.enums.YogaAlign
 import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.bridge.*
-import io.github.orioncraftmc.orion.api.bridge.rendering.enums.DrawMode
 import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
 import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
@@ -54,8 +53,6 @@ import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundS
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentSelectionBorder
 import io.github.orioncraftmc.orion.utils.ColorConstants.rectangleBorder
 import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
-import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.math.abs
 import kotlin.math.floor
 
 class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScreen(true) {
@@ -120,9 +117,6 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 			)
 		}
 	}
-
-	val borderRectangleLineWidth = 1.0
-	val uiSafeZone = 4.0
 
 	// Point variable used to track the first location of the selection  box
 	var selectionBoxFirstPoint: Point? = null
@@ -330,6 +324,10 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 	}
 
 	companion object {
+
+		private const val borderRectangleLineWidth = 1.0
+		private const val uiSafeZone = 4.0
+
 		private const val debug = true
 	}
 }
