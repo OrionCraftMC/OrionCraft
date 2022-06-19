@@ -86,7 +86,11 @@ class Canvas<ElementType, ColorType>(
 			if (with(abstraction) { element.rectangle }.contains(mousePosition)) {
 
 				var holdingMultiSelectKey = false /* TODO: detect if holding control */
-				if (!holdingMultiSelectKey && state.currentAction == CanvasAction.ELEMENT_MOVE && state.selectedElements.isNotEmpty() && !state.selectedElements.contains(element)) {
+				if (!holdingMultiSelectKey &&
+					state.currentAction == CanvasAction.ELEMENT_MOVE &&
+					state.selectedElements.isNotEmpty() &&
+					!state.selectedElements.contains(element)
+				) {
 					state.selectedElements.clear()
 				}
 
