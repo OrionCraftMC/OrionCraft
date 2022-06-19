@@ -1,4 +1,4 @@
-package io.github.nickacpt.behaviours.canvas
+package io.github.nickacpt.behaviours.canvas.model
 
 enum class CanvasAction {
 	NONE,

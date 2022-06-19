@@ -1,4 +1,8 @@
-package io.github.nickacpt.behaviours.canvas.model
+package io.github.nickacpt.behaviours.canvas.model.geometry
+
+import io.github.nickacpt.behaviours.canvas.model.geometry.line.CanvasLine
+import io.github.nickacpt.behaviours.canvas.model.geometry.line.CanvasLineDirection
+import io.github.nickacpt.behaviours.canvas.model.geometry.line.CanvasLineSide
 
 data class CanvasRectangle(val topLeft: CanvasPoint, val bottomRight: CanvasPoint) {
 	val top get() = topLeft.y

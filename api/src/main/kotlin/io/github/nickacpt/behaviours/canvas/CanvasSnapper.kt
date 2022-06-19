@@ -1,9 +1,10 @@
 package io.github.nickacpt.behaviours.canvas
 
-import io.github.nickacpt.behaviours.canvas.model.CanvasLineDirection
-import io.github.nickacpt.behaviours.canvas.model.CanvasLineSide
-import io.github.nickacpt.behaviours.canvas.model.CanvasPoint
-import io.github.nickacpt.behaviours.canvas.model.CanvasRectangle
+import io.github.nickacpt.behaviours.canvas.model.CanvasAction
+import io.github.nickacpt.behaviours.canvas.model.geometry.line.CanvasLineDirection
+import io.github.nickacpt.behaviours.canvas.model.geometry.line.CanvasLineSide
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasRectangle
 import java.util.*
 import kotlin.math.abs
 

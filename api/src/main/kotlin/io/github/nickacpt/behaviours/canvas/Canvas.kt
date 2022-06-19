@@ -2,8 +2,10 @@ package io.github.nickacpt.behaviours.canvas
 
 import io.github.nickacpt.behaviours.canvas.abstractions.CanvasAbstraction
 import io.github.nickacpt.behaviours.canvas.config.CanvasConfig
-import io.github.nickacpt.behaviours.canvas.model.CanvasPoint
-import io.github.nickacpt.behaviours.canvas.model.CanvasRectangle
+import io.github.nickacpt.behaviours.canvas.model.CanvasAction
+import io.github.nickacpt.behaviours.canvas.model.CanvasState
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasRectangle
 
 class Canvas<ElementType, ColorType>(
 	internal val abstraction: CanvasAbstraction<ElementType, ColorType>,

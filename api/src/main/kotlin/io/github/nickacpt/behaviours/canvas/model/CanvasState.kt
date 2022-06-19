@@ -1,6 +1,6 @@
-package io.github.nickacpt.behaviours.canvas
+package io.github.nickacpt.behaviours.canvas.model
 
-import io.github.nickacpt.behaviours.canvas.model.CanvasPoint
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
 
 data class CanvasState<ElementType>(
 	val actionChangedHandler: (CanvasAction) -> Unit = {},

@@ -1,4 +1,4 @@
-package io.github.nickacpt.behaviours.canvas.model
+package io.github.nickacpt.behaviours.canvas.model.geometry
 
 data class CanvasPoint(var x: Float, var y: Float) {
 

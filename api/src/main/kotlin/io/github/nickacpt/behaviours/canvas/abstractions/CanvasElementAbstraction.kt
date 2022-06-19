@@ -1,7 +1,7 @@
 package io.github.nickacpt.behaviours.canvas.abstractions
 
-import io.github.nickacpt.behaviours.canvas.model.CanvasPoint
-import io.github.nickacpt.behaviours.canvas.model.CanvasRectangle
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasRectangle
 
 interface CanvasElementAbstraction<ElementType> {
 

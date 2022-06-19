@@ -2,8 +2,8 @@ package io.github.orioncraftmc.orion.api.gui.hud.editor
 
 import com.github.ajalt.colormath.Color
 import io.github.nickacpt.behaviours.canvas.abstractions.CanvasAbstraction
-import io.github.nickacpt.behaviours.canvas.model.CanvasPoint
-import io.github.nickacpt.behaviours.canvas.model.CanvasRectangle
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasRectangle
 import io.github.orioncraftmc.components.Component
 import io.github.orioncraftmc.components.model.Anchor
 import io.github.orioncraftmc.components.model.Padding

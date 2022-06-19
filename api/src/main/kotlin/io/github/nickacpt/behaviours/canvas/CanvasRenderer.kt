@@ -1,15 +1,15 @@
 package io.github.nickacpt.behaviours.canvas
 
 import io.github.nickacpt.behaviours.canvas.config.CanvasColorStyle
-import io.github.nickacpt.behaviours.canvas.model.CanvasPoint
-import io.github.nickacpt.behaviours.canvas.model.CanvasRectangle
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasRectangle
 
 class CanvasRenderer<ElementType, ColorType>(val canvas: Canvas<ElementType, ColorType>) {
 
 	private fun getBackgroundColorToUse(element: ElementType, rect: CanvasRectangle, mousePosition: CanvasPoint, bgColor: CanvasColorStyle<ColorType>): ColorType {
 		val containsMouse = rect.contains(mousePosition)
 		return if (canvas.state.selectedElements.contains(element)) {
-			bgColor.active
+			bgColor.selected
 		} else if (containsMouse && canvas.state.mouseDown) {
 			bgColor.mouseDown
 		} else if (containsMouse) {

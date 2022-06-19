@@ -28,7 +28,7 @@ import com.github.ajalt.colormath.Color
 import com.github.ajalt.colormath.model.RGBInt
 import io.github.nickacpt.behaviours.canvas.Canvas
 import io.github.nickacpt.behaviours.canvas.config.*
-import io.github.nickacpt.behaviours.canvas.model.CanvasPoint
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
 import io.github.orioncraftmc.components.Component
 import io.github.orioncraftmc.components.flex
 import io.github.orioncraftmc.components.model.Anchor
