@@ -32,13 +32,14 @@ object ColorConstants {
 
 	val modLabelBackgroundColor = RGBInt(0, 0, 0, 111)
 
-	val rectangleBorder = RGBInt(0, 0, 0, 255)
-
 	val buttonBackground = RGBInt(0, 0, 0, 90)
+
 	val buttonPressedBackground = RGBInt(255, 255, 255, 90)
 
 	val modComponentBackground = RGBInt(255, 255, 255, 40)
 	val modComponentBackgroundSelected = RGBInt(255, 255, 255, 100)
+	val modComponentBorderColor = RGBInt(0, 0, 0, 255)
+
 	val modComponentSelectionBorder = RGBInt(200, 200, 200)
 
 }
