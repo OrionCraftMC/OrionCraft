@@ -25,8 +25,7 @@
 package io.github.orioncraftmc.orion.api.gui.hud.editor
 
 import com.github.ajalt.colormath.Color
-import com.google.common.collect.HashBasedTable
-import com.google.common.collect.Table
+import com.github.ajalt.colormath.model.RGBInt
 import io.github.nickacpt.behaviours.canvas.Canvas
 import io.github.nickacpt.behaviours.canvas.config.*
 import io.github.nickacpt.behaviours.canvas.model.CanvasPoint
@@ -37,14 +36,12 @@ import io.github.orioncraftmc.components.model.Padding
 import io.github.orioncraftmc.components.model.Point
 import io.github.orioncraftmc.components.model.Size
 import io.github.orioncraftmc.components.nodeSize
-import io.github.orioncraftmc.components.utils.AnchorUtils
 import io.github.orioncraftmc.components.utils.ComponentUtils
 import io.github.orioncraftmc.meditate.enums.YogaAlign
 import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraft
 import io.github.orioncraftmc.orion.api.bridge.*
 import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
-import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
 import io.github.orioncraftmc.orion.api.gui.hud.BaseHudModuleRenderer
@@ -53,10 +50,9 @@ import io.github.orioncraftmc.orion.api.logger
 import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
 import io.github.orioncraftmc.orion.utils.BrandingUtils
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackground
+import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundHover
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundSelected
-import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentSelectionBorder
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBorderColor
-import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
 import kotlin.math.floor
 
 class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScreen(true) {
@@ -77,15 +73,15 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 		}
 	}
 
-	private val modulesRenderer = ModsEditorHudModuleRenderer()
-	private val canvasAbstraction = OrionCanvasAbstraction(modulesRenderer.modElementComponents.values())
+	internal val modulesRenderer = ModsEditorHudModuleRenderer()
 	private val editorConfig = CanvasConfig<Color>().apply {
-		colours.background = CanvasColourStyle(modComponentBackground, modComponentBackgroundSelected, modComponentBackground)
+		colours.background = CanvasColourStyle(modComponentBackground, modComponentBackgroundHover, modComponentBackgroundSelected, RGBInt.fromRGBA(0xff00000fu))
 		colours.border = CanvasColourStyle(modComponentBorderColor, modComponentBorderColor, modComponentBorderColor)
 		borderWidth = borderRectangleLineWidth.toFloat()
+		safeZoneSize = uiSafeZone.toFloat()
 	}
 
-	private val editorCanvas = Canvas(canvasAbstraction, editorConfig)
+	private val editorCanvas = Canvas(OrionCanvasAbstraction(this), editorConfig)
 
 	private val mousePosition = Point(0.0, 0.0)
 	private val canvasMousePosition = CanvasPoint(0.0f, 0.0f)
@@ -146,7 +142,7 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 		)
 	)
 
-	private fun getAnchorForPoint(x: Double, y: Double): Anchor {
+	internal fun getAnchorForPoint(x: Double, y: Double): Anchor {
 		val parentSize = modulesRenderer.parentComponent.size
 		val dividedWidth = parentSize.width / 3
 		val dividedHeight = parentSize.height / 3
@@ -169,14 +165,13 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 	}
 
 	override fun handleMouseClick(mouseX: Int, mouseY: Int) {
+		editorCanvas.onMouseDown(canvasMousePosition)
 		super.handleMouseClick(mouseX, mouseY)
 	}
 
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
+		editorCanvas.onMouseUp(canvasMousePosition)
 		super.handleMouseRelease(mouseX, mouseY)
-	}
-
-	private fun handleComponentMouseDown(mouseX: Int, mouseY: Int) {
 	}
 
 	private fun debugMessage(msg: String) {

@@ -23,4 +23,11 @@ data class CanvasRectangle(val topLeft: CanvasPoint, val bottomRight: CanvasPoin
 				bottomRight = CanvasPoint(right + amount, bottom + amount)
 		)
 	}
+
+	fun offset(amount: Float): CanvasRectangle {
+		return CanvasRectangle(
+				topLeft = CanvasPoint(left + amount, top + amount),
+				bottomRight = CanvasPoint(right + amount, bottom + amount)
+		)
+	}
 }

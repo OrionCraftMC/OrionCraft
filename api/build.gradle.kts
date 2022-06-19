@@ -37,7 +37,7 @@ dependencies {
     implementation("io.github.juuxel:libninepatch:1.1.0")
 
     /* Orion Components */
-    api("io.github.orioncraftmc:orion-components:0.0.2-SNAPSHOT")
+    api("io.github.orioncraftmc:orion-components:0.0.3-SNAPSHOT")
 
     /* OrionCraft Client API */
     api("io.github.orioncraftmc.client.api:lib")
