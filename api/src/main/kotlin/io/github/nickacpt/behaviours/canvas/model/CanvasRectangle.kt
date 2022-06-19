@@ -34,4 +34,24 @@ data class CanvasRectangle(val topLeft: CanvasPoint, val bottomRight: CanvasPoin
 		bottomLeft,
 		bottomRight
 	)
+
+	fun sides() = listOf(
+		CanvasLine(top, CanvasLineDirection.HORIZONTAL, CanvasLineSide.FIRST),
+		CanvasLine(bottom, CanvasLineDirection.HORIZONTAL, CanvasLineSide.SECOND),
+		CanvasLine(left, CanvasLineDirection.VERTICAL, CanvasLineSide.FIRST),
+		CanvasLine(right, CanvasLineDirection.VERTICAL, CanvasLineSide.SECOND)
+	)
+
+	fun getSideValue(direction: CanvasLineDirection, side: CanvasLineSide): Float {
+		return when (direction) {
+			CanvasLineDirection.HORIZONTAL -> when (side) {
+				CanvasLineSide.FIRST -> top
+				CanvasLineSide.SECOND -> bottom
+			}
+			CanvasLineDirection.VERTICAL -> when (side) {
+				CanvasLineSide.FIRST -> left
+				CanvasLineSide.SECOND -> right
+			}
+		}
+	}
 }

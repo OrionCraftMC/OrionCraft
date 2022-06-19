@@ -23,7 +23,7 @@ class CanvasRenderer<ElementType, ColorType>(val canvas: Canvas<ElementType, Col
 		val color = config.colors.selectionBackground ?: return
 		val safeZone = abstraction.rectangle.expand(-config.safeZoneSize)
 
-		abstraction.drawRectangle(safeZone, color, true, config.safeZoneBorderWidth)
+		abstraction.drawRectangle(safeZone, color, true, config.snapLineWidth)
 	}
 
 	private fun renderElementDecorators(canvasElements: Collection<ElementType>, mousePosition: CanvasPoint) =

@@ -9,12 +9,17 @@ class Canvas<ElementType, ColorType>(
 	internal val abstraction: CanvasAbstraction<ElementType, ColorType>,
 	internal val config: CanvasConfig<ColorType>
 ) {
-	internal val state = CanvasState<ElementType>()
+	internal val state = CanvasState<ElementType> { snapper.notifyStateChange(it) }
 	private val renderer = CanvasRenderer(this)
+	private val snapper = CanvasSnapper(this)
+
+	val safeZoneRectangle
+		get() = abstraction.rectangle.expand(-config.safeZoneSize)
 
 	fun onRender(mousePosition: CanvasPoint) {
 		renderer.renderBackground(mousePosition)
 		handleAction(mousePosition)
+		snapper.renderSnapLines()
 
 		state.lastRenderMousePosition.apply {
 			x = mousePosition.x
@@ -58,13 +63,17 @@ class Canvas<ElementType, ColorType>(
 
 
 	private fun moveElements(mousePosition: CanvasPoint) {
+		if (state.selectedElements.isEmpty()) return
 		val delta = mousePosition - state.lastRenderMousePosition
 
 		state.selectedElements.forEach {
 			with(abstraction) {
 				val elementRect = it.rectangle
-				val canvasRect = abstraction.rectangle.expand(-config.safeZoneSize)
-				val point = elementRect.topLeft + delta
+				val canvasRect = safeZoneRectangle
+				val newRectangle = elementRect.copy(topLeft = elementRect.topLeft + delta, bottomRight = elementRect.bottomRight + delta)
+				val point = newRectangle.topLeft
+
+				if (state.selectedElements.size == 1) snapper.snap(mousePosition, newRectangle, point)
 
 				point.apply {
 					x = x.coerceIn(canvasRect.left, canvasRect.right - elementRect.width)
@@ -74,16 +83,20 @@ class Canvas<ElementType, ColorType>(
 				it.moveTo(point)
 			}
 		}
+
+		snapper.notifyStateChange(CanvasAction.ELEMENT_MOVE)
 	}
 
 	fun onMouseDown(mousePosition: CanvasPoint) {
 		state.mouseDown = true
 		state.mouseDownPosition = mousePosition.copy()
 
+		snapper.notifyStateChange(CanvasAction.NONE)
 		computeCurrentAction(mousePosition)
 
 		for (element in abstraction.elements) {
-			if (with(abstraction) { element.rectangle }.contains(mousePosition)) {
+			val rect = with(abstraction) { element.rectangle }
+			if (rect.contains(mousePosition)) {
 
 				var holdingMultiSelectKey = false /* TODO: detect if holding control */
 				if (!holdingMultiSelectKey &&
@@ -95,6 +108,7 @@ class Canvas<ElementType, ColorType>(
 				}
 
 				state.selectedElements.add(element)
+
 				return
 			}
 		}
