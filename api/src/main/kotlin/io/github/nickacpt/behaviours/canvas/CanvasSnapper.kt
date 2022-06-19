@@ -36,9 +36,6 @@ class CanvasSnapper<ElementType, ColorType>(private val canvas: Canvas<ElementTy
 		cachedSnapLines = computeSnapLines()
 	}
 
-	fun renderSnapLines() {
-	}
-
 	private fun computeLine(direction: CanvasLineDirection, value: Float, canvasRect: CanvasRectangle): Pair<CanvasPoint, CanvasPoint> {
 
 		val p1 = if (direction == CanvasLineDirection.HORIZONTAL)

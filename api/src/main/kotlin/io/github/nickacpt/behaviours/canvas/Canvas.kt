@@ -19,7 +19,6 @@ class Canvas<ElementType, ColorType>(
 	fun onRender(mousePosition: CanvasPoint) {
 		renderer.renderBackground(mousePosition)
 		handleAction(mousePosition)
-		snapper.renderSnapLines()
 
 		state.lastRenderMousePosition.apply {
 			x = mousePosition.x
