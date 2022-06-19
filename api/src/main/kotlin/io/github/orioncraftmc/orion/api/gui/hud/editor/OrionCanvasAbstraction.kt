@@ -21,9 +21,6 @@ class OrionCanvasAbstraction(private val editorScreen: ModsEditorScreen) : Canva
 			CanvasRectangle(CanvasPoint(0f, 0f), CanvasPoint(it.scaledWidthFloat, it.scaledHeightFloat))
 		}
 
-	override val Component.elementId: UUID
-		get() = this.id
-
 	override val Component.rectangle: CanvasRectangle
 		get() {
 			val size = effectiveSize
@@ -35,7 +32,7 @@ class OrionCanvasAbstraction(private val editorScreen: ModsEditorScreen) : Canva
 		}
 
 	override fun Component.moveTo(point: CanvasPoint) {
-		val cell = editorScreen.modulesRenderer.modElementComponents.cellSet().first { it.value.elementId == this.id }
+		val cell = editorScreen.modulesRenderer.modElementComponents.cellSet().first { it.value.id == this.id }
 
 		// Get all relevant settings for the current component we are moving
 		val settings = editorScreen.modulesRenderer.getHudElementSettings(cell.rowKey, cell.columnKey)
