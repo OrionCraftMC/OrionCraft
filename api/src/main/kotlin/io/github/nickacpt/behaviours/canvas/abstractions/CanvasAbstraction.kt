@@ -1,8 +1,8 @@
-package io.github.nickacpt.behaviours.canvas.abstractions;
+package io.github.nickacpt.behaviours.canvas.abstractions
 
 import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
 import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasRectangle
-import java.util.UUID
+import java.util.*
 
 interface CanvasAbstraction<ElementType, ColorType> : CanvasElementAbstraction<ElementType> {
 

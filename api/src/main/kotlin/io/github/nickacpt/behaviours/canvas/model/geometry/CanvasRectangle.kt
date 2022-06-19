@@ -52,6 +52,7 @@ data class CanvasRectangle(val topLeft: CanvasPoint, val bottomRight: CanvasPoin
 				CanvasLineSide.FIRST -> top
 				CanvasLineSide.SECOND -> bottom
 			}
+
 			CanvasLineDirection.VERTICAL -> when (side) {
 				CanvasLineSide.FIRST -> left
 				CanvasLineSide.SECOND -> right

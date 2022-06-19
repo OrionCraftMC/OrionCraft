@@ -71,7 +71,10 @@ class Canvas<ElementType, ColorType>(
 			with(abstraction) {
 				val elementRect = it.rectangle
 				val canvasRect = safeZoneRectangle
-				val newRectangle = elementRect.copy(topLeft = elementRect.topLeft + delta, bottomRight = elementRect.bottomRight + delta)
+				val newRectangle = elementRect.copy(
+					topLeft = elementRect.topLeft + delta,
+					bottomRight = elementRect.bottomRight + delta
+				)
 				val point = newRectangle.topLeft
 
 				if (state.selectedElements.size == 1) snapper.snap(mousePosition, newRectangle, point)
