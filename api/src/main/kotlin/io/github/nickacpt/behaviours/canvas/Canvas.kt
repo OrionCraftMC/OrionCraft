@@ -41,8 +41,8 @@ class Canvas<ElementType, ColorType>(
 		val selectionRectangle =
 			CanvasRectangle(CanvasPoint(topLeftX, topLeftY), CanvasPoint(bottomRightX, bottomRightY))
 
-		config.colours.selectionBackground?.let { abstraction.drawRectangle(selectionRectangle, it, false, 0f) }
-		config.colours.selectionBorder?.let { abstraction.drawRectangle(selectionRectangle, it, true, 1f) }
+		config.colors.selectionBackground?.let { abstraction.drawRectangle(selectionRectangle, it, false, 0f) }
+		config.colors.selectionBorder?.let { abstraction.drawRectangle(selectionRectangle, it, true, 1f) }
 
 		for (element in abstraction.elements) {
 			val corners = with(abstraction) { element.rectangle }.corners()

@@ -75,11 +75,11 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 
 	internal val modulesRenderer = ModsEditorHudModuleRenderer()
 	private val editorConfig = CanvasConfig<Color>().apply {
-		colours.elementBackground = CanvasColourStyle(modComponentBackground, modComponentBackgroundHover, modComponentBackgroundSelected, RGBInt.fromRGBA(0xff00000fu))
-		colours.elementBorder = CanvasColourStyle(modComponentBorderColor, modComponentBorderColor, modComponentBorderColor)
+		colors.elementBackground = CanvasColorStyle(modComponentBackground, modComponentBackgroundHover, modComponentBackgroundSelected, RGBInt.fromRGBA(0xff00000fu))
+		colors.elementBorder = CanvasColorStyle(modComponentBorderColor, modComponentBorderColor, modComponentBorderColor)
 
-		colours.selectionBackground = modComponentBackgroundSelected
-		colours.selectionBorder = modComponentBorderColor
+		colors.selectionBackground = modComponentBackgroundSelected
+		colors.selectionBorder = modComponentBorderColor
 
 		borderWidth = borderRectangleLineWidth.toFloat()
 		safeZoneSize = uiSafeZone.toFloat()
