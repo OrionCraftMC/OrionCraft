@@ -117,14 +117,17 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 			MinecraftBridge.drawDefaultBackground()
 		}
 
+		val xRange = 0.0..modulesRenderer.lastGameWidth.toDouble()
+		val yRange = 0.0..modulesRenderer.lastGameHeight.toDouble()
+
 		mousePosition.apply {
-			x = mouseX.toDouble()
-			y = mouseY.toDouble()
+			x = mouseX.toDouble().coerceIn(xRange)
+			y = mouseY.toDouble().coerceIn(yRange)
 		}
 
 		canvasMousePosition.apply {
-			x = mouseX.toFloat()
-			y = mouseY.toFloat()
+			x = mousePosition.x.toFloat()
+			y = mousePosition.y.toFloat()
 		}
 
 		super.drawScreen(mouseX, mouseY, renderPartialTicks)

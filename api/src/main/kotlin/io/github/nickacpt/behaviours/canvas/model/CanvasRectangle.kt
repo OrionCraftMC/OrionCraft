@@ -24,10 +24,14 @@ data class CanvasRectangle(val topLeft: CanvasPoint, val bottomRight: CanvasPoin
 		)
 	}
 
+	val topRight: CanvasPoint get() = CanvasPoint(right, top)
+
+	val bottomLeft: CanvasPoint get() = CanvasPoint(left, bottom)
+
 	fun corners() = listOf(
 		topLeft,
-		CanvasPoint(right, top),
-		bottomRight,
-		CanvasPoint(left, bottom)
+		topRight,
+		bottomLeft,
+		bottomRight
 	)
 }
