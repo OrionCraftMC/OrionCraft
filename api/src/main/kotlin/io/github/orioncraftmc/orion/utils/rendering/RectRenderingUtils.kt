@@ -48,7 +48,8 @@ object RectRenderingUtils {
 
 		val tessellator = TessellatorBridge
 
-		val halfLineWidth = lineWidth / 2.0
+		var halfLineWidth = lineWidth / 2.0
+		if (!isHollow) halfLineWidth = 0.0
 
 		basicShapesRendering {
 			if (isHollow) {
