@@ -117,8 +117,8 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 			MinecraftBridge.drawDefaultBackground()
 		}
 
-		val xRange = 0.0..modulesRenderer.lastGameWidth.toDouble()
-		val yRange = 0.0..modulesRenderer.lastGameHeight.toDouble()
+		val xRange = 0.0..(modulesRenderer.lastScaledResolution?.scaledWidthFloat ?: 0f).toDouble()
+		val yRange = 0.0..(modulesRenderer.lastScaledResolution?.scaledHeightFloat ?: 0f).toDouble()
 
 		mousePosition.apply {
 			x = mouseX.toDouble().coerceIn(xRange)
