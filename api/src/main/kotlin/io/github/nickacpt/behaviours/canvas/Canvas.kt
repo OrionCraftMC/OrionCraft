@@ -29,7 +29,13 @@ class Canvas<ElementType, ColorType>(
 		renderSafeZone()
 		renderElementDecorators(abstraction.elements, mousePosition)
 
-		if (state.mouseDown) moveSelectedElements(mousePosition)
+		if (state.mouseDown) {
+			if (state.isMovingElements) {
+				moveSelectedElements(mousePosition)
+			} else {
+				selectElements(mousePosition)
+			}
+		}
 
 		state.lastRenderMousePosition.apply {
 			x = mousePosition.x
@@ -37,14 +43,44 @@ class Canvas<ElementType, ColorType>(
 		}
 	}
 
+	private fun selectElements(mousePosition: CanvasPoint) {
+		val mouseDownPos = state.mouseDownPosition ?: return
+		state.isSelectingElements = true
+		state.isMovingElements = false
+		val topLeftX = minOf(mouseDownPos.x, mousePosition.x)
+		val topLeftY = minOf(mouseDownPos.y, mousePosition.y)
+
+		val bottomRightX = maxOf(mouseDownPos.x, mousePosition.x)
+		val bottomRightY = maxOf(mouseDownPos.y, mousePosition.y)
+
+		val selectionRectangle =
+			CanvasRectangle(CanvasPoint(topLeftX, topLeftY), CanvasPoint(bottomRightX, bottomRightY))
+
+		config.colours.selectionBackground?.let { abstraction.drawRectangle(selectionRectangle, it, false, 0f) }
+		config.colours.selectionBorder?.let { abstraction.drawRectangle(selectionRectangle, it, true, 1f) }
+
+		for (element in abstraction.elements) {
+			val corners = with(abstraction) { element.rectangle }.corners()
+
+			if (corners.any { selectionRectangle.contains(it) }) {
+				state.selectedElements.add(element)
+			} else {
+				// TODO: only restart if not pressing control
+				state.selectedElements.remove(element)
+			}
+		}
+	}
+
 	private fun renderSafeZone() {
-		val color = config.colours.background?.active ?: return
+		val color = config.colours.selectionBackground ?: return
 		val safeZone = abstraction.rectangle.expand(-config.safeZoneSize)
 
 		abstraction.drawRectangle(safeZone, color, true, config.safeZoneBorderWidth)
 	}
 
 	private fun moveSelectedElements(mousePosition: CanvasPoint) {
+		state.isMovingElements = true
+		state.isSelectingElements = false
 		val delta = mousePosition - state.lastRenderMousePosition
 
 		state.selectedElements.forEach {
@@ -66,17 +102,18 @@ class Canvas<ElementType, ColorType>(
 	private fun renderElementDecorators(canvasElements: Collection<ElementType>, mousePosition: CanvasPoint) {
 		for (element in canvasElements) {
 			val rect = with(abstraction) { element.rectangle }
-			val backgroundColor = getColorToUse(element, rect, mousePosition, config.colours.background ?: break)
+			val backgroundColor = getColorToUse(element, rect, mousePosition, config.colours.elementBackground ?: break)
 			abstraction.drawRectangle(rect, backgroundColor, false, 0f)
 
 			// Draw border for element
-			val borderColor = getColorToUse(element, rect, mousePosition, config.colours.border ?: break)
+			val borderColor = getColorToUse(element, rect, mousePosition, config.colours.elementBorder ?: break)
 			abstraction.drawRectangle(rect, borderColor, true, config.borderWidth)
 		}
 	}
 
 	fun onMouseDown(mousePosition: CanvasPoint) {
 		state.mouseDown = true
+		state.mouseDownPosition = mousePosition.copy()
 
 		var holdingMultiSelectKey = false /* TODO: detect if holding control */
 		if (!holdingMultiSelectKey) {
@@ -95,6 +132,7 @@ class Canvas<ElementType, ColorType>(
 
 	fun onMouseUp(mousePosition: CanvasPoint) {
 		state.mouseDown = false
+		state.mouseDownPosition = null
 
 		if (state.selectedElements.size == 1) {
 			state.selectedElements.clear()

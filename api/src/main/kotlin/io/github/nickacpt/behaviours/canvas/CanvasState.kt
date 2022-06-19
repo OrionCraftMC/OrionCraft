@@ -4,6 +4,9 @@ import io.github.nickacpt.behaviours.canvas.model.CanvasPoint
 
 data class CanvasState<ElementType>(
     var mouseDown: Boolean = false,
+    var mouseDownPosition: CanvasPoint? = null,
+	var isMovingElements: Boolean = false,
+	var isSelectingElements: Boolean = false,
 
     val lastRenderMousePosition: CanvasPoint = CanvasPoint(0f, 0f),
     val selectedElements: MutableSet<ElementType> = mutableSetOf(),
