@@ -41,6 +41,9 @@ dependencies {
 
     /* OrionCraft Client API */
     api("io.github.orioncraftmc.client.api:lib")
+
+    /* Behaviours - Canvas Behaviour */
+    api("io.github.nickacpt.behaviours:canvas")
 }
 
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by rootProject.extra
