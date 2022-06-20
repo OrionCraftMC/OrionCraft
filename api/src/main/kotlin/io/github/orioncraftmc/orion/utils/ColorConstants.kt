@@ -39,8 +39,9 @@ object ColorConstants {
 	val modComponentBackground = RGBInt(255, 255, 255, 40)
 	val modComponentBackgroundHover = RGBInt(255, 255, 255, 100)
 	val modComponentBackgroundSelected = RGBInt(255, 0, 0, 40)
+	val modComponentBackgroundActive = RGBInt(255, 0, 0, 15)
 	val modComponentBorderColor = RGBInt(0, 0, 0, 255)
 
-	val modComponentSelectionBorder = RGBInt(200, 200, 200)
+	val modComponentResizeHandle = RGBInt(255, 0, 0, 120)
 
 }
