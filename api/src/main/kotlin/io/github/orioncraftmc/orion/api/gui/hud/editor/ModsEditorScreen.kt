@@ -25,9 +25,9 @@
 package io.github.orioncraftmc.orion.api.gui.hud.editor
 
 import com.github.ajalt.colormath.Color
-import com.github.ajalt.colormath.model.RGBInt
 import io.github.nickacpt.behaviours.canvas.Canvas
-import io.github.nickacpt.behaviours.canvas.config.*
+import io.github.nickacpt.behaviours.canvas.config.CanvasColorStyle
+import io.github.nickacpt.behaviours.canvas.config.CanvasConfig
 import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
 import io.github.orioncraftmc.components.Component
 import io.github.orioncraftmc.components.flex
@@ -40,7 +40,9 @@ import io.github.orioncraftmc.components.utils.ComponentUtils
 import io.github.orioncraftmc.meditate.enums.YogaAlign
 import io.github.orioncraftmc.meditate.enums.YogaJustify
 import io.github.orioncraftmc.orion.api.OrionCraft
-import io.github.orioncraftmc.orion.api.bridge.*
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
+import io.github.orioncraftmc.orion.api.bridge.OpenGlBridge
+import io.github.orioncraftmc.orion.api.bridge.matrix
 import io.github.orioncraftmc.orion.api.bridge.rendering.enums.GlCapability
 import io.github.orioncraftmc.orion.api.gui.components.impl.ButtonComponent
 import io.github.orioncraftmc.orion.api.gui.components.screens.ComponentOrionScreen
@@ -50,9 +52,11 @@ import io.github.orioncraftmc.orion.api.logger
 import io.github.orioncraftmc.orion.screens.modmenu.ModMenuScreen
 import io.github.orioncraftmc.orion.utils.BrandingUtils
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackground
+import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundActive
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundHover
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBackgroundSelected
 import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentBorderColor
+import io.github.orioncraftmc.orion.utils.ColorConstants.modComponentResizeHandle
 import kotlin.math.floor
 
 class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScreen(true) {
@@ -75,12 +79,15 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 
 	internal val modulesRenderer = ModsEditorHudModuleRenderer()
 	private val editorConfig = CanvasConfig<Color>().apply {
-		colors.elementBackground = CanvasColorStyle(modComponentBackground, modComponentBackgroundHover, modComponentBackgroundSelected, RGBInt.fromRGBA(0xff00000fu))
+		colors.elementBackground = CanvasColorStyle(modComponentBackground, modComponentBackgroundHover, modComponentBackgroundSelected, modComponentBackgroundActive)
 		colors.elementBorder = CanvasColorStyle(modComponentBorderColor, modComponentBorderColor, modComponentBorderColor)
 
 		colors.selectionBackground = modComponentBackgroundSelected
 		colors.selectionBorder = modComponentBorderColor
 
+		colors.resizeHandleBackground = modComponentResizeHandle
+
+		resizeHandleSize = componentResizeHandleSize.toFloat()
 		borderWidth = borderRectangleLineWidth.toFloat()
 		safeZoneSize = uiSafeZone.toFloat()
 	}
@@ -190,6 +197,8 @@ class ModsEditorScreen(val isFromMainMenu: Boolean = false) : ComponentOrionScre
 	}
 
 	companion object {
+
+		private const val componentResizeHandleSize = 7.0
 
 		private const val borderRectangleLineWidth = 1.0
 		private const val uiSafeZone = 4.0

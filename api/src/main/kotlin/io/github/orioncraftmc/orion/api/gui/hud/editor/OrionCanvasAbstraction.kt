@@ -2,23 +2,40 @@ package io.github.orioncraftmc.orion.api.gui.hud.editor
 
 import com.github.ajalt.colormath.Color
 import io.github.nickacpt.behaviours.canvas.abstractions.CanvasAbstraction
+import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasCorner
 import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasPoint
 import io.github.nickacpt.behaviours.canvas.model.geometry.CanvasRectangle
 import io.github.orioncraftmc.components.Component
 import io.github.orioncraftmc.components.model.Anchor
 import io.github.orioncraftmc.components.model.Padding
+import io.github.orioncraftmc.components.model.Point
 import io.github.orioncraftmc.components.utils.AnchorUtils
 import io.github.orioncraftmc.orion.api.bridge.*
 import io.github.orioncraftmc.orion.api.bridge.rendering.enums.DrawMode
 import io.github.orioncraftmc.orion.api.gui.components.AnchorUpdateReceiver
 import io.github.orioncraftmc.orion.utils.rendering.RectRenderingUtils
-import java.util.*
 
 class OrionCanvasAbstraction(private val editorScreen: ModsEditorScreen) : CanvasAbstraction<Component, Color> {
 
-	override val rectangle: CanvasRectangle
+	override val canvasRectangle: CanvasRectangle
 		get() = MinecraftBridge.scaledResolution.let {
 			CanvasRectangle(CanvasPoint(0f, 0f), CanvasPoint(it.scaledWidthFloat, it.scaledHeightFloat))
+		}
+
+	override val Component.resizeHandleCorner: CanvasCorner
+		get() {
+			val (isLeft, _, isRight) = AnchorUtils.extractXInformationFromAnchor(anchor)
+			val (isTop, isMiddleVertical, isBottom) = AnchorUtils.extractYInformationFromAnchor(anchor)
+
+			return when {
+				isLeft && isTop -> CanvasCorner.BOTTOM_RIGHT
+				isLeft && (isMiddleVertical || isBottom) -> CanvasCorner.TOP_RIGHT
+
+				isRight && isTop -> CanvasCorner.BOTTOM_LEFT
+				isRight && (isMiddleVertical || isBottom) -> CanvasCorner.TOP_LEFT
+
+				else -> CanvasCorner.BOTTOM_RIGHT
+			}
 		}
 
 	override val Component.rectangle: CanvasRectangle
@@ -60,7 +77,8 @@ class OrionCanvasAbstraction(private val editorScreen: ModsEditorScreen) : Canva
 
 		// Some maths to calculate the position based on the new anchor
 		val anchorScreenCornerPoint = AnchorUtils.computeAnchorOffset(component.parent!!.size, newAnchor)
-		val componentCornerPoint = resultPosition + AnchorUtils.computeAnchorOffset(component.size, newAnchor)
+		val componentCornerPoint =
+			resultPosition + AnchorUtils.computeAnchorOffset(component.size, newAnchor) * component.scale
 
 		val newLocalPoint = anchorScreenCornerPoint - componentCornerPoint
 		AnchorUtils.convertGlobalAndLocalPositioning(newLocalPoint, newAnchor, false)
@@ -81,9 +99,15 @@ class OrionCanvasAbstraction(private val editorScreen: ModsEditorScreen) : Canva
 	override val elements: Collection<Component>
 		get() = editorScreen.modulesRenderer.modElementComponents.values()
 
-	override fun getElementById(id: UUID): Component {
-		return elements.first { it.id == id }
-	}
+	override var Component.elementScale: Float
+		get() = this.scale.toFloat()
+		set(value) {
+			this.scale = value.toDouble().coerceIn(0.5, 2.5)
+
+			val cell = editorScreen.modulesRenderer.modElementComponents.cellSet().first { it.value.id == this.id }
+			val settings = editorScreen.modulesRenderer.getHudElementSettings(cell.rowKey, cell.columnKey)
+			settings.scale = this.scale
+		}
 
 	override fun drawRectangle(rectangle: CanvasRectangle, color: Color, hollow: Boolean, lineWidth: Float) {
 		RectRenderingUtils.drawRectangle(
@@ -113,3 +137,5 @@ class OrionCanvasAbstraction(private val editorScreen: ModsEditorScreen) : Canva
 		}
 	}
 }
+
+operator fun Point.times(factor: Double): Point = Point(x * factor, y * factor)
