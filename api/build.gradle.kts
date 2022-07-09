@@ -1,4 +1,4 @@
-plugins {
+ plugins {
     id("com.github.gmazzo.buildconfig") version "3.0.3"
 }
 
@@ -25,9 +25,11 @@ dependencies {
     implementation("com.github.JnCrMx:discord-game-sdk4j:2b5a903204")
 
     /* Adventure - Chat Components */
-    implementation("net.kyori:adventure-api:4.10.1")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.10.1")
-    implementation("net.kyori:adventure-text-minimessage:4.10.1")
+    api("net.kyori:adventure-api:4.11.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.11.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.11.0")
+    implementation("net.kyori:adventure-text-serializer-gson:4.11.0")
+    implementation("net.kyori:adventure-text-minimessage:4.11.0")
 
     /* HTTP I/O */
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
