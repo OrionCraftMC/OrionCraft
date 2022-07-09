@@ -34,26 +34,20 @@ const val buttonSize = 68
 const val buttonPaddingSize = 2
 
 object NinePatchConstants {
-	val ninePatchScales = arrayOf(2.0)
-
 	val button = createButtonElement("button")
 	val buttonHover = createButtonElement("button_hover")
 	val buttonPressed = createButtonElement("button_pressed")
 
 	private fun createButtonElement(name: String) = NinePatchElement(
-		"textures/gui/button/${name}_2x.png",
+		"textures/gui/button/${name}.png",
 		buttonCornerSize,
 		buttonCornerSize, buttonSize, buttonSize,
 		buttonPaddingSize
 	)
 
-	private val decimalFormat = DecimalFormat("0.#")
-	fun getResourceLocationForElementWithScale(element: NinePatchElement, scale: Double = 1.0): ResourceLocationBridge {
+	fun getResourceLocationForElementWithScale(element: NinePatchElement): ResourceLocationBridge {
 		return ResourceLocationUtils.createNewOrionResourceLocation(
-			element.resourceName.replace(
-				"%scale%",
-				decimalFormat.format(scale)
-			)
+			element.resourceName
 		)
 	}
 }

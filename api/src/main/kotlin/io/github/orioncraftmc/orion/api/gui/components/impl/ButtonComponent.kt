@@ -31,6 +31,7 @@ import io.github.orioncraftmc.components.model.Anchor
 import io.github.orioncraftmc.components.model.Size
 import io.github.orioncraftmc.components.utils.ComponentUtils
 import io.github.orioncraftmc.orion.api.bridge.FontRendererBridge
+import io.github.orioncraftmc.orion.api.bridge.MinecraftBridge
 import io.github.orioncraftmc.orion.utils.NinePatchConstants
 import io.github.orioncraftmc.orion.utils.rendering.NinePatchRendererUtils
 
@@ -94,6 +95,7 @@ open class ButtonComponent(
 
 	override fun handleMouseRelease(mouseX: Int, mouseY: Int) {
 		if (mousePressed) {
+			MinecraftBridge.playButtonClickSound()
 			onClick()
 		}
 		mousePressed = false

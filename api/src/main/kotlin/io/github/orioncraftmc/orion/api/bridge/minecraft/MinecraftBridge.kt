@@ -54,4 +54,6 @@ interface MinecraftBridge {
 	fun openScreen(screen: OrionScreen?)
 
 	fun translateString(translationKey: String): String
+
+    fun playButtonClickSound()
 }

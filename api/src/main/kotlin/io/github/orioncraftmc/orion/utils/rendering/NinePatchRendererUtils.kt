@@ -36,7 +36,7 @@ object NinePatchRendererUtils {
 	fun renderNinePatch(element: NinePatchElement, x: Double, y: Double, width: Double, height: Double, scale: Double) {
 		val patchScale = scale
 		val finalScale = scale * 2
-		val resource = NinePatchConstants.getResourceLocationForElementWithScale(element, patchScale)
+		val resource = NinePatchConstants.getResourceLocationForElementWithScale(element)
 		MinecraftBridge.renderEngine.bindTexture(resource)
 		OpenGlBridge.translate(x, y, 0.0)
 		matrix {
