@@ -34,7 +34,8 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import java.util.*
 
-class ComponentFlattenerRenderer(private val hasShadow: Boolean = true, private val startingX: Int, startingY: Int) : FlattenerListener {
+class ComponentFlattenerRenderer(private val hasShadow: Boolean = true, private val startingX: Int, startingY: Int) :
+	FlattenerListener {
 	companion object {
 		private const val sectionSign = 167.toChar()
 
@@ -70,16 +71,22 @@ class ComponentFlattenerRenderer(private val hasShadow: Boolean = true, private 
 		val lines = text.lines()
 		val linesCount = lines.count()
 
-		lines.forEach {
-			val finalText = decorationsAsString + it
-			val width = FontRendererBridge.getStringWidth(finalText)
-			if (linesCount > 1) {
+		lines.forEachIndexed { index, it ->
+			it.forEach { char ->
+
+				val charOffset = if (decorations.contains(TextDecoration.BOLD)) 1 else 0
+				val finalText = decorationsAsString + char
+				val width = FontRendererBridge.getStringWidth(finalText.replace("${sectionSign}l", "")) + charOffset
+
+				FontRendererBridge.drawString(finalText, x, y, color.toColor(), hasShadow)
+				x += width
+			}
+
+			if ((linesCount - index) > 1) {
 				x = startingX
 				y += lineHeight
 			}
 
-			FontRendererBridge.drawString(finalText, x, y, color.toColor(), hasShadow)
-			x += width
 		}
 	}
 
