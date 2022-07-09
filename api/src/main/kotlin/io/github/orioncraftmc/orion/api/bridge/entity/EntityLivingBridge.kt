@@ -25,5 +25,9 @@
 package io.github.orioncraftmc.orion.api.bridge.entity
 
 interface EntityLivingBridge : EntityBridge {
+
+	@Suppress("INAPPLICABLE_JVM_NAME")
+	@get:JvmName("bridge\$getTexture")
+	@set:JvmName("bridge\$setTexture")
 	var texture: String
 }
